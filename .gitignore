@@ -1,0 +1,20 @@
+# Ignore Visual Studio folders
+.vs/
+*.user
+*.suo
+
+# Ignore build results
+bin/
+obj/
+out/
+
+# Ignore Rider IDE stuff (if applicable)
+.idea/
+
+# Ignore user-specific files
+*.userosscache
+*.sln.docstates
+
+# Ignore local secrets or settings
+*.local.json
+appsettings.Development.json
