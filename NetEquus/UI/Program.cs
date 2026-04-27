@@ -12,8 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-var apiBase = builder.Configuration["ApiSettings:BaseUrl"]
-    ?? throw new Exception("Api BaseUrl is missing from appsettings.json");
 
 builder.Services.AddAuthentication(options =>
 {
@@ -27,8 +25,12 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AuthManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
-builder.Services.AddApiClientWithCookies<AuthClient>(apiBase);
-builder.Services.AddApiClientWithCookies<RegisterClient>(apiBase);
+var authBase = builder.Configuration["ApiSettings:AuthBaseUrl"];
+var estateBase = builder.Configuration["ApiSettings:EstateBaseUrl"];
+
+builder.Services.AddApiClientWithCookies<AuthClient>(authBase);
+builder.Services.AddApiClientWithCookies<RegisterClient>(authBase);
+builder.Services.AddApiClientWithCookies<EstateClient>(estateBase);
 
 var app = builder.Build();
 

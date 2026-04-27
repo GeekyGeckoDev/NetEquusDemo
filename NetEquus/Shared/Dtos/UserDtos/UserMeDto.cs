@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Text;
 
@@ -13,6 +14,9 @@ namespace Shared.Dtos.UserDtos
         public string Email { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        [MaybeNull]
+        public string Etsate_Name { get; set; }
 
     }
 }

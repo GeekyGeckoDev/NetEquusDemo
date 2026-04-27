@@ -39,7 +39,7 @@ namespace Domain.Entities.Models.EquineEstates
 
         public bool IsSytemEstate { get; set; }
 
-        public virtual ICollection<EstateOwner> EstateOwners { get; set; } = new List<EstateOwner>();
+        public virtual ICollection<EstateOwnership> EstateOwners { get; set; } = new List<EstateOwnership>();
 
         public EquineEstate (string estateName, bool  isSytemEstate)
         {

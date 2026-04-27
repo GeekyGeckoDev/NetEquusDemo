@@ -9,23 +9,18 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Models.EquineEstates
 {
-    public class EstateOwner
+    public class EstateOwnership
     {
         [Key]
         public int OwnershipId { get; set; }
 
         public Guid EstateId { get; set; }
-
         public Guid UserId { get; set; }
 
         public bool IsPrimaryOwner { get; set; }
 
-        [ForeignKey("EstateId")]
+        public EquineEstate Estate { get; set; }
 
-        public virtual EquineEstate EquineEstate { get; set; }
-
-        [ForeignKey("UserId")]
-
-        public virtual User User { get; set; }
+        public User User { get; set; }
     }
 }

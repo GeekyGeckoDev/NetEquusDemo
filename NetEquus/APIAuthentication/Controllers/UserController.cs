@@ -7,11 +7,11 @@ namespace APIAuthentication.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserRegistration : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUserManagerService _userManagerService;
 
-        public UserRegistration(IUserManagerService userManagerService)
+        public UserController(IUserManagerService userManagerService)
         {
             _userManagerService = userManagerService;
         }

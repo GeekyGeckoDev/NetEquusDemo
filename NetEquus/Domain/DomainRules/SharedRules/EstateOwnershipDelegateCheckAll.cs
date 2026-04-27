@@ -11,13 +11,13 @@ namespace Domain.DomainRules.SharedRules
 {
     public class EstateOwnershipDelegateCheckAll
     {
-        public delegate RuleResult EstateOwnershipRule (EstateOwner estateOwner);
+        public delegate RuleResult EstateOwnershipRule (EstateOwnership estateOwner);
 
-        public static RuleResult CheckAll (EstateOwner estateOwner, params EstateOwnershipRule[] rules)
+        public static RuleResult CheckAll (EstateOwnership estateOwnership, params EstateOwnershipRule[] rules)
         {
             foreach (var rule in rules)
             {
-                var result = rule(estateOwner);
+                var result = rule(estateOwnership);
                 if (!result.IsAllowed)
                     return result;
             }

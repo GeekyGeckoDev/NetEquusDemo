@@ -13,7 +13,7 @@ namespace UI.API.Clients
 
         public async Task<HttpResponseMessage> RegisterAsync(UserRegistrationDto dto)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/UserRegistration/register", dto);
+            var response = await _httpClient.PostAsJsonAsync("api/User/register", dto);
 
             Console.WriteLine($"CALLED URL: {response.RequestMessage?.RequestUri}");
             Console.WriteLine($"STATUS: {response.StatusCode}");
