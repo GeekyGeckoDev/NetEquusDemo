@@ -1,0 +1,18 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+@inject AuthenticationStateProvider Auth
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await Auth.GetAuthenticationStateAsync();
+        Console.WriteLine(state.User.Identity?.IsAuthenticated);
+    }
+}
