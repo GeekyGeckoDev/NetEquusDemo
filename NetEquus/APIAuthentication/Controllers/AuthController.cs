@@ -1,6 +1,7 @@
 ﻿using Application.AuthApp.AuthMessages;
 using Application.AuthApp.IAuthServices;
 using Application.UserApp.IUserServices;
+using Application.UserSessionApp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Dtos;
@@ -15,6 +16,7 @@ namespace APIAuthentication.Controllers
     {
         private readonly ILogInService _logInService;
         private readonly IJWTService _jWTService;
+        private readonly IUserSessionService _userSessionService;
 
         private CookieOptions BuildCookieOptions(DateTime expires)
         {
@@ -28,10 +30,11 @@ namespace APIAuthentication.Controllers
         }
 
 
-        public AuthController(ILogInService logInService, IJWTService jWTService)
+        public AuthController(ILogInService logInService, IJWTService jWTService, IUserSessionService userSessionService)
         {
             _logInService = logInService;
             _jWTService = jWTService;
+            _userSessionService = userSessionService;
        
         }
 
@@ -43,8 +46,23 @@ namespace APIAuthentication.Controllers
             Response.Cookies.Append("accessToken", tokens.AccessToken, BuildCookieOptions(DateTime.UtcNow.AddMinutes(15)));
             Response.Cookies.Append("refreshToken", tokens.RefreshToken, BuildCookieOptions(DateTime.UtcNow.AddDays(7)));
 
-            return Ok(new { message = "Login successful" });
+            return Ok(new
+            {
+                accessToken = tokens.AccessToken,
+                refreshToken = tokens.RefreshToken
+            });
         }
+
+        //[HttpPost("login")]
+        //public async Task<IActionResult> Login(LoginDto dto)
+        //{
+        //    var tokens = await _logInService.ValidateUserAsync(dto);
+
+        //    Response.Cookies.Append("accessToken", tokens.AccessToken, BuildCookieOptions(DateTime.UtcNow.AddMinutes(15)));
+        //    Response.Cookies.Append("refreshToken", tokens.RefreshToken, BuildCookieOptions(DateTime.UtcNow.AddDays(7)));
+
+        //    return Ok(new { message = "Login successful" });
+        //}
 
         [HttpPost("refresh-token")]
         public async Task<IActionResult> Refresh()
@@ -71,15 +89,24 @@ namespace APIAuthentication.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpGet("me")]
-        public IActionResult Me()
+        public async Task<IActionResult> Me()
         {
-            return Ok(new
-            {
-                isAuth = User.Identity?.IsAuthenticated,
-                name = User.Identity?.Name,
-                claims = User.Claims.Select(c => new { c.Type, c.Value })
-            });
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrWhiteSpace(userIdClaim))
+                return Unauthorized();
+
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                return Unauthorized();
+
+            var me = await _userSessionService.BuildUserSessionAsync(userId);
+
+            if (me == null)
+                return Unauthorized();
+
+            return Ok(me);
         }
 
     }

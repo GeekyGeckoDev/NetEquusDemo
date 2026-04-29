@@ -1,6 +1,8 @@
-﻿using Shared.Dtos.UserDtos;
+﻿using Shared.Dtos;
+using Shared.Dtos.UserDtos;
 using System.Text.Json;
 using UI.API.ApiClients;
+using UI.Extensions;
 
 namespace UI.Auth
 {
@@ -8,22 +10,32 @@ namespace UI.Auth
     {
         private readonly AuthClient _authClient;
         private readonly AuthService _authService;
+        private readonly ITokenStore _tokenStore;
 
-        public AuthManager(AuthClient authClient, AuthService authService)
+        public AuthManager(AuthClient authClient, AuthService authService, ITokenStore tokenStore)
         {
             _authClient = authClient;
             _authService = authService;
+            _tokenStore = tokenStore;
         }
 
         public async Task<bool> LoginAsync(LoginDto dto)
         {
-            var loginResponse = await _authClient.LoginAsync(dto);
+            var response = await _authClient.LoginAsync(dto);
 
-            if (!loginResponse.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
                 return false;
 
-            return await RefreshUserFromApi();
+            var json = await response.Content.ReadAsStringAsync();
+
+            var loginResult = JsonSerializer.Deserialize<LoginResponseDto>(json,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            await _tokenStore.SetAsync(loginResult.AccessToken);
+
+            return true;
         }
+
 
         public async Task<bool> RefreshUserFromApi()
         {

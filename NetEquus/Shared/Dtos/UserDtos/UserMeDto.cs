@@ -15,8 +15,9 @@ namespace Shared.Dtos.UserDtos
 
         public bool IsAdmin { get; set; }
 
-        [MaybeNull]
-        public string Etsate_Name { get; set; }
+        public Guid? EstateId { get; set; }
+
+        public string? EstateName { get; set; }
 
     }
 }

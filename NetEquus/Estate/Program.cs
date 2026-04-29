@@ -11,9 +11,11 @@ using Application.EstateApp.IEstateServices.IEstateValidationServices;
 using Application.SharedApp.IOwnershipRepos;
 using Application.SharedApp.IOwnershipServices;
 using Application.SharedApp.OwnershipServices;
+using Application.UnitOfWorks;
 using Infrastructure;
 using Infrastructure.Repositories.EstateRepos;
 using Infrastructure.Repositories.SharedRepos;
+using Infrastructure.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -37,7 +39,26 @@ builder.Services.AddDbContext<NetEquusDbContext>(options =>
 builder.Services.AddScoped<IEstateCrudRepository, EstateCrudRepository>();
 builder.Services.AddScoped<IEstateGetRepository, EstateGetRepository>();
 builder.Services.AddScoped<IEstateValidationRepository, EstateValidationRepository>();
-builder.Services.AddScoped<IEstateOwnersipCrudRepository, EstateOwnershipCrudRepository>(););
+builder.Services.AddScoped<IEstateOwnersipCrudRepository, EstateOwnershipCrudRepository>();
+builder.Services.AddScoped<IEstateOwnershipGetRepository, EstateOwnershipGetRepository>();
+builder.Services.AddScoped<IEstateOwnershipValidationRepository, EstateOwnershipValidationRepository>();
+
+// ---------------------------
+// Estate services
+// ---------------------------
+builder.Services.AddScoped<IAdminEstateCrudService, EstateAdmin>();
+builder.Services.AddScoped<IClientEstateCrudService, EstateClient>();
+builder.Services.AddScoped<IEstateGetService, EstateGetService>();
+builder.Services.AddScoped<IEstateOrchestrationService, EstateOrchestrationService>();
+builder.Services.AddScoped<IEstateOrchestrationValidationService, EstateOrchestrationValidationService>();
+builder.Services.AddScoped<IEstateValidationService, EstateValidationService>();
+builder.Services.AddScoped<IEstateInitilizationService, EstateInitilizationService>();
+builder.Services.AddScoped<IEstateOwnershipCrudService, EstateOwnershipCrudService>();
+builder.Services.AddScoped<IEstateOwnershipGetService, EstateOwnershipGetService>();
+builder.Services.AddScoped<IEstateOwnershipOrchestrationService, EstateOwnershipOrchestrationService>();
+builder.Services.AddScoped<IEstateOwnershipValidationService, EstateOwnershipValidationService>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // ---------------------------
 // Estate services

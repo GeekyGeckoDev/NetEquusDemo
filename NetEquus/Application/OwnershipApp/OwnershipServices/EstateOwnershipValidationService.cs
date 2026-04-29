@@ -6,6 +6,7 @@ using Domain.DomainRules;
 using Domain.DomainRules.EstateRules;
 using Domain.DomainRules.SharedRules;
 using Domain.Entities.Models.EquineEstates;
+using Domain.Entities.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,22 +24,14 @@ namespace Application.SharedApp.OwnershipServices
             _estateOwnershipValidationRepository = estateOwnershipValidationReposiotry;
         }
 
-        public async Task<RuleResult> CheckEstateOwnershipAsync(EstateOwnershipDto estateOwnershipDto)
+        public async Task<RuleResult> CheckUserCanCreateEstateAsync(Guid userId)
         {
-            bool ownsAnyEstate = await _estateOwnershipValidationRepository
-                .UserAlreadyOwnsEstateAsync(estateOwnershipDto.UserId, estateOwnershipDto.EquineEstateId);
+            var alreadyOwnsEstate = await _estateOwnershipValidationRepository.UserAlreadyOwnsAnyEstateAsync(userId);
 
-            // transient EstateOwner just for the domain rule check
-            var estateOwnership = new EstateOwnership
-            {
-                UserId = estateOwnershipDto.UserId,
-                EstateId = estateOwnershipDto.EquineEstateId
-            };
+            if (alreadyOwnsEstate)
+                return RuleResult.Fail("User already owns an estate.");
 
-            return EstateOwnershipDelegateCheckAll.CheckAll(
-                estateOwnership,
-                EstateOwnershipRules.UserCanOwnOnlyOneEstate(_ => ownsAnyEstate)
-            );
+            return RuleResult.Success();
         }
     }
 }

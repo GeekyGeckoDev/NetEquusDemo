@@ -32,7 +32,7 @@ namespace Application.AuthApp.AuthServices
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.User_Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
             
 
             };

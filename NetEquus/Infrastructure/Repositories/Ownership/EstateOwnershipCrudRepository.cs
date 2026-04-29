@@ -20,7 +20,6 @@ namespace Infrastructure.Repositories.SharedRepos
         public async Task CreateEstateOwnershipAsync (EstateOwnership estateOwnership)
         {
             await _context.EstateOwnerships.AddAsync(estateOwnership);
-            await _context.SaveChangesAsync();
 
         }
 

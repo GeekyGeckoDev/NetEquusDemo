@@ -9,6 +9,6 @@ namespace Application.SharedApp.IOwnershipServices
 {
     public interface IEstateOwnershipOrchestrationService
     {
-        Task<EstateDto> GetMapEstateOwnership(Guid userId);
+        Task LinkUserToEstateAsync(Guid userId, Guid estateId, bool isPrimaryOwner);
     }
 }

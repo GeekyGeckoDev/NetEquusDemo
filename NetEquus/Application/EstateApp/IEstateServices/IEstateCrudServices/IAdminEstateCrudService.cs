@@ -11,6 +11,6 @@ namespace Application.EstateApp.IEstateServices.IEstateCrudServices
     {
         Task DeleteEstateAsync(EquineEstate equineEstate);
 
-        Task UpdateEstateAsync(EquineEstate existingEstate, EquineEstate updatedEstate);
+        Task UpdateEstateAsync(EquineEstate estate);
     }
 }

@@ -11,7 +11,7 @@ namespace Application.EstateApp.IEstateServices.IEstateCrudServices
     {
         Task CreateEstateAsync(EquineEstate equineEstate);
 
-        Task UpdateEstateAsync(EquineEstate existingEstate, EquineEstate updatedEstate);
+        Task UpdateEstateAsync(EquineEstate estate);
 
 
     }

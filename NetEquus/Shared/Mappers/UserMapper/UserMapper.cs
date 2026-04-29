@@ -12,9 +12,9 @@ namespace Shared.Mappers.UserMapper
         {
             return new UserDto
             {
-                UserId = user.User_Id,
+                UserId = user.UserId,
                 Username = user.Username,
-                Email = user.User_Email,
+                Email = user.Email,
                 Password = null,
                 IsAdmin = user.IsAdmin
             };
@@ -25,7 +25,7 @@ namespace Shared.Mappers.UserMapper
             return new User
             {
                 Username = userDto.Username,
-                User_Email = userDto.Email,
+                Email = userDto.Email,
                 IsAdmin = userDto.IsAdmin
 
             };
@@ -36,7 +36,7 @@ namespace Shared.Mappers.UserMapper
             return new User
             {
                 Username = userRegistrationDto.Username,
-                User_Email = userRegistrationDto.Email
+                Email = userRegistrationDto.Email
 
             };
         }

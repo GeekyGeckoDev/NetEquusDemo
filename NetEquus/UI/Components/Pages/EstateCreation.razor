@@ -1,7 +1,9 @@
 ﻿@page "/estatecreation"
 @using Application.EstateApp.EstateDtos
+@using Application.SharedApp.OwnershipDtos
 @using Microsoft.AspNetCore.Authorization
 @using Shared.Dtos.UserDtos
+@using Shared.Dtos.WrapperDto
 @using UI.API.Clients
 @inject EstateClient EstateClient
 @rendermode InteractiveServer
@@ -24,7 +26,7 @@
 
         <div class="mb-3">
             <label class="form-label">Estate Name</label>
-            <input class="form-control" @bind="newEstate.EstateName" />
+            <input class="form-control" @bind="newEstate.Estate.EstateName" />
         </div>
 
 
@@ -37,7 +39,11 @@
 </div>
 
 @code {
-    private EstateCreationDto newEstate = new();
+    private CreateEstateRequest newEstate = new CreateEstateRequest
+    {
+        Estate = new EstateCreationDto(),
+        Ownership = new EstateOwnershipDto()
+    };
     private string? responseMessage;
 
     private async Task CreateAsync()
@@ -47,7 +53,7 @@
         if (response.IsSuccessStatusCode)
         {
             responseMessage = "User created successfully!";
-            newEstate = new EstateCreationDto();
+            newEstate = new CreateEstateRequest();
         }
         else
         {

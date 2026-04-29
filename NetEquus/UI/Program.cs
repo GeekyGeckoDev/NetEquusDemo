@@ -28,9 +28,27 @@ builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>
 var authBase = builder.Configuration["ApiSettings:AuthBaseUrl"];
 var estateBase = builder.Configuration["ApiSettings:EstateBaseUrl"];
 
-builder.Services.AddApiClientWithCookies<AuthClient>(authBase);
-builder.Services.AddApiClientWithCookies<RegisterClient>(authBase);
-builder.Services.AddApiClientWithCookies<EstateClient>(estateBase);
+
+builder.Services.AddSingleton<ITokenStore, TokenStore>();
+builder.Services.AddTransient<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<EstateClient>(client =>
+{
+    client.BaseAddress = new Uri(estateBase);
+})
+.AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<AuthClient>(c =>
+{
+    c.BaseAddress = new Uri(authBase);
+})
+.AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<RegisterClient>(c =>
+{
+    c.BaseAddress = new Uri(authBase);
+})
+.AddHttpMessageHandler<AuthHeaderHandler>();
 
 var app = builder.Build();
 

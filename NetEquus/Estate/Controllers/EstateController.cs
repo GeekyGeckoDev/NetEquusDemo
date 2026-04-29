@@ -21,21 +21,17 @@ namespace APIEstate.Controllers
         }
 
         [HttpPost("estatecreation")]
-        public async Task<IActionResult> CreateEstateAsync([FromBody] CreateEstateRequest request)
+        public async Task<IActionResult> CreateEstateAsync([FromBody] CreateEstateRequest estateDto)
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            var result = await _estateOrchestrationService.CreateEstateWithOwnership(
-                request.Ownership,
-                request.Estate
-                );
+            var result = await _estateOrchestrationService.CreateEstateWithOwnership(userId, estateDto.Estate);
 
             if (!result.IsAllowed)
                 return BadRequest(result.Message);
 
             return Ok(result);
         }
-
 
 
     }

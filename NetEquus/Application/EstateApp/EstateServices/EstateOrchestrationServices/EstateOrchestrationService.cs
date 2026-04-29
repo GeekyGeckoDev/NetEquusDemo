@@ -6,6 +6,7 @@ using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
 using Application.SharedApp.IOwnershipServices;
 using Application.SharedApp.OwnershipDtos;
 using Application.SharedApp.OwnershipMappers;
+using Application.UnitOfWorks;
 using Domain.DomainRules;
 using Shared.Dtos.UserDtos;
 
@@ -14,50 +15,48 @@ namespace Application.EstateApp.EstateServices.EstateOrchestrationServices
     public class EstateOrchestrationService : IEstateOrchestrationService
     {
         private readonly IClientEstateCrudService _clientEstateCrudService;
-        private readonly IEstateOwnershipCrudService _ownershipEstateCrudService;
         private readonly IEstateInitilizationService _estateInitilizationService;
         private readonly IEstateOrchestrationValidationService _orchestrationValidationService;
-        private readonly IEstateOwnershipInitilizationService _estateOwnershipInitilizationService;
         private readonly IEstateGetService _estateGetService;
+        private readonly IEstateOwnershipOrchestrationService _orchestrationOwnershipService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EstateOrchestrationService(IClientEstateCrudService clientEstateCrudService, IEstateOwnershipCrudService ownershipEstateCrudService, IEstateInitilizationService estateInitilizationService, IEstateOrchestrationValidationService orchestrationValidationService, IEstateOwnershipInitilizationService estateOwnershipInitilizationService, IEstateGetService estateGetService)
+        public EstateOrchestrationService(IClientEstateCrudService clientEstateCrudService, IEstateInitilizationService estateInitilizationService, IEstateOrchestrationValidationService orchestrationValidationService, IEstateGetService estateGetService, IEstateOwnershipOrchestrationService orchestrationOwnershipService, IUnitOfWork unitOfWork)
         {
             _clientEstateCrudService = clientEstateCrudService;
-            _ownershipEstateCrudService = ownershipEstateCrudService;
             _estateInitilizationService = estateInitilizationService;
             _orchestrationValidationService = orchestrationValidationService;
-            _estateOwnershipInitilizationService = estateOwnershipInitilizationService;
             _estateGetService = estateGetService;
+            _orchestrationOwnershipService = orchestrationOwnershipService;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<RuleResult> CreateEstateWithOwnership(
-            EstateOwnershipDto estateOwnershipDto,
-            EstateCreationDto estateCreationDto)
+        public async Task<RuleResult> CreateEstateWithOwnership(Guid userId, EstateCreationDto estateCreationDto)
         {
-            // 1️⃣ Validation
-            var validationCheck = await _orchestrationValidationService.FinalValidationAsync(
-                estateOwnershipDto, estateCreationDto);
+            var validationCheck = await _orchestrationValidationService.FinalValidationAsync(userId, estateCreationDto);
 
             if (!validationCheck.IsAllowed)
                 return validationCheck;
 
-            await _estateInitilizationService.EstateInitializationAsync(estateCreationDto);
-            
-            var estate = EstateMapper.ToCreationEstate(estateCreationDto);
-            await _clientEstateCrudService.CreateEstateAsync(estate);
+            try
+            {
+                await _unitOfWork.ExecuteAsync(async () =>
+                {
+                    await _estateInitilizationService.EstateInitializationAsync(estateCreationDto);
 
-            // 3️⃣ Assign the saved EstateId to the DTO
-            estateOwnershipDto.EquineEstateId = estate.EstateId;
+                    var estate = EstateMapper.ToCreationEstate(estateCreationDto);
+                    await _clientEstateCrudService.CreateEstateAsync(estate);
 
-            await _estateOwnershipInitilizationService.LinkUserToEstateAsync(estateOwnershipDto);
-            var owner = EstateOwnershipMapper.ToEstateOwner(estateOwnershipDto, userDto);
+                    await _orchestrationOwnershipService.LinkUserToEstateAsync(userId, estate.EstateId, true);
+                });
 
-            Console.WriteLine($"EstateId = {estateOwnershipDto.EquineEstateId}");
-            await _ownershipEstateCrudService.CreateEstateOwnershipAsync(owner);
-
-            return RuleResult.Success();
+                return RuleResult.Success();
+            }
+            catch (Exception ex)
+            {
+                return RuleResult.Fail($"Estate creation failed: {ex.Message}");
+            }
         }
-
         public async Task<EstateDto> GetConvertEstateAsync (Guid estateId)
         {
             var Getestate = await _estateGetService.GetEstateByIdAsync(estateId);

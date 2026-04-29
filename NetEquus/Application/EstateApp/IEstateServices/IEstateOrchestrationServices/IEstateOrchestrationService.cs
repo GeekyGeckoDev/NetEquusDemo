@@ -12,7 +12,7 @@ namespace Application.EstateApp.IEstateServices.IEstateOrchestrationServices
 {
     public interface IEstateOrchestrationService
     {
-        Task<RuleResult> CreateEstateWithOwnership(EstateOwnershipDto estateOwnershipDto, EstateCreationDto estateCreationDto, UserDto userDto);
+        Task<RuleResult> CreateEstateWithOwnership(Guid userId, EstateCreationDto estateCreationDto);
 
         Task<EstateDto> GetConvertEstateAsync(Guid estateId);
     }

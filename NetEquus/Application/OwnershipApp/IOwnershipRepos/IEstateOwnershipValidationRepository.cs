@@ -8,6 +8,6 @@ namespace Application.SharedApp.IOwnershipRepos
 {
     public interface IEstateOwnershipValidationRepository
     {
-        Task<bool> UserAlreadyOwnsEstateAsync(Guid userId, Guid estateId);
+        Task<bool> UserAlreadyOwnsAnyEstateAsync(Guid userId);
     }
 }

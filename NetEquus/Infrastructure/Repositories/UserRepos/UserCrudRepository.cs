@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories.UserRepos
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
 
-            return user.User_Id;
+            return user.UserId;
         }
 
         public async Task UpdateUserAsync(User user)

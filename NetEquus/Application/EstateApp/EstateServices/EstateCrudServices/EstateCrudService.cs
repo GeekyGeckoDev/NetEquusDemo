@@ -18,11 +18,9 @@ namespace Application.EstateApp.EstateServices
             _estateCrudRepository = estateCrudRepository;
         }
 
-        public virtual async Task UpdateEstateAsync(EquineEstate existingEstate, EquineEstate updatedEstate)
+        public virtual async Task UpdateEstateAsync(EquineEstate estate)
         {
-            existingEstate.EstateName = updatedEstate.EstateName;
-
-            await _estateCrudRepository.UpdateEstateAsync(existingEstate);
+            
         }
 
     }
@@ -38,14 +36,9 @@ namespace Application.EstateApp.EstateServices
             await _estateCrudRepository.DeleteEstateAsync(equineEstate);
         }
 
-        public override async Task UpdateEstateAsync(EquineEstate existingEstate, EquineEstate updatedEstate)
+        public override async Task UpdateEstateAsync(EquineEstate estate)
         {
-            existingEstate.EstateName = updatedEstate.EstateName;
-            existingEstate.CurrentBalance = updatedEstate.CurrentBalance;
-            existingEstate.HorseCapacity = updatedEstate.HorseCapacity;
-            existingEstate.EstateDescription = updatedEstate.EstateDescription;
-
-            await _estateCrudRepository.UpdateEstateAsync(existingEstate);
+           
         }
 
     }
@@ -61,10 +54,9 @@ namespace Application.EstateApp.EstateServices
             await _estateCrudRepository.CreateEstateAsync(equineEstate);
         }
 
-        public virtual async Task UpdateEstateAsync(EquineEstate existingEstate, EquineEstate updatedEstate)
+        public virtual async Task UpdateEstateAsync(EquineEstate estate)
         {
-            existingEstate.EstateName = updatedEstate.EstateName;
-            existingEstate.EstateDescription = updatedEstate.EstateDescription;
+            
         }
     }
 }

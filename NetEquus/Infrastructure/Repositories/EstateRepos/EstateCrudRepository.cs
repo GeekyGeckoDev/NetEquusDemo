@@ -20,7 +20,6 @@ namespace Infrastructure.Repositories.EstateRepos
         public async Task CreateEstateAsync(EquineEstate newEstate)
         {
             await _context.EquineEstates.AddAsync(newEstate);
-            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateEstateAsync (EquineEstate equineEstate)

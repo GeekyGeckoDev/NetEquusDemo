@@ -17,12 +17,10 @@ namespace Infrastructure.Repositories.SharedRepos
             _context = context;
         }
 
-        public async Task<bool> UserAlreadyOwnsEstateAsync (Guid userId, Guid estateId)
+        public async Task<bool> UserAlreadyOwnsAnyEstateAsync(Guid userId)
         {
-            return await _context.EquineEstates
-                .Where(e => e.EstateId == estateId)
-                .SelectMany(e => e.EstateOwners)
-                .AnyAsync(eeo => eeo.UserId == userId);
+            return await _context.EstateOwnerships
+                .AnyAsync(o => o.UserId == userId && o.IsPrimaryOwner);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Domain.Entities.Models.Users
     public class User
     {
         [Key]
-        public Guid User_Id { get; set; }
+        public Guid UserId { get; set; }
 
         private string _username;
         public string Username
@@ -24,7 +24,7 @@ namespace Domain.Entities.Models.Users
 
         public string NormalizedUsername { get; set; }
 
-        public string User_Email { get; set; }
+        public string Email { get; set; }
 
         public string Password_Hash { get; set; }
 
@@ -37,12 +37,12 @@ namespace Domain.Entities.Models.Users
         public DateTime? LastLogin {  get; set; }
 
 
-        public User(string username, string user_Email, string password_Hash, bool isAdmin)
+        public User(string username, string userEmail, string passwordHash, bool isAdmin)
         {
-            User_Id = Guid.NewGuid();
+            UserId = Guid.NewGuid();
             Username = username;
-            User_Email = user_Email;
-            Password_Hash = password_Hash;
+            Email = userEmail;
+            Password_Hash = passwordHash;
             IsAdmin = isAdmin;
         }
 

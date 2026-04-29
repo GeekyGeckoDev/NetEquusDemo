@@ -1,5 +1,19 @@
 using Application.AuthApp.AuthServices;
 using Application.AuthApp.IAuthServices;
+using Application.EstateApp.EstateServices;
+using Application.EstateApp.EstateServices.EstateCrudServices;
+using Application.EstateApp.EstateServices.EstateManagerServices;
+using Application.EstateApp.EstateServices.EstateOrchestrationServices;
+using Application.EstateApp.EstateServices.EstateValidationService;
+using Application.EstateApp.IEstateRepos;
+using Application.EstateApp.IEstateServices;
+using Application.EstateApp.IEstateServices.IEstateCrudServices;
+using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
+using Application.EstateApp.IEstateServices.IEstateValidationServices;
+using Application.SharedApp.IOwnershipRepos;
+using Application.SharedApp.IOwnershipServices;
+using Application.SharedApp.OwnershipServices;
+using Application.UnitOfWorks;
 using Application.UserApp.IUserRepo;
 using Application.UserApp.IUserRepos;
 using Application.UserApp.IUserServices;
@@ -9,8 +23,12 @@ using Application.UserApp.UserServices;
 using Application.UserApp.UserSevices.UserCrudServices;
 using Application.UserApp.UserSevices.UserManagerServices;
 using Application.UserApp.UserSevices.UserValidationServices;
+using Application.UserSessionApp;
 using Infrastructure;
+using Infrastructure.Repositories.EstateRepos;
+using Infrastructure.Repositories.SharedRepos;
 using Infrastructure.Repositories.UserRepos;
+using Infrastructure.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -48,6 +66,22 @@ builder.Services.AddScoped<IRegistrationValidationService, RegistrationValidatio
 builder.Services.AddScoped<IJWTService, JWTService>();
 builder.Services.AddScoped<ILogInService, LogInService>();
 builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+
+builder.Services.AddScoped<IEstateGetRepository, EstateGetRepository>();
+builder.Services.AddScoped<IEstateOwnershipGetRepository, EstateOwnershipGetRepository>();
+builder.Services.AddScoped<IUserSessionService, UserSessionService>();
+
+
+// ---------------------------
+// Estate services
+// ---------------------------
+
+
+builder.Services.AddScoped<IEstateGetService, EstateGetService>();
+builder.Services.AddScoped<IEstateOwnershipGetService, EstateOwnershipGetService>();
+
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //Repository injections
 

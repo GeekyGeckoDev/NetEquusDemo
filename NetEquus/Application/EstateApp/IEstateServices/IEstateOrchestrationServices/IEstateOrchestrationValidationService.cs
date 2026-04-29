@@ -12,6 +12,6 @@ namespace Application.EstateApp.IEstateServices.IEstateOrchestrationServices
 {
     public interface IEstateOrchestrationValidationService
     {
-        Task<RuleResult> FinalValidationAsync(EstateOwnershipDto estateOwnershipDto, EstateCreationDto estateCreationDto);
+        Task<RuleResult> FinalValidationAsync(Guid userId, EstateCreationDto estateCreationDto);
     }
 }

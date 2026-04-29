@@ -11,6 +11,6 @@ namespace Application.SharedApp.IOwnershipServices
 {
     public interface IEstateOwnershipValidationService
     {
-        Task<RuleResult> CheckEstateOwnershipAsync(EstateOwnershipDto estateOwnershipDto);
+        Task<RuleResult> CheckUserCanCreateEstateAsync(Guid userId);
     }
 }

@@ -19,19 +19,19 @@ namespace Application.EstateApp.EstateServices.EstateManagerServices
             _estateOwnershipValidationService = estateOwnershipValidationService;
         }
 
-        public async Task<RuleResult> FinalValidationAsync (EstateOwnershipDto estateOwnershipDto, EstateCreationDto estateCreationDto )
+        public async Task<RuleResult> FinalValidationAsync(Guid userId, EstateCreationDto estateCreationDto)
         {
-            var estateCheck = await _estateOwnershipValidationService.CheckEstateOwnershipAsync(estateOwnershipDto);
-            if (estateCheck == null || !estateCheck.IsAllowed)
-                return estateCheck;
+            var ownershipCheck = await _estateOwnershipValidationService.CheckUserCanCreateEstateAsync(userId);
+
+            if (!ownershipCheck.IsAllowed)
+                return ownershipCheck;
 
             var estateNameCheck = await _estateValidationService.CheckEstateNameAsync(estateCreationDto);
-            if (estateNameCheck == null || !estateNameCheck.IsAllowed)
+
+            if (!estateNameCheck.IsAllowed)
                 return estateNameCheck;
 
             return RuleResult.Success();
-
-
         }
     }
 }

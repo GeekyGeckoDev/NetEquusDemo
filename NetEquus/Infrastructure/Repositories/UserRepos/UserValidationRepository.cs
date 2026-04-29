@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories.UserRepos
         }
         public async Task<bool> EmailExistsAsync(string email)
         {
-            return await _context.Users.AnyAsync(u => u.User_Email == email);
+            return await _context.Users.AnyAsync(u => u.Email == email);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.EstateApp.EstateDtos;
 using Application.EstateApp.EstateMappers;
 using Application.SharedApp.IOwnershipServices;
+using Domain.Entities.Models.EquineEstates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +12,24 @@ namespace Application.SharedApp.OwnershipServices
 {
     public class EstateOwnershipOrchestrationService : IEstateOwnershipOrchestrationService
     {
-        private readonly IEstateOwnershipGetService _estateOwnershipGetService;
+        private readonly IEstateOwnershipCrudService _estateOwnershipCrudService;
 
-        public EstateOwnershipOrchestrationService(IEstateOwnershipGetService estateOwnershipGetService)
+        public EstateOwnershipOrchestrationService(IEstateOwnershipCrudService estateOwnershipCrudService)
         {
-            _estateOwnershipGetService = estateOwnershipGetService;
+            _estateOwnershipCrudService = estateOwnershipCrudService;
         }
 
-        public async Task<EstateDto> GetMapEstateOwnership (Guid userId)
+        public async Task LinkUserToEstateAsync (Guid userId, Guid estateId, bool isPrimaryOwner)
         {
-            var estate = await _estateOwnershipGetService.GetEstateOwnershipByUserIdAsync (userId);
+            var ownership = new EstateOwnership
+            {
+                UserId = userId,
+                EstateId = estateId,
+                IsPrimaryOwner = isPrimaryOwner
+            };
 
-            var estateDto = EstateMapper.ToDto(estate);
-
-            return estateDto;
+            await _estateOwnershipCrudService.CreateEstateOwnershipAsync (ownership);
+            
         }
     }
 

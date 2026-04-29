@@ -38,7 +38,7 @@ namespace Infrastructure.Repositories.UserRepos
         public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _Dbcontext.Users
-                .FirstOrDefaultAsync(u => u.User_Email == email);
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

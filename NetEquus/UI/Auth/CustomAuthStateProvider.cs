@@ -23,5 +23,7 @@ namespace UI.Auth
         {
             return Task.FromResult(new AuthenticationState(_authService.CurrentUser));
         }
+
+
     }
 }
