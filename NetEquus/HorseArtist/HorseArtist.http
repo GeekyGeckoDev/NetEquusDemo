@@ -1,0 +1,6 @@
+@HorseArtist_HostAddress = http://localhost:5249
+
+GET {{HorseArtist_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

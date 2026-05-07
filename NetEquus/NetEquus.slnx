@@ -3,6 +3,7 @@
   <Project Path="Application/Application.csproj" Id="a60a91ba-70f8-4282-936c-2d07e5c34720" />
   <Project Path="Domain/Domain.csproj" Id="f24affb3-4080-4fb0-af49-49a8a613743b" />
   <Project Path="Estate/APIEstate.csproj" Id="8c961a27-a755-424c-b02a-63ce6278a3a9" />
+  <Project Path="HorseArtist/APIHorseArtist.csproj" Id="bdf26928-712e-44e0-a5a6-f72e88119b1b" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="06bacdf3-d9bd-47a6-86eb-fb691eba283b" />
   <Project Path="Shared/Shared.csproj" Id="0d7cf840-abda-4b26-8d2d-d908c94a9192" />
   <Project Path="UI/UI.csproj" />

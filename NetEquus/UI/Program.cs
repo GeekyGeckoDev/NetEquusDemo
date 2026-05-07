@@ -27,14 +27,15 @@ builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>
 
 var authBase = builder.Configuration["ApiSettings:AuthBaseUrl"];
 var estateBase = builder.Configuration["ApiSettings:EstateBaseUrl"];
+var artistBase = builder.Configuration["ApiSettings:HorseArtistUrl"];
 
 
 builder.Services.AddSingleton<ITokenStore, TokenStore>();
 builder.Services.AddTransient<AuthHeaderHandler>();
 
-builder.Services.AddHttpClient<EstateClient>(client =>
+builder.Services.AddHttpClient<EstateClient>(c =>
 {
-    client.BaseAddress = new Uri(estateBase);
+    c.BaseAddress = new Uri(estateBase);
 })
 .AddHttpMessageHandler<AuthHeaderHandler>();
 
@@ -47,6 +48,11 @@ builder.Services.AddHttpClient<AuthClient>(c =>
 builder.Services.AddHttpClient<RegisterClient>(c =>
 {
     c.BaseAddress = new Uri(authBase);
+})
+.AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<HorseArtistClient>(c =>
+{ c.BaseAddress = new Uri(artistBase);
 })
 .AddHttpMessageHandler<AuthHeaderHandler>();
 
