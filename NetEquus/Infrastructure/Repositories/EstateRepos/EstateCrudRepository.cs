@@ -25,14 +25,11 @@ namespace Infrastructure.Repositories.EstateRepos
         public async Task UpdateEstateAsync (EquineEstate equineEstate)
         {
             _context.EquineEstates.Update(equineEstate);
-
-            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteEstateAsync (EquineEstate equineEstate)
         {
             _context.EquineEstates.Remove(equineEstate);
-            await _context.SaveChangesAsync();
         }
 
     }

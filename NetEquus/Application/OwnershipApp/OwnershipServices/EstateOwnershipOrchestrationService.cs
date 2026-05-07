@@ -1,5 +1,6 @@
 ﻿using Application.EstateApp.EstateDtos;
 using Application.EstateApp.EstateMappers;
+using Application.OwnershipApp.IOwnershipServices;
 using Application.SharedApp.IOwnershipServices;
 using Domain.Entities.Models.EquineEstates;
 using System;
@@ -19,7 +20,7 @@ namespace Application.SharedApp.OwnershipServices
             _estateOwnershipCrudService = estateOwnershipCrudService;
         }
 
-        public async Task LinkUserToEstateAsync (Guid userId, Guid estateId, bool isPrimaryOwner)
+        public async Task LinkUserToEstateAsync(Guid userId, Guid estateId, bool isPrimaryOwner)
         {
             var ownership = new EstateOwnership
             {
@@ -28,8 +29,8 @@ namespace Application.SharedApp.OwnershipServices
                 IsPrimaryOwner = isPrimaryOwner
             };
 
-            await _estateOwnershipCrudService.CreateEstateOwnershipAsync (ownership);
-            
+            await _estateOwnershipCrudService.CreateEstateOwnershipAsync(ownership);
+
         }
     }
 

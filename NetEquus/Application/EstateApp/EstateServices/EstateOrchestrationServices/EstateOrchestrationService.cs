@@ -3,6 +3,7 @@ using Application.EstateApp.EstateMappers;
 using Application.EstateApp.IEstateServices;
 using Application.EstateApp.IEstateServices.IEstateCrudServices;
 using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
+using Application.OwnershipApp.IOwnershipServices;
 using Application.SharedApp.IOwnershipServices;
 using Application.SharedApp.OwnershipDtos;
 using Application.SharedApp.OwnershipMappers;

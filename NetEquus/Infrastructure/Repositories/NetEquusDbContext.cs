@@ -21,6 +21,8 @@ namespace Infrastructure
         public virtual DbSet<EquineEstate> EquineEstates { get; set; }
         public virtual DbSet<EstateOwnership> EstateOwnerships { get; set; }
 
+        public virtual DbSet<HorseArtist> HorseArtists { get; set; }
+
 
     }
 }

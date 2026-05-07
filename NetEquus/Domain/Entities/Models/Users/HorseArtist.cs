@@ -10,7 +10,7 @@ namespace Domain.Entities.Models.Users
         public class HorseArtist
         {
             [Key]
-            public int HorseArtistId { get; set; }
+            public Guid HorseArtistId { get; set; }
 
             public Guid UserId { get; set; }
 
