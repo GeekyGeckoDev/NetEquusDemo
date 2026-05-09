@@ -9,8 +9,8 @@ namespace Application.HorseArtistApp.IHorseArtistRepos
     {
         Task CreateArtistAsync(HorseArtist horseArtist);
 
-        Task UpdateHorseArtist(HorseArtist horseArtist);
+        Task UpdateHorseArtistAsync(HorseArtist horseArtist);
 
-        Task DeleteHorseArtist(HorseArtist horseArtist);
+        Task DeleteHorseArtistAsync(HorseArtist horseArtist);
     }
 }

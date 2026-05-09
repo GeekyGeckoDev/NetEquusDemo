@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using Application.UserApp.IUserServices;
 using Shared.Mappers.UserMapper;
 using Shared.Dtos.UserDtos;
-using Shared.Dtos;
 using Domain.Entities.Models.Users;
 using Application.AuthApp.Exceptions;
 using Application.AuthApp.IAuthServices;
+using Shared.Dtos.Responses;
 
 namespace Application.AuthApp.AuthServices
 {

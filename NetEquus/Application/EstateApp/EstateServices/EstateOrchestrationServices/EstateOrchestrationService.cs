@@ -4,12 +4,8 @@ using Application.EstateApp.IEstateServices;
 using Application.EstateApp.IEstateServices.IEstateCrudServices;
 using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
 using Application.OwnershipApp.IOwnershipServices;
-using Application.SharedApp.IOwnershipServices;
-using Application.SharedApp.OwnershipDtos;
-using Application.SharedApp.OwnershipMappers;
 using Application.UnitOfWorks;
 using Domain.DomainRules;
-using Shared.Dtos.UserDtos;
 
 namespace Application.EstateApp.EstateServices.EstateOrchestrationServices
 {

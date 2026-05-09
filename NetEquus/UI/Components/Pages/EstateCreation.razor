@@ -17,13 +17,7 @@
 
         <h4 class="mb-4 text-center">Join NetEquus</h4>
 
-        @if (!string.IsNullOrEmpty(responseMessage))
-        {
-            <div class="alert alert-info">
-                @responseMessage
-            </div>
-        }
-
+ 
         <div class="mb-3">
             <label class="form-label">Estate Name</label>
             <input class="form-control" @bind="newEstate.Estate.EstateName" />

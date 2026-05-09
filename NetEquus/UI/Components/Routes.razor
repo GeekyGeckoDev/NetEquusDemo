@@ -1,9 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 
 <CascadingAuthenticationState>
-    <Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(Pages.NotFound)">
+    <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
                 <NotAuthorized>
                     <h3>Not authorized</h3>
                 </NotAuthorized>
@@ -11,9 +11,16 @@
                 <Authorizing>
                     <h3>Authorizing...</h3>
                 </Authorizing>
-            </AuthorizeRouteView>
 
-            <FocusOnNavigate RouteData="routeData" Selector="h1" />
+
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
+
+        <NotFound>
+            <LayoutView Layout="@typeof(Layout.MainLayout)">
+                <h3>Not Found</h3>
+                <p>Sorry, that page doesn't exist.</p>
+            </LayoutView>
+        </NotFound>
     </Router>
 </CascadingAuthenticationState>

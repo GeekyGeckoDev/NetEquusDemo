@@ -1,5 +1,9 @@
+using Application.HorseArtistApp.HorseArtistServices;
+using Application.HorseArtistApp.IHorseArtistRepos;
+using Application.HorseArtistApp.IHorseArtistServices;
 using Application.UnitOfWorks;
 using Infrastructure;
+using Infrastructure.Repositories.HorseArtistRepos;
 using Infrastructure.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +23,16 @@ builder.Services.AddDbContext<NetEquusDbContext>(options =>
         builder.Configuration.GetConnectionString("Default"),
         sql => sql.EnableRetryOnFailure()
     ));
+
+builder.Services.AddScoped<IHorseArtistCrudRepository, HorseArtistCrudRepository>();
+builder.Services.AddScoped<IHorseArtistValidationRepository, HorseArtistValidationRepository>();
+builder.Services.AddScoped<IHorseArtistGetRepository, HorseArtistGetRepository>();
+
+builder.Services.AddScoped<IHorseArtistCrudService, HorseArtistCrudService>();
+builder.Services.AddScoped<IHorseArtistInitializationService, HorseArtistInitializationService>();
+builder.Services.AddScoped<IHorseArtistOrchestrationService,  HorseArtistOrchestrationService>();
+builder.Services.AddScoped<IHorseArtistValidationService, HorseArtistValidationService>();
+builder.Services.AddScoped<IHorseArtistGetService, HorseArtistGetService>();
 
 
 

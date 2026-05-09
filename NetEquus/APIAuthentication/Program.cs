@@ -1,16 +1,8 @@
 using Application.AuthApp.AuthServices;
 using Application.AuthApp.IAuthServices;
-using Application.EstateApp.EstateServices;
 using Application.EstateApp.EstateServices.EstateCrudServices;
-using Application.EstateApp.EstateServices.EstateManagerServices;
-using Application.EstateApp.EstateServices.EstateOrchestrationServices;
-using Application.EstateApp.EstateServices.EstateValidationService;
 using Application.EstateApp.IEstateRepos;
-using Application.EstateApp.IEstateServices;
 using Application.EstateApp.IEstateServices.IEstateCrudServices;
-using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
-using Application.EstateApp.IEstateServices.IEstateValidationServices;
-using Application.SharedApp.IOwnershipRepos;
 using Application.SharedApp.IOwnershipServices;
 using Application.SharedApp.OwnershipServices;
 using Application.UnitOfWorks;
@@ -33,7 +25,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using UI.Components;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -105,7 +96,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 
-builder.Services.AddAuthentication()
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters

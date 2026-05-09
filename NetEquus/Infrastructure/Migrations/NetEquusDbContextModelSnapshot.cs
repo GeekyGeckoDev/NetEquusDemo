@@ -22,6 +22,31 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Models.Breeds.Breed", b =>
+                {
+                    b.Property<Guid>("BreedID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BreedAbbreviation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BreedName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaxHeight")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinHeight")
+                        .HasColumnType("int");
+
+                    b.HasKey("BreedID");
+
+                    b.ToTable("Breeds");
+                });
+
             modelBuilder.Entity("Domain.Entities.Models.EquineEstates.EquineEstate", b =>
                 {
                     b.Property<Guid>("EstateId")
@@ -78,6 +103,25 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("EstateOwnerships");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Users.HorseArtist", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SubmissionAccepted")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubmissionsAwaiting")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("HorseArtists");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.Users.User", b =>
@@ -138,9 +182,26 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Models.Users.HorseArtist", b =>
+                {
+                    b.HasOne("Domain.Entities.Models.Users.User", "User")
+                        .WithOne("HorseArtist")
+                        .HasForeignKey("Domain.Entities.Models.Users.HorseArtist", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Entities.Models.EquineEstates.EquineEstate", b =>
                 {
                     b.Navigation("EstateOwners");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Users.User", b =>
+                {
+                    b.Navigation("HorseArtist")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

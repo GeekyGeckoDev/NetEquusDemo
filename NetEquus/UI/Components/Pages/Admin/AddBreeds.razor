@@ -1,0 +1,80 @@
+﻿@page "/addbreeds"
+@using Microsoft.AspNetCore.Authorization
+@using Shared.Dtos.BreedDtos
+@using UI.API.Clients
+@attribute [Authorize]
+@inject BreedClient BreedClient
+@rendermode InteractiveServer
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+
+        <div class="container mt-4">
+
+            <div class="card shadow p-4 col-md-8 mx-auto">
+
+                <h4 class="mb-4 text-center">Create Breed</h4>
+
+                @if (!string.IsNullOrEmpty(responseMessage))
+                {
+                    <div class="alert alert-info">
+                        @responseMessage
+                    </div>
+                }
+
+                <!-- Row 1 -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Breed Name</label>
+                        <input class="form-control" @bind="dto.BreedName" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Abbreviation</label>
+                        <input class="form-control" @bind="dto.BreedAbbreviation" />
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Min Height</label>
+                        <input type="number" class="form-control" @bind="dto.MinHeight" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Max Height</label>
+                        <input type="number" class="form-control" @bind="dto.MaxHeight" />
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <button class="btn btn-primary w-100" @onclick="CreateBreedAsync">
+                    Create Breed
+                </button>
+
+            </div>
+        </div>
+
+    </Authorized>
+
+    <NotAuthorized>
+        <div class="container mt-5 text-center">
+            <h5>You are not authorized to access this page.</h5>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private BreedDto dto = new();
+    private string? responseMessage;
+
+    private async Task CreateBreedAsync()
+    {
+        var response = await BreedClient.CreateBreedAsync(dto);
+
+        responseMessage = response.IsSuccessStatusCode
+            ? "Breed created successfully!"
+            : "Failed to create breed.";
+    }
+}

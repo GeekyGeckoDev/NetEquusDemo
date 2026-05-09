@@ -20,12 +20,12 @@ namespace Infrastructure.Repositories.HorseArtistRepos
             await _context.HorseArtists.AddAsync (horseArtist);
         }
 
-        public async Task UpdateHorseArtist (HorseArtist horseArtist)
+        public async Task UpdateHorseArtistAsync (HorseArtist horseArtist)
         {
             _context.HorseArtists.Update (horseArtist);
         }
 
-        public async Task DeleteHorseArtist (HorseArtist horseArtist)
+        public async Task DeleteHorseArtistAsync (HorseArtist horseArtist)
         {
             _context.HorseArtists.Remove(horseArtist);
         }

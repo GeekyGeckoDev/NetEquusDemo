@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace HorseArtist.Controllers
+namespace Artist.Controllers
 {
     [ApiController]
     [Route("[controller]")]

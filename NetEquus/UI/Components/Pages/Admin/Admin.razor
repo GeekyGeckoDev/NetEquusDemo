@@ -1,0 +1,29 @@
+﻿@page "/admin"
+@using Microsoft.AspNetCore.Authorization
+@inject AuthService AuthService
+@using UI.Auth
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        <p>Authenticated</p>
+    </Authorized>
+
+    <NotAuthorized>
+        <p>NOT authenticated</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <p>ADMIN ROLE WORKS</p>
+    </Authorized>
+
+    <NotAuthorized>
+        <p>ADMIN ROLE FAILED</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}

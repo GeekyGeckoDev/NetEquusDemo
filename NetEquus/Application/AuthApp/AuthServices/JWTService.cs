@@ -5,6 +5,7 @@ using Domain.Entities.Models.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Dtos;
+using Shared.Dtos.Responses;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

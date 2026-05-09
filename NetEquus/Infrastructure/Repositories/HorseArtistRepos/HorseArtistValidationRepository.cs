@@ -9,7 +9,6 @@ namespace Infrastructure.Repositories.HorseArtistRepos
 {
     public class HorseArtistValidationRepository : IHorseArtistValidationRepository
     {
-    {
         private readonly NetEquusDbContext _context;
 
         public HorseArtistValidationRepository(NetEquusDbContext context)

@@ -10,8 +10,6 @@ namespace Domain.Entities.Models.Users
         public class HorseArtist
         {
             [Key]
-            public Guid HorseArtistId { get; set; }
-
             public Guid UserId { get; set; }
 
             public int SubmissionsAwaiting { get; set; }
@@ -20,8 +18,6 @@ namespace Domain.Entities.Models.Users
 
             public bool IsApproved { get; set; }
 
-
-        [ForeignKey("UserId")]
             public virtual User User { get; set; }
         }
     }

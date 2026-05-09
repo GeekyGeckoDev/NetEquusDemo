@@ -28,11 +28,13 @@ namespace Application.HorseArtistApp.HorseArtistServices
 
         }
 
+
+
         public async Task<RuleResult> UserIsHorseArtist(Guid userId)
         {
-            var horseArtistId = await _hAValidationRepository.UserIsHorseArtist(userId);
+            HorseArtist? hA = await _hAValidationRepository.UserIsHorseArtist(userId);
 
-            if (userId == horseArtistId.HorseArtistId)
+            if (hA != null)
                 return RuleResult.Fail("User is already a horse artist");
 
             return RuleResult.Success();

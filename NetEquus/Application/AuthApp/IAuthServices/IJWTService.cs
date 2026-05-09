@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Models.Users;
 using Shared.Dtos;
+using Shared.Dtos.Responses;
 using System;
 using System.Collections.Generic;
 using System.Text;

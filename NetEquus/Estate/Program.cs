@@ -8,6 +8,7 @@ using Application.EstateApp.IEstateServices;
 using Application.EstateApp.IEstateServices.IEstateCrudServices;
 using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
 using Application.EstateApp.IEstateServices.IEstateValidationServices;
+using Application.OwnershipApp.IOwnershipServices;
 using Application.SharedApp.IOwnershipRepos;
 using Application.SharedApp.IOwnershipServices;
 using Application.SharedApp.OwnershipServices;

@@ -1,4 +1,4 @@
-﻿using Shared.Dtos;
+﻿using Shared.Dtos.Responses;
 using Shared.Dtos.UserDtos;
 using System;
 using System.Collections.Generic;

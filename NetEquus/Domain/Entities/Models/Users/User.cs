@@ -29,8 +29,7 @@ namespace Domain.Entities.Models.Users
 
         public string Password_Hash { get; set; }
 
-        [ForeignKey("HorseArtistId")]
-        public virtual ICollection<HorseArtist> HorseArtist { get; set; }
+        public virtual HorseArtist HorseArtist { get; set; }
 
         public bool IsAdmin { get; set; } = true;
         [AllowNull]

@@ -1,0 +1,19 @@
+﻿@page "/HorseAppearanceSubmissions"
+@using Microsoft.AspNetCore.Authorization
+@inject AuthService AuthService
+@using UI.Auth
+@attribute [Authorize]
+
+<AuthorizeView Roles="HorseArtist">
+    <Authorized>
+        <p>HorseArtist you are</p>
+    </Authorized>
+
+    <NotAuthorized>
+        <p>YOUR ROLE FAILED</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}

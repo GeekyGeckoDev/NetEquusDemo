@@ -1,0 +1,6 @@
+@APIBreed_HostAddress = http://localhost:5191
+
+GET {{APIBreed_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

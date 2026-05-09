@@ -1,0 +1,84 @@
+﻿@page "/pendingArtist"
+
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using Shared.Dtos.HorseArtistDtos
+@using UI.API.Clients
+@rendermode InteractiveServer
+@inject AdminArtistClient ArtistClient
+
+<h3 class="mb-4">Pending Horse Artists</h3>
+
+<div class="container">
+    <div class="card shadow p-4">
+
+        @if (artists == null)
+        {
+            <p>Loading...</p>
+        }
+        else if (!artists.Any())
+        {
+            <p>No pending artists.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Portfolio</th>
+                        <th>Approve</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var artist in artists)
+                    {
+                        <tr>
+                            <td>@artist.Username</td>
+
+                            <td>
+                                <button class="btn btn-secondary">
+                                    Portfolio
+                                </button>
+                            </td>
+
+                            <td>
+                                <button class="btn btn-success"
+                                        @onclick="() => ApproveArtist(artist.UserId)">
+                                    Approve
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
+
+@code {
+
+    private List<HorseArtistDto> artists = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        artists = await ArtistClient.GetPendingArtistsAsync();
+    }
+
+    private async Task ApproveArtist(Guid artistsId)
+    {
+        var response = await ArtistClient.ApproveArtistAsync(artistsId);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var artist = artists.FirstOrDefault(a => a.UserId == artistsId);
+
+            if (artist != null)
+                artists.Remove(artist);
+
+            StateHasChanged();
+        }
+    }
+}

@@ -1,5 +1,5 @@
-namespace HorseArtist
-{
+
+
     public class WeatherForecast
     {
         public DateOnly Date { get; set; }
@@ -10,4 +10,3 @@ namespace HorseArtist
 
         public string? Summary { get; set; }
     }
-}

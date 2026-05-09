@@ -13,11 +13,16 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = "BlazorAuth";
-    options.DefaultChallengeScheme = "BlazorAuth";
-}).AddScheme<AuthenticationSchemeOptions, BlazorAuthHandler>("BlazorAuth", null);
+    options.DefaultAuthenticateScheme = "FakeScheme";
+    options.DefaultChallengeScheme = "FakeScheme";
+})
+.AddScheme<AuthenticationSchemeOptions, DummyAuthHandler>(
+    "FakeScheme", _ => { });
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 
@@ -27,7 +32,8 @@ builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>
 
 var authBase = builder.Configuration["ApiSettings:AuthBaseUrl"];
 var estateBase = builder.Configuration["ApiSettings:EstateBaseUrl"];
-var artistBase = builder.Configuration["ApiSettings:HorseArtistUrl"];
+var artistBase = builder.Configuration["ApiSettings:ArtistBaseUrl"];
+var breedBase = builder.Configuration["ApiSettings:BreedBaseUrl"];
 
 
 builder.Services.AddSingleton<ITokenStore, TokenStore>();
@@ -51,10 +57,19 @@ builder.Services.AddHttpClient<RegisterClient>(c =>
 })
 .AddHttpMessageHandler<AuthHeaderHandler>();
 
-builder.Services.AddHttpClient<HorseArtistClient>(c =>
+builder.Services.AddHttpClient<ArtistClient>(c =>
 { c.BaseAddress = new Uri(artistBase);
 })
 .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<AdminArtistClient>(c =>
+{
+    c.BaseAddress = new Uri(artistBase);
+})
+.AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<BreedClient>(c 
+    => c.BaseAddress = new Uri(breedBase));
 
 var app = builder.Build();
 

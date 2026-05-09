@@ -32,9 +32,20 @@ namespace UI.Auth
             };
 
             if (userInfo.IsAdmin)
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                claims.Add(new Claim(ClaimTypes.Role,"Admin"));
 
-            _currentUser = new ClaimsPrincipal(new ClaimsIdentity(claims, "cookieAuth"));
+            if (userInfo.HorseArtistDto?.IsApproved == true)
+                claims.Add(new Claim(ClaimTypes.Role, "HorseArtist"));
+
+            _currentUser = new ClaimsPrincipal(
+              new ClaimsIdentity(claims, "cookieAuth")
+          );
+
+            Console.WriteLine(string.Join(", ",
+            _currentUser.Claims
+                .Where(c => c.Type == ClaimTypes.Role)
+                .Select(c => c.Value)));
+
 
             // store easy-access session info
             UserId = userInfo.UserId;
