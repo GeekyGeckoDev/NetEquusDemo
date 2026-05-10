@@ -2,6 +2,7 @@
 using Application.AuthApp.IAuthServices;
 using Application.UserApp.IUserServices;
 using Application.UserSessionApp;
+using Domain.Entities.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Dtos;
@@ -46,23 +47,18 @@ namespace APIAuthentication.Controllers
             Response.Cookies.Append("accessToken", tokens.AccessToken, BuildCookieOptions(DateTime.UtcNow.AddMinutes(15)));
             Response.Cookies.Append("refreshToken", tokens.RefreshToken, BuildCookieOptions(DateTime.UtcNow.AddDays(7)));
 
+            //if (!dto.CanLogin)
+            //    return Unauthorized();
+
             return Ok(new
             {
                 accessToken = tokens.AccessToken,
                 refreshToken = tokens.RefreshToken
             });
+
+
         }
 
-        //[HttpPost("login")]
-        //public async Task<IActionResult> Login(LoginDto dto)
-        //{
-        //    var tokens = await _logInService.ValidateUserAsync(dto);
-
-        //    Response.Cookies.Append("accessToken", tokens.AccessToken, BuildCookieOptions(DateTime.UtcNow.AddMinutes(15)));
-        //    Response.Cookies.Append("refreshToken", tokens.RefreshToken, BuildCookieOptions(DateTime.UtcNow.AddDays(7)));
-
-        //    return Ok(new { message = "Login successful" });
-        //}
 
         [HttpPost("refresh-token")]
         public async Task<IActionResult> Refresh()

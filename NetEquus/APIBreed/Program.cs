@@ -26,8 +26,10 @@ builder.Services.AddDbContext<NetEquusDbContext>(options =>
 
 
 builder.Services.AddScoped<IBreedCrudRepository, BreedCrudRepository>();
+builder.Services.AddScoped<IBreedGetRepository, BreedGetRepository>();
 
 builder.Services.AddScoped<IBreedCrudService, BreedCrudService>();
+builder.Services.AddScoped<IBreedGetService, BreedGetService>();
 builder.Services.AddScoped<IBreedInitilizationService, BreedIntilizationService>();
 builder.Services.AddScoped<IBreedOrchestrationService, BreedOrchestrationService>();
 

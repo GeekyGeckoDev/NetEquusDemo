@@ -8,5 +8,7 @@ namespace Application.BreedApp.IBreedServices
     public interface IBreedInitilizationService
     {
         Task BreedInitilizationAsync(BreedDto dto);
+
+        Task UpdateBreedFieldsAsync(Guid breedId);
     }
 }

@@ -1,25 +1,30 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
-
-
-namespace UI.Auth
+﻿namespace UI.Auth
 {
     using Microsoft.AspNetCore.Components.Authorization;
     using System.Security.Claims;
+   
 
     public class CustomAuthStateProvider : AuthenticationStateProvider
     {
         private readonly AuthService _authService;
+        private readonly AuthManager _authManager;
 
-        public CustomAuthStateProvider(AuthService authService)
+        public CustomAuthStateProvider(AuthService authService, AuthManager authManager)
         {
             _authService = authService;
             _authService.UserChanged += Notify;
+            _authManager = authManager;
         }
 
-        public override Task<AuthenticationState> GetAuthenticationStateAsync()
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            return Task.FromResult(
-                new AuthenticationState(_authService.CurrentUser));
+            if (!_authService.IsLoggedIn)
+            {
+                // try restoring from API
+                await _authManager.RefreshUserFromApi();
+            }
+
+            return new AuthenticationState(_authService.CurrentUser);
         }
 
         private void Notify(ClaimsPrincipal user)

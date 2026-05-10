@@ -12,6 +12,10 @@ namespace Application.UserApp.IUserRepos
         Task<User?> GetUserByIdAsync(Guid id);
         Task<User?> GetUserByUsernameAsync(string username);
 
+        Task<List<User>> GetUserByNpcStatusAsync(bool isNpc);
+
+
+
         Task<User?> GetUserByRefreshTokenAsync(string refreshToken);
 
         Task<User?> GetUserByEmailAsync(string email);

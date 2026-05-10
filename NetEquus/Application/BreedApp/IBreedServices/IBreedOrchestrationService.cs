@@ -9,5 +9,7 @@ namespace Application.BreedApp.IBreedServices
     public interface IBreedOrchestrationService
     {
         Task<RuleResult> CreateBreedAsync(BreedDto dto);
+
+        Task<RuleResult> UpdateBreedAsync(Guid breedId);
     }
 }

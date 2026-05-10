@@ -1,5 +1,141 @@
-﻿<h3>AllBreeds</h3>
+﻿@page "/allbreeds"
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
+@using Shared.Dtos.BreedDtos
+@using UI.API.Clients
+@rendermode InteractiveServer
+@inject BreedClient breedClient
+
+<h3>AllBreeds</h3>
+
+<div class="container">
+    <div class="card shadow p-4">
+        @if (breeds == null)
+        {
+            <p>Loading</p>
+        }
+        else if (!breeds.Any())
+        {
+            <p>No breeds to show</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Breed Id</th>
+                        <th>Breed Name</th>
+                        <th>Breed Abbreviation</th>
+                        <th>Minimum Height</th>
+                        <th>Maximum Height</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var breed in breeds)
+                    {
+                        bool isEditing = editingBreed == breed;
+
+                        <tr>
+                            <td>@breed.BreedId</td>
+                            <td>
+                                @if (isEditing)
+                                {
+                                    <input class="form-control"
+                                           @bind="breed.BreedName" />
+                                }
+                                else
+                                {
+                                    @breed.BreedName
+                                }
+                            </td>
+
+                            <td>
+                                @if (isEditing)
+                                {
+                                    <input class="form-control"
+                                           @bind="breed.BreedAbbreviation" />
+                                }
+                                else
+                                {
+                                    @breed.BreedAbbreviation
+                                }
+                            </td>
+
+                            <td>
+                                @if (isEditing)
+                                {
+                                    <input type="number"
+                                           class="form-control"
+                                           @bind="breed.MinHeight" />
+                                }
+                                else
+                                {
+                                    @breed.MinHeight
+                                }
+                            </td>
+
+                            <td>
+                                @if (isEditing)
+                                {
+                                    <input type="number"
+                                           class="form-control"
+                                           @bind="breed.MaxHeight" />
+                                }
+                                else
+                                {
+                                    @breed.MaxHeight
+                                }
+                            </td>
+
+                            <td>
+                                @if (isEditing)
+                                {
+                                    <button class="btn btn-success"
+                                            @onclick="() => UpdateBreedAsync(breed)">
+                                        Update
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary"
+                                            @onclick="() => EditBreed(breed)">
+                                        Edit
+                                    </button>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
 
 @code {
+
+    private BreedInfoDto? editingBreed;
+
+    private List<BreedInfoDto> breeds = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        breeds = await breedClient.GetALlBreedsAsync();
+    }
+
+    private void EditBreed(BreedInfoDto breed)
+    {
+        editingBreed = breed;
+    }
+
+    private async Task UpdateBreedAsync(BreedInfoDto breed)
+    {
+        var response = await breedClient.UpdateBreedAsync(breed);
+
+        if (response.IsSuccessStatusCode)
+        {
+            editingBreed = null;
+        }
+    }
 
 }

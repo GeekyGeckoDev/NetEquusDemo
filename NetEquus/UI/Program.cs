@@ -16,19 +16,16 @@ builder.Services.AddRazorComponents()
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = "FakeScheme";
-    options.DefaultChallengeScheme = "FakeScheme";
-})
-.AddScheme<AuthenticationSchemeOptions, DummyAuthHandler>(
-    "FakeScheme", _ => { });
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AuthManager>();
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
+builder.Services.AddScoped<CustomAuthStateProvider>();
+
+builder.Services.AddScoped<AuthenticationStateProvider>(provider =>
+    provider.GetRequiredService<CustomAuthStateProvider>());
 
 var authBase = builder.Configuration["ApiSettings:AuthBaseUrl"];
 var estateBase = builder.Configuration["ApiSettings:EstateBaseUrl"];
@@ -52,6 +49,12 @@ builder.Services.AddHttpClient<AuthClient>(c =>
 .AddHttpMessageHandler<AuthHeaderHandler>();
 
 builder.Services.AddHttpClient<RegisterClient>(c =>
+{
+    c.BaseAddress = new Uri(authBase);
+})
+.AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<NpcClient>(c =>
 {
     c.BaseAddress = new Uri(authBase);
 })

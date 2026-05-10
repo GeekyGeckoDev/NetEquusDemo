@@ -23,6 +23,13 @@ namespace Infrastructure.Repositories.UserRepos
             return await _Dbcontext.Users.FindAsync(id);
         }
 
+        public async Task<List<User>> GetUserByNpcStatusAsync(bool isNpc)
+        {
+            return await _Dbcontext.Users
+                .Where(u => u.IsNpc == isNpc)
+                .ToListAsync();
+        }
+
         public async Task<User?> GetUserByUsernameAsync(string username)
         {
             return await _Dbcontext.Users
@@ -42,3 +49,4 @@ namespace Infrastructure.Repositories.UserRepos
         }
     }
 }
+

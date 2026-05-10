@@ -1,0 +1,106 @@
+﻿@page "/createsystemestate"
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Shared.Dtos.NpcDtos
+@using Shared.Dtos.UserDtos
+@using UI.API.Clients
+
+@inject NpcClient UserClient
+
+<h3>Create System Estate</h3>
+
+<AuthorizeView Roles="Admin">
+
+    <Authorized>
+
+        <div class="container mt-4">
+
+            <div class="card shadow p-4 col-md-6 mx-auto">
+
+                <h4 class="mb-4 text-center">
+                    Create System Estate
+                </h4>
+
+                @if (!string.IsNullOrEmpty(responseMessage))
+                {
+                    <div class="alert alert-info">
+                        @responseMessage
+                    </div>
+                }
+
+                <!-- NPC Dropdown -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Select NPC
+                    </label>
+
+                    <select class="form-select"
+                            @bind="selectedNpcId">
+
+                        <option value="">
+                            -- Select NPC --
+                        </option>
+
+                        @foreach (var npc in npcs)
+                        {
+                            <option value="@npc.NpcId">
+                                @npc.Username
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+                <!-- Empty Estate Name -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Estate Name
+                    </label>
+
+                    <input class="form-control"
+                           @bind="estateName" />
+
+                </div>
+
+                <button class="btn btn-primary w-100">
+                    Create Estate
+                </button>
+
+            </div>
+
+        </div>
+
+    </Authorized>
+
+    <NotAuthorized>
+
+        <div class="container mt-5 text-center">
+            <h5>
+                You are not authorized to access this page.
+            </h5>
+        </div>
+
+    </NotAuthorized>
+
+</AuthorizeView>
+
+@code {
+
+    private List<NpcDto> npcs = new();
+
+    private Guid? selectedNpcId;
+
+    private string? estateName;
+
+    private string? responseMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        npcs = await UserClient.GetNpcsWithoutEstatesAsync();
+    }
+
+}

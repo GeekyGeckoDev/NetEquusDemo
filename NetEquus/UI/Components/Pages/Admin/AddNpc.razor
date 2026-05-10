@@ -1,0 +1,59 @@
+﻿@page "/addnpcs"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Shared.Dtos.NpcDtos
+@using UI.API.Clients
+@inject NpcClient Client
+@rendermode InteractiveServer
+
+<h3>AddNpc</h3>
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+
+        <div class="container mt-4">
+
+            <div class="card shadow p-4 col-md-8 mx-auto">
+
+                <h4 class="mb-4 text-center">Create Breed</h4>
+
+                @if (!string.IsNullOrEmpty(responseMessage))
+                {
+                    <div class="alert alert-info">
+                        @responseMessage
+                    </div>
+                }
+
+                <!-- Row 1 -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">NPC Name</label>
+                        <input class="form-control" @bind="dto.Username" />
+                    </div>
+
+
+                <!-- Button -->
+                    <button class="btn btn-primary w-100" @onclick="CreateNpcAsync">
+                    Create Breed
+                </button>
+
+                </div>
+            </div>
+        </div>
+
+    </Authorized>
+    </AuthorizeView>
+
+    @code {
+        private CreateNpcDto dto = new();
+        private string? responseMessage;
+
+        private async Task CreateNpcAsync()
+        {
+            var response = await Client.CreateNpcAsync(dto);
+
+        responseMessage = response.IsSuccessStatusCode
+            ? "NPC created successfully!"
+            : "Failed to create NPC.";
+    }
+}

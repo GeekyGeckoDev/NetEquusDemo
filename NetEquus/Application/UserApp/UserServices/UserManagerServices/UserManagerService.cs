@@ -1,6 +1,8 @@
 ﻿using Application.AuthApp.IAuthServices;
+using Application.UnitOfWorks;
 using Application.UserApp.IUserServices;
 using Application.UserApp.IUserServices.IUserValidationServices;
+using Application.UserApp.UserServices;
 using Domain.DomainRules;
 using Shared.Dtos.Responses;
 using Shared.Dtos.UserDtos;
@@ -19,48 +21,55 @@ namespace Application.UserApp.UserSevices.UserManagerServices
 
         private readonly IPasswordHasherService _passwordHasherService;
 
-        private readonly IRegistrationValidationService _registrationValidationService;
+        private readonly IValidationManagerService _validationManagerService;
 
-        private readonly IPasswordValidationService _passwordValidationService;
+        private readonly IUserInitilizationService _userInitilizationService;
+        private readonly IUnitOfWork _unitOfWork;
 
 
-        public UserManagerService(IUserCrudService userCrudService, IPasswordHasherService passwordHasherService, IRegistrationValidationService registrationValidationService, IPasswordValidationService passwordValidationService)
+
+        public UserManagerService(IUserCrudService userCrudService, IPasswordHasherService passwordHasherService, 
+            IValidationManagerService validationManagerService, IUnitOfWork unitOfWork, IUserInitilizationService  userInitilizationService)
         {
             _userCrudService = userCrudService;
             _passwordHasherService = passwordHasherService;
-            _registrationValidationService = registrationValidationService;
-            _passwordValidationService = passwordValidationService;
+            _validationManagerService = validationManagerService;
+            _userInitilizationService = userInitilizationService;
+            _unitOfWork = unitOfWork;
+          
+     
         }
 
-        public async Task<RegistrationResultDto> RegisterUserAsync(UserRegistrationDto userRegistrationDto)
+        public async Task<RuleResult> RegisterUserAsync(UserRegistrationDto userRegistrationDto)
         {
-            var usernameCheck = await _registrationValidationService.CheckUsernameAsync(userRegistrationDto);
-            if (usernameCheck == null || !usernameCheck.IsAllowed)
-                return new RegistrationResultDto
-                {
-                    IsAllowed = false,
-                    Message = usernameCheck?.Message ?? "Username invalid"
-                };
+            var validationCheck = await _validationManagerService.FinalValidationAsync(userRegistrationDto);
 
-            var passwordCheck = await _passwordValidationService.CheckPasswordAsync(userRegistrationDto.Password);
-            if (!passwordCheck.IsAllowed)
-                return new RegistrationResultDto
-                {
-                    IsAllowed = false,
-                    Message = passwordCheck.Message
-                };
+            if (!validationCheck.IsAllowed)
+                return validationCheck;
 
-            var user = UserMapper.ToNewUser(userRegistrationDto);
-            user.Password_Hash = _passwordHasherService.HashPassword(userRegistrationDto.Password);
 
-            var userId = await _userCrudService.CreateUserAsync(user);
-
-            return new RegistrationResultDto
+            try
             {
-                IsAllowed = true,
-                Message = "User created successfully",
-                UserId = userId
-            };
+                await _unitOfWork.ExecuteAsync(async () =>
+                {
+                    var user = UserMapper.ToNewUser(userRegistrationDto);
+
+                    await _userInitilizationService.UserInitilizationAsync(userRegistrationDto);
+
+                    user.Password_Hash = _passwordHasherService.HashPassword(userRegistrationDto.Password);
+
+
+
+                    await _userCrudService.CreateUserAsync(user);
+                });
+
+                return RuleResult.Success();
+            }
+
+            catch (Exception ex)
+            {
+                return RuleResult.Fail($"Estate creation failed: {ex.Message}");
+            }
         }
     }
 }

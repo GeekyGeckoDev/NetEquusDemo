@@ -1,8 +1,12 @@
-﻿@using UI.Auth
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UI.Auth
 @inject AuthService AuthService
 @implements IDisposable
 @page "/estate"
 
+<AuthorizeView Roles="Admin">
+    <Authorized>
 @if (AuthService.EstateId == null)
 {
     <p>You need to create your estate.</p>
@@ -11,6 +15,14 @@ else
 {
     <p>Welcome back to @AuthService.EstateName.</p>
 }
+    </Authorized>
+
+    <NotAuthorized>
+        <div class="container mt-5 text-center">
+            <h5>You are not authorized to access this page.</h5>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     protected override void OnInitialized()

@@ -52,8 +52,10 @@
 
         if (success)
         {
+            
+            await AuthManager.RefreshUserFromApi();
             responseMessage = "Login successful!";
-            Nav.NavigateTo("/weather");
+            Nav.NavigateTo("/test");
         }
         else
         {

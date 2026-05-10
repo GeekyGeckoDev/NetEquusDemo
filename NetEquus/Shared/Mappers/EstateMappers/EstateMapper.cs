@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.EstateApp.EstateMappers
+namespace Shared.Mappers.EstateMappers
 {
     public static class EstateMapper
     {

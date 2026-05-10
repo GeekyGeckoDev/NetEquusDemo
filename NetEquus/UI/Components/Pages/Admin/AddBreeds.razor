@@ -1,8 +1,10 @@
 ﻿@page "/addbreeds"
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @using Shared.Dtos.BreedDtos
 @using UI.API.Clients
-@attribute [Authorize]
+@using UI.Auth
+@inject AuthService authService
 @inject BreedClient BreedClient
 @rendermode InteractiveServer
 

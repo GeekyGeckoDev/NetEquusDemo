@@ -19,21 +19,19 @@ namespace Infrastructure.Repositories.UserRepos
         public async Task<Guid> CreateUserAsync(User user)
         {
             await _dbContext.Users.AddAsync(user);
-            await _dbContext.SaveChangesAsync();
-
             return user.UserId;
         }
 
         public async Task UpdateUserAsync(User user)
         {
             _dbContext.Users.Update(user);
-            await _dbContext.SaveChangesAsync();
+    
         }
 
         public async Task DeleteUserAsync(User user)
         {
             _dbContext.Users.Remove(user);
-            await _dbContext.SaveChangesAsync();
+ 
         }
     }
 }

@@ -24,10 +24,10 @@ namespace Domain.Entities.Models.Users
         }
 
         public string NormalizedUsername { get; set; }
-
-        public string Email { get; set; }
-
-        public string Password_Hash { get; set; }
+        [AllowNull]
+        public string? Email { get; set; }
+        [AllowNull]
+        public string? Password_Hash { get; set; }
 
         public virtual HorseArtist HorseArtist { get; set; }
 
@@ -39,8 +39,12 @@ namespace Domain.Entities.Models.Users
         [AllowNull]
         public DateTime? LastLogin {  get; set; }
 
+        public bool IsNpc { get; set; }
 
-        public User(string username, string userEmail, string passwordHash, bool isAdmin)
+        public bool CanLogin { get; set; } = true;
+
+
+        public User(string username, string? userEmail, string? passwordHash, bool isAdmin)
         {
             UserId = Guid.NewGuid();
             Username = username;

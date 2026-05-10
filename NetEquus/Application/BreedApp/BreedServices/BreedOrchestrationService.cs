@@ -42,5 +42,22 @@ namespace Application.BreedApp.BreedServices
                 return RuleResult.Fail($"Breed creation failed: {ex.Message}");
             }
         }
+
+        public async Task<RuleResult> UpdateBreedAsync (Guid breedId)
+        {
+            try
+            {
+                await _unitOfWork.ExecuteAsync(async () =>
+                {
+                    await _breedInitilizationService.UpdateBreedFieldsAsync(breedId);
+                });
+
+                return RuleResult.Success();
+            }
+            catch (Exception ex)
+            {
+                return RuleResult.Fail($"Breed update failed: {ex.Message}");
+            }
+        }
     }
 }

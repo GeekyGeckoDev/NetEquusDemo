@@ -2,8 +2,12 @@
 
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly">
+
         <Found Context="routeData">
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+
+            <AuthorizeRouteView RouteData="@routeData"
+                                DefaultLayout="@typeof(Layout.MainLayout)">
+
                 <NotAuthorized>
                     <h3>Not authorized</h3>
                 </NotAuthorized>
@@ -12,8 +16,11 @@
                     <h3>Authorizing...</h3>
                 </Authorizing>
 
+            </AuthorizeRouteView>
 
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+            <FocusOnNavigate RouteData="@routeData"
+                             Selector="h1" />
+
         </Found>
 
         <NotFound>
@@ -22,5 +29,6 @@
                 <p>Sorry, that page doesn't exist.</p>
             </LayoutView>
         </NotFound>
+
     </Router>
 </CascadingAuthenticationState>

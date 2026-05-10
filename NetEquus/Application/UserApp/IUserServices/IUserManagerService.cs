@@ -12,6 +12,6 @@ namespace Application.UserApp.IUserServices
 {
     public interface IUserManagerService
     {
-        Task<RegistrationResultDto> RegisterUserAsync(UserRegistrationDto userRegistrationDto);
+        Task<RuleResult> RegisterUserAsync(UserRegistrationDto userRegistrationDto);
     }
 }
