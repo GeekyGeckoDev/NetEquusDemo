@@ -1,17 +1,10 @@
 ﻿using Application.UserApp.IUserServices.IUserCrudServices;
-using System.ComponentModel.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.UserApp.IUserServices;
-using Shared.Mappers.UserMapper;
 using Shared.Dtos.UserDtos;
-using Domain.Entities.Models.Users;
 using Application.AuthApp.Exceptions;
 using Application.AuthApp.IAuthServices;
 using Shared.Dtos.Responses;
+using Application.UnitOfWorks;
 
 namespace Application.AuthApp.AuthServices
 {
@@ -23,11 +16,14 @@ namespace Application.AuthApp.AuthServices
 
         private readonly IJWTService _jWTService;
 
-        public LogInService(IUserGetService userGetService, IPasswordHasherService passwordHasherService, IJWTService jWTService)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public LogInService(IUserGetService userGetService, IPasswordHasherService passwordHasherService, IJWTService jWTService, IUnitOfWork unitOfWork)
         {
             _userGetService = userGetService;
             _passwordHasherService = passwordHasherService;
             _jWTService = jWTService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<TokenResponseDto> ValidateUserAsync(LoginDto loginDto)
@@ -35,10 +31,41 @@ namespace Application.AuthApp.AuthServices
 
             var user = await _userGetService.GetUserByEmailAsync(loginDto.Email);
 
-            if (user == null || !_passwordHasherService.VerifyPassword(loginDto.Password, user.Password_Hash))
+            // Failed logins
+            if (user == null)
             {
-                throw new LoginException();
+                throw new LoginException("Invalid credentials");
             }
+
+                if (user.LockedUntil.HasValue &&
+                user.LockedUntil > DateTime.UtcNow)
+                {
+                throw new LoginException($"Account locked until{user.LockedUntil.Value:u}");
+                }
+
+            var validPassword = _passwordHasherService.VerifyPassword(loginDto.Password, user.Password_Hash);
+
+            if (!validPassword)
+            {
+                user.FailedLoginCount++;
+
+                if (user.FailedLoginCount >= 5)
+                {
+                    user.LockedUntil = DateTime.UtcNow.AddMinutes(5);
+
+                    user.FailedLoginCount = 0;
+                }
+
+
+                await _unitOfWork.CommitAsync();
+
+                throw new LoginException("Invalid credentials");
+
+            }
+
+            user.FailedLoginCount = 0;
+            user.LockedUntil = null;
+
 
             return await _jWTService.CreateUserTokenResponse(user);
        

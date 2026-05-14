@@ -1,11 +1,16 @@
 ﻿@page "/createsystemestate"
 
+@using Application.EstateApp.EstateDtos
+@using Application.SharedApp.OwnershipDtos
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Shared.Dtos.NpcDtos
 @using Shared.Dtos.UserDtos
+@using Shared.Dtos.WrapperDto
 @using UI.API.Clients
 
+@rendermode InteractiveServer
+@inject EstateClient EstateClient
 @inject NpcClient UserClient
 
 <h3>Create System Estate</h3>
@@ -15,6 +20,8 @@
     <Authorized>
 
         <div class="container mt-4">
+
+
 
             <div class="card shadow p-4 col-md-6 mx-auto">
 
@@ -61,12 +68,11 @@
                         Estate Name
                     </label>
 
-                    <input class="form-control"
-                           @bind="estateName" />
+                    <input class="form-control" @bind="newEstate.Estate.EstateName" />
 
                 </div>
 
-                <button class="btn btn-primary w-100">
+                <button class="btn btn-primary w-100" @onclick="CreateAsync">
                     Create Estate
                 </button>
 
@@ -98,9 +104,46 @@
 
     private string? responseMessage;
 
+    private CreateNpcEstateRequest newEstate = new CreateNpcEstateRequest
+        {
+            Estate = new EstateCreationDto(),
+            Ownership = new EstateOwnershipDto()
+        };
+
     protected override async Task OnInitializedAsync()
     {
         npcs = await UserClient.GetNpcsWithoutEstatesAsync();
+    }
+
+    private async Task CreateAsync()
+    {
+        if (selectedNpcId == null)
+        {
+            responseMessage = "Please select an NPC.";
+            return;
+        }
+
+        newEstate.UserId = selectedNpcId.Value;
+
+        var response = await EstateClient.CreateNpcEstateAsync(newEstate);
+
+        if (response.IsSuccessStatusCode)
+        {
+            responseMessage = "Estate created successfully!";
+
+            newEstate = new CreateNpcEstateRequest
+            {
+                Estate = new EstateCreationDto(),
+                Ownership = new EstateOwnershipDto()
+            };
+
+            selectedNpcId = null;
+        }
+        else
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            responseMessage = $"Creation failed: {error}";
+        }
     }
 
 }

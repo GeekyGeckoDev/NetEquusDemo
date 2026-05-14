@@ -24,5 +24,15 @@ namespace UI.API.Clients
             return response;
 
         }
+
+        public async Task<HttpResponseMessage> CreateNpcEstateAsync(CreateNpcEstateRequest request)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/Estate/npc-estatecreation", request);
+
+            Console.WriteLine($"CALLED URL: {response.RequestMessage?.RequestUri}");
+            Console.WriteLine($"STATUS: {response.StatusCode}");
+
+            return response;
+        }
     }
 }

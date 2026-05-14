@@ -105,6 +105,60 @@ namespace Infrastructure.Migrations
                     b.ToTable("EstateOwnerships");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Models.Horses.Horse", b =>
+                {
+                    b.Property<Guid>("GuidHorseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("AgingDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HorseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsFoal")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Sex")
+                        .HasColumnType("int");
+
+                    b.HasKey("GuidHorseId");
+
+                    b.ToTable("Horses");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Horses.Relations.HorseOwnership", b =>
+                {
+                    b.Property<Guid>("HorseOwnershipId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("HorseGuidId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("HorseOwnershipId");
+
+                    b.HasIndex("HorseGuidId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("HorseOwnerships");
+                });
+
             modelBuilder.Entity("Domain.Entities.Models.Users.HorseArtist", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -136,6 +190,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FailedLoginCount")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
@@ -143,6 +200,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastLogin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LockedUntil")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NormalizedUsername")
@@ -184,6 +244,25 @@ namespace Infrastructure.Migrations
                     b.Navigation("Estate");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Horses.Relations.HorseOwnership", b =>
+                {
+                    b.HasOne("Domain.Entities.Models.Horses.Horse", "Horse")
+                        .WithMany()
+                        .HasForeignKey("HorseGuidId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Models.Users.User", "user")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Horse");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.Users.HorseArtist", b =>

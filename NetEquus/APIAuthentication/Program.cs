@@ -3,8 +3,9 @@ using Application.AuthApp.IAuthServices;
 using Application.EstateApp.EstateServices.EstateCrudServices;
 using Application.EstateApp.IEstateRepos;
 using Application.EstateApp.IEstateServices.IEstateCrudServices;
-using Application.SharedApp.IOwnershipServices;
-using Application.SharedApp.OwnershipServices;
+using Application.OwnershipApp.EstateOwnershipApp.EstateOwnershipServices;
+using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipRepos;
+using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipServices;
 using Application.UnitOfWorks;
 using Application.UserApp.IUserRepo;
 using Application.UserApp.IUserRepos;
@@ -20,13 +21,15 @@ using Application.UserApp.UserSevices.UserValidationServices;
 using Application.UserSessionApp;
 using Infrastructure;
 using Infrastructure.Repositories.EstateRepos;
-using Infrastructure.Repositories.SharedRepos;
+using Infrastructure.Repositories.Ownership.EstateOwnerships;
 using Infrastructure.Repositories.UserRepos;
 using Infrastructure.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Threading.RateLimiting;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +50,29 @@ builder.Services.AddDbContext<NetEquusDbContext>(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
 //Service injections
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("FixedWindow", configure =>
+    {
+        configure.Window = TimeSpan.FromMinutes(1);
+        configure.PermitLimit = 100;
+        configure.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        configure.QueueLimit = 10;
+    });
+
+    options.AddTokenBucketLimiter("TokenBucket", configure =>
+    {
+        configure.TokenLimit = 100;
+        configure.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        configure.QueueLimit = 10;
+        configure.ReplenishmentPeriod = TimeSpan.FromMinutes(1);
+        configure.TokensPerPeriod = 20;
+
+    });
+
+    options.RejectionStatusCode = 429;
+});
 
 builder.Services.AddScoped<IUserCrudService, UserCrudService>();
 builder.Services.AddScoped<IUserGetService, UserGetService>();
@@ -152,5 +178,7 @@ app.UseAuthorization();
 
 // Controllers
 app.MapControllers();
+
+app.UseRateLimiter();
 
 app.Run();

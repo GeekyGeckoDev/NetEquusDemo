@@ -3,7 +3,7 @@ using Application.EstateApp.EstateMappers;
 using Application.EstateApp.IEstateServices;
 using Application.EstateApp.IEstateServices.IEstateCrudServices;
 using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
-using Application.OwnershipApp.IOwnershipServices;
+using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipServices;
 using Application.UnitOfWorks;
 using Domain.DomainRules;
 

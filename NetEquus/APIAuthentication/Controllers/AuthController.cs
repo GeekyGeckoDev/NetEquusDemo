@@ -2,10 +2,9 @@
 using Application.AuthApp.IAuthServices;
 using Application.UserApp.IUserServices;
 using Application.UserSessionApp;
-using Domain.Entities.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Dtos;
+using Microsoft.AspNetCore.RateLimiting;
 using Shared.Dtos.UserDtos;
 using System.Security.Claims;
 
@@ -18,6 +17,8 @@ namespace APIAuthentication.Controllers
         private readonly ILogInService _logInService;
         private readonly IJWTService _jWTService;
         private readonly IUserSessionService _userSessionService;
+
+        private const int MaxFailedLogins = 5;
 
         private CookieOptions BuildCookieOptions(DateTime expires)
         {
@@ -40,15 +41,16 @@ namespace APIAuthentication.Controllers
         }
 
         [HttpPost("login")]
+        [EnableRateLimiting("FixedWindow")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
+         
             var tokens = await _logInService.ValidateUserAsync(dto);
 
             Response.Cookies.Append("accessToken", tokens.AccessToken, BuildCookieOptions(DateTime.UtcNow.AddMinutes(15)));
             Response.Cookies.Append("refreshToken", tokens.RefreshToken, BuildCookieOptions(DateTime.UtcNow.AddDays(7)));
 
-            //if (!dto.CanLogin)
-            //    return Unauthorized();
+            
 
             return Ok(new
             {

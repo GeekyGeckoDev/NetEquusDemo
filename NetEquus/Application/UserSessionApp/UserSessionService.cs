@@ -1,5 +1,5 @@
 ﻿using Application.EstateApp.IEstateServices.IEstateCrudServices;
-using Application.SharedApp.IOwnershipServices;
+using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipServices;
 using Application.UserApp.IUserServices.IUserCrudServices;
 using Domain.Entities.Models.EquineEstates;
 using Shared.Dtos.UserDtos;

@@ -1,6 +1,7 @@
 ﻿using Application.EstateApp.EstateDtos;
 using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
 using Application.SharedApp.OwnershipDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Dtos.UserDtos;
 using Shared.Dtos.WrapperDto;
@@ -31,6 +32,19 @@ namespace APIEstate.Controllers
                 return BadRequest(result.Message);
 
             return Ok(result);
+        }
+        [Authorize]
+        [HttpPost("npc-estatecreation")]
+        public async Task <IActionResult> CreateNpcEstateAsync([FromBody] CreateNpcEstateRequest dto)
+        {
+            var result = await _estateOrchestrationService.CreateEstateWithOwnership(dto.UserId, dto.Estate);
+
+
+            if (!result.IsAllowed)
+                return BadRequest(result.Message);
+
+            return Ok(result);
+
         }
 
 

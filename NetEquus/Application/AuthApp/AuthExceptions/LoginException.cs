@@ -10,7 +10,11 @@ namespace Application.AuthApp.Exceptions
     {
         //public LoginException(string message) : base(message) { }
 
-        public LoginException()
-            : base("Incorrect email or password") { }
+        public LoginException(string message)
+            : base() { }
+
+       
+
+       
     }
 }

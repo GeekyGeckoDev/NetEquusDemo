@@ -43,6 +43,10 @@ namespace Domain.Entities.Models.Users
 
         public bool CanLogin { get; set; } = true;
 
+        public int FailedLoginCount { get; set; }
+
+        public DateTime? LockedUntil { get; set; }
+
 
         public User(string username, string? userEmail, string? passwordHash, bool isAdmin)
         {
