@@ -1,5 +1,57 @@
-﻿<h3>GenerateHorse</h3>
+﻿@page "/generatehorse"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Shared.Dtos.BreedDtos
+@using UI.API.Clients
+@using UI.Auth
+@inject AuthService authService
+@inject HorseClient Client
+@rendermode InteractiveServer
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+
+        <div class="container mt-4">
+
+            <div class="card shadow p-4 col-md-8 mx-auto">
+
+                <h4 class="mb-4 text-center">Create Breed</h4>
+
+                @if (!string.IsNullOrEmpty(responseMessage))
+                {
+                    <div class="alert alert-info">
+                        @responseMessage
+                    </div>
+                }
+
+
+                <!-- Button -->
+                <button class="btn btn-primary w-100" @onclick="CreateBreedAsync">
+                    Create Breed
+                </button>
+
+            </div>
+        </div>
+
+    </Authorized>
+
+    <NotAuthorized>
+        <div class="container mt-5 text-center">
+            <h5>You are not authorized to access this page.</h5>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
+    private BreedDto dto = new();
+    private string? responseMessage;
 
+    private async Task CreateBreedAsync()
+    {
+        var response = await Client.GenerateHorseAsync();
+
+        responseMessage = response.IsSuccessStatusCode
+            ? "Breed created successfully!"
+            : "Failed to create breed.";
+    }
 }

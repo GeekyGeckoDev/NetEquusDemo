@@ -1,5 +1,23 @@
+using Application.BoardingApp.BoardingServices;
+using Application.BoardingApp.IBoardingRepos;
+using Application.BoardingApp.IBoardingServices;
+using Application.BreedApp.BreedServices;
+using Application.BreedApp.IBreedRepos;
+using Application.BreedApp.IBreedServices;
+using Application.HorseApp.GenerateHorseInfo;
+using Application.HorseApp.HorseServices;
+using Application.HorseApp.IHorseRepos;
+using Application.HorseApp.IHorseServices;
+using Application.HorseApp.UpdateHorse;
+using Application.OwnershipApp.HorseOwnershipApp.HorseOwnershipServices;
+using Application.OwnershipApp.HorseOwnershipApp.IHorseOwnershipRepos;
+using Application.OwnershipApp.HorseOwnershipApp.IHorseOwnershipServices;
 using Application.UnitOfWorks;
 using Infrastructure;
+using Infrastructure.Repositories.BoardingRepos;
+using Infrastructure.Repositories.BreedRepos;
+using Infrastructure.Repositories.HorseRepos;
+using Infrastructure.Repositories.Ownership.HorseOwnerships;
 using Infrastructure.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -23,9 +41,34 @@ builder.Services.AddDbContext<NetEquusDbContext>(options =>
 
 
 // ---------------------------
-// Estate services
+// Generation
 // ---------------------------
+builder.Services.AddScoped<RandomHorseName>();
+builder.Services.AddScoped<HorseGenderGenerator>();
+builder.Services.AddScoped<RandomHorseBreed>();
+builder.Services.AddScoped<HorseHeightGenerator>();
+builder.Services.AddScoped<HorseDateHelper>();
+builder.Services.AddScoped<CalculateNextAgeingDate>();
 
+// ---------------------------
+// Repo
+// ---------------------------
+builder.Services.AddScoped<IHorseCrudRepository, HorseCrudRepository>();
+builder.Services.AddScoped<IHorseOwnershipCrudRepository, HorseOwnershipCrudRepository>();
+builder.Services.AddScoped<IBoardingCrudRepository, BoardingCrudRepository>();
+builder.Services.AddScoped<IBreedGetRepository, BreedGetRepository>();
+
+// ---------------------------
+// Services
+// ---------------------------
+builder.Services.AddScoped<IHorseCrudService, HorseCrudService>();
+builder.Services.AddScoped<IBreedGetService, BreedGetService>();
+builder.Services.AddScoped<IHorseInitilizationService, HorseInitilizationService>();
+builder.Services.AddScoped<IHorseOrchestrationService, HorseOrchestrationService>();
+builder.Services.AddScoped<IHorseOwnershipCrudService, HorseOwnershipCrudService>();
+builder.Services.AddScoped<IHorseOwnershipOrchestrationService, HorseOwnershipOrchestrationService>();
+builder.Services.AddScoped<IBoardingCrudService, BoardíngCrudService>();
+builder.Services.AddScoped<IBoardingOrchestrationService, BoardingOrchestrationService>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
