@@ -1,4 +1,4 @@
-﻿using Application.SharedApp.OwnershipDtos;
+﻿
 using Domain.Entities.Models.EquineEstates;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shared.Dtos.UserDtos;
+using Shared.Dtos.OwnershipDtos;
 
 namespace Application.SharedApp.OwnershipMappers
 {
@@ -17,7 +18,7 @@ namespace Application.SharedApp.OwnershipMappers
             {
                 EquineEstateId = estateOwnership.EstateId,
                 UserId = estateOwnership.UserId,
-                isPrimaryOwner = estateOwnership.IsPrimaryOwner
+                //isPrimaryOwner = estateOwnership.IsPrimaryOwner
 
 
             };
@@ -27,9 +28,10 @@ namespace Application.SharedApp.OwnershipMappers
         {
             return new EstateOwnership
             {
-                EstateId = estateOwnershipDto.EquineEstateId,
+                EstateId = (Guid)estateOwnershipDto.EquineEstateId,
                 UserId = userDto.UserId,
-                IsPrimaryOwner = estateOwnershipDto.isPrimaryOwner
+
+                //IsPrimaryOwner = estateOwnershipDto.isPrimaryOwner
             };
         }
     }

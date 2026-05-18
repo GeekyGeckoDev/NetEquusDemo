@@ -8,5 +8,8 @@ namespace Application.BoardingApp.IBoardingRepos
     public interface IBoardingCrudRepository
     {
         Task CreateHorseBoardingAsync(HorseBoarding horseBoarding);
+
+
+        Task UpdateBoardingAsync(HorseBoarding boarding);
     }
 }

@@ -3,7 +3,6 @@ using Application.EstateApp.IEstateServices.IEstateManagerServices;
 using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
 using Application.EstateApp.IEstateServices.IEstateValidationServices;
 using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipServices;
-using Application.SharedApp.OwnershipDtos;
 using Domain.DomainRules;
 
 namespace Application.EstateApp.EstateServices.EstateManagerServices

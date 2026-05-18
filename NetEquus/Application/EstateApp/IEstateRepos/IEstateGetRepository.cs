@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Models.EquineEstates;
+﻿using Application.EstateApp.EstateDtos;
+using Domain.Entities.Models.EquineEstates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,7 @@ namespace Application.EstateApp.IEstateRepos
     public interface IEstateGetRepository
     {
         Task<EquineEstate?> GetEstateByIdAsync(Guid estateId);
+
+        Task<List<EstateDto>> GetAllEstatesAsync();
     }
 }

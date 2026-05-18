@@ -1,6 +1,7 @@
 ﻿using Application.EstateApp.EstateDtos;
+using Application.EstateApp.IEstateServices.IEstateCrudServices;
 using Application.EstateApp.IEstateServices.IEstateOrchestrationServices;
-using Application.SharedApp.OwnershipDtos;
+using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Dtos.UserDtos;
@@ -14,11 +15,15 @@ namespace APIEstate.Controllers
     public class EstateController : ControllerBase
     {
         private readonly IEstateOrchestrationService _estateOrchestrationService;
+        private readonly IEstateOwnershipGetService _estateOwnershipGetService;
+        private readonly IEstateGetService _estateGetService;
 
-        public EstateController(IEstateOrchestrationService estateService)
+        public EstateController(IEstateOrchestrationService estateService, IEstateOwnershipGetService estateOwnershipGetService, IEstateGetService estateGetService)
 
         {
             _estateOrchestrationService = estateService;
+            _estateOwnershipGetService = estateOwnershipGetService;
+            _estateGetService = estateGetService;
         }
 
         [HttpPost("estatecreation")]
@@ -47,7 +52,21 @@ namespace APIEstate.Controllers
 
         }
 
+        [HttpGet("get-estate-ownership-by-userid/{userId}")]
+        public async Task<IActionResult> GetEstateOwnershipByUserId(Guid userId)
+        {
+            var ownership = await _estateOwnershipGetService.GetEstateOwnershipByUserIdAsync(userId);
 
+            return Ok(ownership);
+        }
+
+        [HttpGet("get-all-estates")]
+        public async Task<IActionResult> GetAllEstatesAsync ()
+        {
+            var estates = await _estateGetService.GetAllEstatesAsync();
+
+            return Ok(estates);
+        }
     }
 
   

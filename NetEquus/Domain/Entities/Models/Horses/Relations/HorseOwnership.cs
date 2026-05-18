@@ -19,7 +19,7 @@ namespace Domain.Entities.Models.Horses.Relations
         [ForeignKey("User")]
         public Guid UserId { get; set; }
 
-        public virtual User user { get; set; }
+        public virtual User User { get; set; }
     }
 
 

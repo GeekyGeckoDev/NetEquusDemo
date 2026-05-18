@@ -1,6 +1,5 @@
 ﻿using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipRepos;
 using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipServices;
-using Application.SharedApp.OwnershipDtos;
 using Application.SharedApp.OwnershipMappers;
 using Domain.DomainRules;
 using Domain.DomainRules.EstateRules;

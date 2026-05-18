@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.EstateApp.EstateDtos;
+using Application.EstateApp.EstateMappers;
 
 namespace Infrastructure.Repositories.EstateRepos
 {
@@ -21,10 +23,19 @@ namespace Infrastructure.Repositories.EstateRepos
             _context = context;
         }
 
-        public async Task<EquineEstate?> GetEstateByIdAsync (Guid estateId)
+        public async Task<EquineEstate> GetEstateByIdAsync (Guid estateId)
         {
-            return await _context.EquineEstates
+            return await _context.EquineEstates.Include(e => e.EstateOwners)
                 .FirstOrDefaultAsync(ee => ee.EstateId == estateId);
+        }
+
+        public async Task<List<EstateDto>> GetAllEstatesAsync ()
+        {
+            var estates = await _context.EquineEstates.ToListAsync();
+
+            return estates
+                .Select(EstateMapper.ToDto)
+                .ToList();
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipRepos;
+﻿using Application.EstateApp.EstateDtos;
+using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipRepos;
 using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipServices;
 using Domain.Entities.Models.EquineEstates;
+using Shared.Dtos.OwnershipDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace Application.OwnershipApp.EstateOwnershipApp.EstateOwnershipServices
             _estateOwnershipGetRepository = repository;
         }
 
-        public async Task<EquineEstate?> GetEstateOwnershipByUserIdAsync (Guid userId)
+        public async Task<EstateOwnershipDto?> GetEstateOwnershipByUserIdAsync (Guid userId)
         {
             return await _estateOwnershipGetRepository.GetEstateOwnershipByUserId (userId);
         }

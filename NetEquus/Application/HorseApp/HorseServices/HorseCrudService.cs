@@ -20,5 +20,7 @@ namespace Application.HorseApp.HorseServices
         {
             await  _horseCrudrepository.CreateHorseAsync(horse);
         }
+
+
     }
 }

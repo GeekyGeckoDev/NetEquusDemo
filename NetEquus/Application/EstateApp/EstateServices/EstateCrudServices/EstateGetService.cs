@@ -1,4 +1,5 @@
-﻿using Application.EstateApp.IEstateRepos;
+﻿using Application.EstateApp.EstateDtos;
+using Application.EstateApp.IEstateRepos;
 using Application.EstateApp.IEstateServices.IEstateCrudServices;
 using Domain.Entities.Models.EquineEstates;
 using System;
@@ -22,6 +23,11 @@ namespace Application.EstateApp.EstateServices.EstateCrudServices
         {
             return await _estateGetRepository.GetEstateByIdAsync(estateId);
 
+        }
+
+        public async Task<List<EstateDto>>  GetAllEstatesAsync ()
+        {
+            return await _estateGetRepository.GetAllEstatesAsync();
         }
     }
 }

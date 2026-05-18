@@ -17,7 +17,12 @@ namespace Infrastructure.Repositories.BoardingRepos
 
         public async Task CreateHorseBoardingAsync (HorseBoarding horseBoarding)
         {
-            await _context.HorseBoardings.AddAsync (horseBoarding);
+            await _context.HorseBoardings.AddAsync(horseBoarding);
+        }
+
+        public async Task UpdateBoardingAsync (HorseBoarding boarding)
+        {
+             _context.HorseBoardings.Update(boarding);
         }
     }
 }

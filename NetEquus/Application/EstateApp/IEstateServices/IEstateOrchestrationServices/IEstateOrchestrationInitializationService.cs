@@ -1,5 +1,5 @@
 ﻿using Application.EstateApp.EstateDtos;
-using Application.SharedApp.OwnershipDtos;
+using Shared.Dtos.OwnershipDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

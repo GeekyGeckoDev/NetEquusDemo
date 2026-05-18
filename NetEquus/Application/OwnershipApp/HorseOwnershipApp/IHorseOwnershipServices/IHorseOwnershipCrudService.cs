@@ -8,5 +8,7 @@ namespace Application.OwnershipApp.HorseOwnershipApp.IHorseOwnershipServices
     public interface IHorseOwnershipCrudService
     {
         Task CreateHorseOwnershipAsync(HorseOwnership horseOwnership);
+
+        Task UpdateHorseOwnershipAsync(HorseOwnership horseOwnership);
     }
 }

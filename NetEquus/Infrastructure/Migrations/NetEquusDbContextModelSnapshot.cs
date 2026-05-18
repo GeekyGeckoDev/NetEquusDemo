@@ -394,7 +394,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Models.Users.User", "user")
+                    b.HasOne("Domain.Entities.Models.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -402,7 +402,7 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("Horse");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.Users.HorseArtist", b =>

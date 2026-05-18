@@ -20,5 +20,10 @@ namespace Application.BoardingApp.BoardingServices
         {
             await _boardingCrudRepository.CreateHorseBoardingAsync(horseBoarding);
         }
+
+        public async Task UpdateBoardingAsync (HorseBoarding boarding)
+        {
+            await _boardingCrudRepository.UpdateBoardingAsync(boarding);
+        }
     }
 }

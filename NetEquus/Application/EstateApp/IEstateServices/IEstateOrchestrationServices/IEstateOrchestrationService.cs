@@ -1,5 +1,4 @@
 ﻿using Application.EstateApp.EstateDtos;
-using Application.SharedApp.OwnershipDtos;
 using Domain.DomainRules;
 using Shared.Dtos.UserDtos;
 using System;

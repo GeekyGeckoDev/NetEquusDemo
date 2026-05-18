@@ -29,9 +29,18 @@ namespace APIAuthentication.Controllers
         }
 
         [HttpGet("getnpcswithoutestates")]
-        public async Task<IActionResult> GetNpcsWithoutEstates ()
+        public async Task<IActionResult> GetNpcsWithoutEstatesAsync ()
         {
             var result = await _npcManagerService.GetNpcsWithoutEstatesAsync();
+
+
+            return Ok(result);
+        }
+
+        [HttpGet("getnpcswithestates")]
+        public async Task<IActionResult> GetNpcsWithEstatesAsync()
+        {
+            var result = await _npcManagerService.GetNpcsWithEstatesAsync();
 
 
             return Ok(result);

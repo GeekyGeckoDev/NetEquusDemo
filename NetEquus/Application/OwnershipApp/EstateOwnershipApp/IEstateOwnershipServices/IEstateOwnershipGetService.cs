@@ -1,4 +1,6 @@
-﻿using Domain.Entities.Models.EquineEstates;
+﻿using Application.EstateApp.EstateDtos;
+using Domain.Entities.Models.EquineEstates;
+using Shared.Dtos.OwnershipDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,6 @@ namespace Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipServices
 {
     public interface IEstateOwnershipGetService
     {
-        Task<EquineEstate?> GetEstateOwnershipByUserIdAsync(Guid userId);
+        Task<EstateOwnershipDto?> GetEstateOwnershipByUserIdAsync(Guid userId);
     }
 }

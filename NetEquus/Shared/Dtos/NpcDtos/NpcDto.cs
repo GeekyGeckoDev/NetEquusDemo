@@ -6,7 +6,7 @@ namespace Shared.Dtos.NpcDtos
 {
     public class NpcDto
     {
-        public Guid NpcId { get; set; }
+        public Guid UserId { get; set; }
         public string Username { get; set; }
         public bool IsNpc { get; set; }
         public bool CanLogin { get; set; }

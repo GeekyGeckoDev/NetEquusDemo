@@ -28,8 +28,15 @@ namespace UI.API.Clients
             return await _httpClient.GetFromJsonAsync<List<NpcDto>>("api/Npc/getnpcswithoutestates")
                 ?? new List<NpcDto> ();
         }
+
+        public async Task<List<NpcDto>> GetNpcsWithEstatesAsync()
+        {
+            return await _httpClient.GetFromJsonAsync<List<NpcDto>>("api/Npc/getnpcswithestates")
+                ?? new List<NpcDto>();
+        }
     }
 }
+
 
 
 //public async Task<List<BreedInfoDto>> GetALlBreedsAsync()

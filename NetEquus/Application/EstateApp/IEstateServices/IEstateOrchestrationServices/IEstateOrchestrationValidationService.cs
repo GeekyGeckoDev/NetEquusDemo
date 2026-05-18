@@ -1,5 +1,4 @@
 ﻿using Application.EstateApp.EstateDtos;
-using Application.SharedApp.OwnershipDtos;
 using Domain.DomainRules;
 using Domain.Entities.Models.EquineEstates;
 using System;

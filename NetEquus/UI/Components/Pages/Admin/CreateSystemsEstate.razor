@@ -1,10 +1,10 @@
 ﻿@page "/createsystemestate"
 
 @using Application.EstateApp.EstateDtos
-@using Application.SharedApp.OwnershipDtos
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Shared.Dtos.NpcDtos
+@using Shared.Dtos.OwnershipDtos
 @using Shared.Dtos.UserDtos
 @using Shared.Dtos.WrapperDto
 @using UI.API.Clients
@@ -52,7 +52,7 @@
 
                         @foreach (var npc in npcs)
                         {
-                            <option value="@npc.NpcId">
+                            <option value="@npc.UserId">
                                 @npc.Username
                             </option>
                         }

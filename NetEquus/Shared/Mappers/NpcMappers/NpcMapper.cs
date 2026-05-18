@@ -23,7 +23,7 @@ namespace Shared.Mappers.NpcMappers
         {
             return new NpcDto
             {
-                NpcId = user.UserId,
+                UserId = user.UserId,
                 Username = user.Username,
                 CanLogin = user.CanLogin,
                 IsNpc = user.IsNpc,

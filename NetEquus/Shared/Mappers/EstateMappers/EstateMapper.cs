@@ -48,5 +48,27 @@ namespace Shared.Mappers.EstateMappers
 
             };
         }
+
+        public static EstateInfoDto ToInfoEstateDto (EquineEstate estate)
+        {
+            return new EstateInfoDto
+            {
+                EstateId = estate.EstateId,
+                EstateName = estate.EstateName,
+                IsSytemEstate = estate.IsSytemEstate,
+                HorseCapacity = estate.HorseCapacity,
+            };
+        }
+
+        public static EquineEstate InfoToEstate (EstateInfoDto dto)
+        {
+            return new EquineEstate
+            {
+                EstateId = dto.EstateId,
+                EstateName = dto.EstateName,
+                IsSytemEstate = dto.IsSytemEstate,
+                HorseCapacity = dto.HorseCapacity,
+            };
+        }
     }
 }

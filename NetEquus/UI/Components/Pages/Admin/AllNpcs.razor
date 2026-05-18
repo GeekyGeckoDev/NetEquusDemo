@@ -1,0 +1,126 @@
+﻿@page "/allnpcs"
+@using Shared.Dtos.BoardingDtos
+@using UI.API.Clients
+@using Shared.Dtos.NpcDtos
+@using Shared.Dtos.OwnershipDtos
+@using UI.API.Services
+@rendermode InteractiveServer
+@inject GetNpcsAndEstates Client
+@inject BoardingClient BoardingClient
+@inject NavigationManager Nav
+
+<h3>AllBreeds</h3>
+
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+<div class="container">
+    <div class="card shadow p-4">
+        @if (ownership == null)
+        {
+            <p>Loading</p>
+        }
+        else if (!ownership.Any())
+        {
+            <p>No npcs to show</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Npc name</th>
+                        <th>Estate name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dto in ownership)
+                    {
+
+                        <tr>
+                            <td>                      
+                                    @dto.UserId
+                            </td>
+                                    <td>
+                                        <button class="btn"
+                                                @onclick="() => GoToEstate(dto.EquineEstateId)">
+                                            @dto.EquineEstateId
+                                        </button>
+                                    </td>
+
+                            
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+                @if (horses.Any())
+                {
+                    <div class="card shadow p-4 mt-4">
+                        <h4>Horses</h4>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Breed</th>
+                                    <th>Age</th>
+                                    <th>Height</th>
+                                    <th>Sex</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var horse in horses)
+                                {
+                                    <tr>
+                                        <td>@horse.Horse.HorseName</td>
+                                        <td>@horse.Horse.HorseBreed.BreedName</td>
+                                        <td>@horse.Horse.Age</td>
+                                        <td>@horse.Horse.Height</td>
+                                        <td>@horse.Horse.HorseSex</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+    </div>
+</div>
+
+    </Authorized>
+</AuthorizeView>
+
+@code {
+
+    private List<BoardingDto> horses = new();
+
+    private Guid? selectedEstateId;
+
+    private List<EstateOwnershipDto> ownership = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        ownership = await Client.GetNpcAndEstate();
+    }
+
+    private async Task LoadBoarding(Guid? estateId)
+    {
+        if (estateId == null)
+            return;
+
+        selectedEstateId = estateId;
+
+        horses = await BoardingClient.GetNpcBoardingAsync(estateId.Value);
+    }
+
+    private void GoToEstate(Guid? estateId)
+{
+    if (estateId == null) return;
+
+    Nav.NavigateTo($"/estate/{estateId}");
+}
+
+}

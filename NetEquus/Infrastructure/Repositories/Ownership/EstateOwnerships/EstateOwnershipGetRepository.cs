@@ -1,6 +1,9 @@
-﻿using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipRepos;
-using Domain.Entities.Models.EquineEstates;
+﻿using Application.EstateApp.EstateDtos;
+using Application.OwnershipApp.EstateOwnershipApp.IEstateOwnershipRepos;
+using Application.SharedApp.OwnershipMappers;
 using Microsoft.EntityFrameworkCore;
+using Shared.Dtos.OwnershipDtos;
+using Shared.Mappers.EstateMappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +21,22 @@ namespace Infrastructure.Repositories.Ownership.EstateOwnerships
             _context = context;
         }
 
-        public async Task<EquineEstate?> GetEstateOwnershipByUserId (Guid userId)
+        public async Task<EstateOwnershipDto?> GetEstateOwnershipByUserId (Guid userId)
         {
-            return await _context.EquineEstates
+            var estate = await _context.EquineEstates
             .Include(e => e.EstateOwners) // so you can actually see the owners
             .FirstOrDefaultAsync(e => e.EstateOwners.Any(owner => owner.UserId == userId));
+
+            if (estate == null)
+                return null;
+
+            return new EstateOwnershipDto
+            {
+                EquineEstateId = estate.EstateId,
+
+                UserId = userId,
+          
+            };
 
         }
     }

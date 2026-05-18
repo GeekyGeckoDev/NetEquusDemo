@@ -11,5 +11,7 @@ namespace Application.UserApp.NpcServices
         Task<RuleResult> CreateNpcUserAsync(CreateNpcDto dto);
 
         Task<List<NpcDto>> GetNpcsWithoutEstatesAsync();
+
+        Task<List<NpcDto>> GetNpcsWithEstatesAsync();
     }
 }

@@ -19,7 +19,15 @@ namespace Application.EstateApp.EstateDtos
         public int CurrentBalance { get; set; }
 
         public bool IsSytemEstate { get; set; }
+    }
 
-        //public List<EstateOwnerDto> EstateOwners { get; set; } = new();
+    public class EstateInfoDto
+    {
+        public Guid EstateId { get; set; }
+        public string EstateName { get; set; }
+
+        public int HorseCapacity { get; set; }
+
+        public bool IsSytemEstate { get; set; }
     }
 }

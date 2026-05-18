@@ -20,5 +20,10 @@ namespace Application.OwnershipApp.HorseOwnershipApp.HorseOwnershipServices
         {
             await _hOCrudrepository.CreateHorseOwnershipAsync(horseOwnership);
         }
+
+        public async Task UpdateHorseOwnershipAsync (HorseOwnership horseOwnership)
+        {
+            await _hOCrudrepository.UpdateHorseOwnershipAsync(horseOwnership);
+        }
     }
 }

@@ -55,5 +55,14 @@ namespace Application.UserApp.NpcServices
 
 
         }
+
+        public async Task<List<NpcDto>> GetNpcsWithEstatesAsync()
+        {
+            var users = await _npcGetService.GHetUserByNpcStatusAsync(true);
+
+            return [.. users.Select(NpcMapper.ToNpcDto)];
+
+
+        }
     }
 }

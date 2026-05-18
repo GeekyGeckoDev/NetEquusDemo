@@ -1,0 +1,123 @@
+﻿@page "/estate/{EstateId:guid}"
+@using Application.EstateApp.EstateDtos
+@using Microsoft.AspNetCore.Components.Authorization
+@using Shared.Dtos.BoardingDtos
+@using Shared.Dtos.HorseDtos
+@using UI.API.Clients
+@inject BoardingClient BoardingClient
+@inject EstateClient Client
+@rendermode InteractiveServer
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+  @if (horses.Any())
+{
+    <div class="card shadow p-4 mt-4">
+        <h4>Horses</h4>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Breed</th>
+                    <th>Age</th>
+                    <th>Height</th>
+                    <th>Sex</th>
+                    <th>Estate</th>
+                    <th>Update Info</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var horse in horses)
+                {
+                            <tr>
+                                <td>@horse.Horse.HorseName</td>
+                                <td>@horse.Horse.HorseBreed.BreedName</td>
+                                <td>@horse.Horse.Age</td>
+                                <td>@horse.Horse.Height</td>
+                                <td>@horse.Horse.HorseSex</td>
+
+                                <td>
+                                    <select class="form-select"
+                                            @bind="selectedEstates[horse.Horse.HorseId]">
+
+                                        <option value="">
+                                            -- Select Estate --
+                                        </option>
+
+                                        @foreach (var estate in estates)
+                                        {
+                                            <option value="@estate.EstateId">
+                                                @estate.EstateName
+                                            </option>
+                                        }
+
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-primary"
+                                            @onclick="() => UpdateBoarding(horse)">
+                                        Update
+                                    </button>
+                                </td>
+                            </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+    </Authorized>
+</AuthorizeView>
+@code {
+
+
+
+    [Parameter] public Guid EstateId { get; set; }
+
+    private List<EstateDto> estates = new();
+
+    private Dictionary<Guid, Guid> selectedEstates = new();
+
+    private List<BoardingDto> horses = new();
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+
+      
+
+        horses = await BoardingClient.GetNpcBoardingAsync(EstateId);
+
+        foreach (var horse in horses)
+        {
+            selectedEstates[horse.Horse.HorseId] = EstateId;
+        }
+        if (EstateId == Guid.Empty)
+            return;
+
+        estates = await Client.GetAllEstatesAsync();
+    }
+
+    public async Task UpdateBoarding(BoardingDto horse)
+    {
+        Console.WriteLine(horse == null);
+
+        Console.WriteLine(horse?.Horse == null);
+
+        Console.WriteLine(horse?.Horse?.HorseId);
+
+        var dto = new TransferHorseDto
+        {
+            HorseId = horse.Horse.HorseId,
+            NewEstateId = selectedEstates[horse.Horse.HorseId]
+        };
+
+        await BoardingClient.UpdateHorseBoardingOwnershipAsync(dto);
+    }
+
+
+
+}

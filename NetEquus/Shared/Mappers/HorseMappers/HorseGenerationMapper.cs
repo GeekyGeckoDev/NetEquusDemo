@@ -1,11 +1,13 @@
 ﻿using Domain.Entities.Models.Horses;
 using Domain.Enums;
 using Shared.Dtos.HorseDtos;
+using Shared.Mappers.BreedMappers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Shared.Mappers.HorseMappers
+
 {
     public class HorseGenerationMapper
     {
@@ -19,6 +21,35 @@ namespace Shared.Mappers.HorseMappers
                 Height = dto.Height
                 
 
+            };
+
+
+        }
+
+        public static Horse ToHorse(HorseInfoDto dto)
+        {
+            return new Horse
+            {
+                HorseName = dto.HorseName,
+                Breed = BreedMapper.ToBreed(dto.HorseBreed),
+                Sex = (HorseSex)dto.HorseSex,
+                Height = dto.Height
+
+
+            };
+
+
+        }
+
+        public static HorseInfoDto horseInfoDto (Horse horse)
+        {
+            return new HorseInfoDto
+            {
+                HorseId = horse.GuidHorseId,
+                HorseName = horse.HorseName,
+                HorseBreed = BreedMapper.ToInfoDto(horse.Breed),
+                HorseSex = (int)horse.Sex,
+                Height = horse.Height
             };
         }
     }

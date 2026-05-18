@@ -34,5 +34,11 @@ namespace UI.API.Clients
 
             return response;
         }
+
+        public async Task<List<EstateDto>> GetAllEstatesAsync ()
+        {
+            return await _httpClient.GetFromJsonAsync<List<EstateDto>>("api/Estate/get-all-estates")
+                ?? new List<EstateDto>();
+        }
     }
 }

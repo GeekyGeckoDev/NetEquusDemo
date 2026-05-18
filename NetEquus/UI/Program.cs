@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using UI.API.ApiClients;
 using UI.API.Clients;
+using UI.API.Services;
 using UI.Auth;
 using UI.Components;
 using UI.Extensions;
@@ -21,6 +22,7 @@ builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AuthManager>();
+builder.Services.AddScoped<GetNpcsAndEstates>();
 
 builder.Services.AddScoped<CustomAuthStateProvider>();
 
@@ -80,6 +82,20 @@ builder.Services.AddHttpClient<HorseClient>(c =>
     c.BaseAddress = new Uri(horseBase);
 })
     .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<BoardingClient>(c =>
+{
+    c.BaseAddress = new Uri(horseBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<EstateOwnershipClient>(c =>
+{
+    c.BaseAddress = new Uri(estateBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+
 
 
 var app = builder.Build();
