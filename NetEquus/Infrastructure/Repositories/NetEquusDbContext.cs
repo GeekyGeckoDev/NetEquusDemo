@@ -29,7 +29,11 @@ namespace Infrastructure
 
         public virtual DbSet<HorseArtist> HorseArtists { get; set; }
 
+        public virtual DbSet<HorseBoarding> HorseBoardings { get; set; }
+
         public virtual DbSet<Horse> Horses { get; set; }
+
+        public virtual DbSet<Foaling> Foalings { get; set; }
 
         public virtual DbSet<HorseOwnership> HorseOwnerships { get; set; }
 
@@ -41,6 +45,19 @@ namespace Infrastructure
             .WithOne(u => u.HorseArtist)
             .HasForeignKey<HorseArtist>(h => h.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Foaling>(entity =>
+            {
+                entity.HasOne(d => d.Dam).WithMany(p => p.FoalingDams)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.Sire).WithMany(p => p.FoalingSires)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
         }
+
+
+
     }
 }
