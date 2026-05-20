@@ -31,5 +31,10 @@ namespace Application.BoardingApp.BoardingServices
             
 
         }
+
+        public async Task<List<BoardingDto>> SearchBoardingsAsync(Guid estateId, string? search, int? sex)
+        {
+            return await _repository.SearchBoardingsAsync(estateId, search, sex);
+        }
     }
 }

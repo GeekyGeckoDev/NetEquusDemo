@@ -1,0 +1,43 @@
+﻿@page "/pedigree/{HorseId:guid}"
+
+@using Microsoft.AspNetCore.Components.Authorization
+@using Shared.Dtos.HorseDtos
+@using UI.API.Clients
+@rendermode InteractiveServer
+
+@inject HorseClient Client
+
+
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+<h3>Pedigree</h3>
+
+@if (Horse == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <PedigreeNode Horse="Horse" />
+}
+
+    </Authorized>
+</AuthorizeView>
+
+@code {
+
+    [Parameter]
+    public Guid HorseId { get; set; }
+
+    private PedigreeDto? Horse;
+
+    private int generations = 4;
+
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Horse = await Client.GetPedigree(HorseId, generations);
+    }
+}

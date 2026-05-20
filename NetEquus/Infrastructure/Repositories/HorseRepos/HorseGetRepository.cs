@@ -1,8 +1,10 @@
 ﻿using Application.HorseApp.IHorseRepos;
+using Application.HorseApp.UpdateHorse;
 using Domain.Entities.Models.Horses;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Shared.Dtos.HorseDtos;
+using Shared.Mappers;
 using Shared.Mappers.HorseMappers;
 using System;
 using System.Collections.Generic;
@@ -32,8 +34,43 @@ namespace Infrastructure.Repositories.HorseRepos
                 .ToListAsync();
 
             return list
-                .Select(HorseGenerationMapper.horseInfoDto)
+                .Select(HorseMapper.horseInfoDto)
                 .ToList();
+        }
+
+        public async Task<PedigreeDto?> BuildPedigreeAsync(Guid horseId, int generations)
+        {
+
+            if (generations <= 0)
+                return null;
+
+            var horse = await _context.Horses
+                .Include(h => h.Breed)
+                .Include(h => h.Foaling)
+                    .ThenInclude(f => f.Dam)
+                .Include(h => h.Foaling)
+                    .ThenInclude(f => f.Sire)
+                .FirstOrDefaultAsync(h => h.GuidHorseId == horseId);
+
+            if (horse == null)
+                return null;
+
+            return new PedigreeDto
+            {
+                HorseId = horse.GuidHorseId,
+                Height = horse.Height,
+                HorseName = horse.HorseName,
+                BreedName = horse.Breed.BreedName,
+                Age = CalculateHorseAge.CalculateHorseAgeMapper(horse),
+
+                Dam = horse.Foaling?.Dam != null
+                    ? await BuildPedigreeAsync(horse.Foaling.Dam.GuidHorseId, generations - 1)
+                    : null,
+
+                Sire = horse.Foaling?.Sire != null
+                    ? await BuildPedigreeAsync(horse.Foaling.Sire.GuidHorseId, generations - 1)
+                    : null
+            };
         }
     }
 }

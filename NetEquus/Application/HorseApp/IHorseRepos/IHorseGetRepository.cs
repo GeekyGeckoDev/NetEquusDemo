@@ -12,5 +12,7 @@ namespace Application.HorseApp.IHorseRepos
         Task<Horse?> GetHorseByIdAsync(Guid horseId);
 
         Task<List<HorseInfoDto>> GetHorsesBySexAsync(int sex);
+
+        Task<PedigreeDto?> BuildPedigreeAsync(Guid horseId, int generations);
     }
 }

@@ -39,7 +39,7 @@ namespace Application.HorseApp.HorseServices
                 {
                     var Dto = await _horseInitilizationService.HorseGenerationInitilizationAsync();
 
-                    var horse = HorseGenerationMapper.ToNewHorse(Dto);
+                    var horse = HorseMapper.ToNewHorse(Dto);
 
 
                     await _horseCrudService.CreateHorseAsync(horse);

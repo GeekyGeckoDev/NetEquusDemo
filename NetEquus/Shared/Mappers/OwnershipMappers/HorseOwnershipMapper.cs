@@ -15,7 +15,7 @@ namespace Shared.Mappers.OwnershipMappers
             {
                 OwnershipId = ownership.HorseOwnershipId,
                 Owner = UserMapper.UserMapper.ToDto(ownership.User),
-                Horse = HorseGenerationMapper.horseInfoDto(ownership.Horse)
+                Horse = HorseMapper.horseInfoDto(ownership.Horse)
             };
         }
 
@@ -25,7 +25,7 @@ namespace Shared.Mappers.OwnershipMappers
             {
                 HorseOwnershipId = dto.OwnershipId,
                 User = UserMapper.UserMapper.ToUser(dto.Owner),
-                Horse = HorseGenerationMapper.ToHorse(dto.Horse)
+                Horse = HorseMapper.ToHorse(dto.Horse)
             };
         }
     }

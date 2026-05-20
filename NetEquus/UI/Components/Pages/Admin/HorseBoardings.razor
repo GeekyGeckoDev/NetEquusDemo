@@ -8,6 +8,7 @@
 @inject EstateClient Client
 @rendermode InteractiveServer
 
+
 <AuthorizeView Roles="Admin">
     <Authorized>
   @if (horses.Any())
@@ -116,6 +117,12 @@
         };
 
         await BoardingClient.UpdateHorseBoardingOwnershipAsync(dto);
+
+        horses.Remove(horse);
+
+        StateHasChanged();
+
+        
     }
 
 

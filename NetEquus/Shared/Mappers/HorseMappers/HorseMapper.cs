@@ -9,7 +9,7 @@ using System.Text;
 namespace Shared.Mappers.HorseMappers
 
 {
-    public class HorseGenerationMapper
+    public class HorseMapper
     {
         public static Horse ToNewHorse (HorseGenerationDto dto)
         {
@@ -27,20 +27,6 @@ namespace Shared.Mappers.HorseMappers
         }
 
 
-        public static int CalculateHorseAge(Horse horse)
-        {
-            DateOnly birthdate = horse.BirthDate;
-
-            int cycleLength = 30;
-
-            int daysAlive =
-                DateOnly.FromDateTime(DateTime.Today).DayNumber
-                - birthdate.DayNumber;
-
-            int cyclesPassed = daysAlive / cycleLength;
-
-            return cyclesPassed;
-        }
 
         public static Horse ToHorse(HorseInfoDto dto)
         {
@@ -68,7 +54,7 @@ namespace Shared.Mappers.HorseMappers
                 HorseSex = (int)horse.Sex,
                 Height = horse.Height,
                 Birthday = horse.BirthDate,
-                Age = CalculateHorseAge(horse)
+                Age = CalculateHorseAge.CalculateHorseAgeMapper(horse)
             };
         }
     }

@@ -26,5 +26,15 @@ namespace UI.API.Clients
 
             return response;
         }
+
+        public async Task<List<BoardingDto>> SearchBoardingsAsync (Guid estateId, string? search, int? sex)
+        {
+            return await _httpClient.GetFromJsonAsync<List<BoardingDto>>($"api/Boarding/search-boardings?" +
+                $"estateId={estateId}" +
+                $"&search={search} +" +
+                $"&sex={sex}")
+
+            ?? new();
+        }
     }
 }

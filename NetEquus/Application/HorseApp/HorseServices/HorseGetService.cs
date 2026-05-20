@@ -32,5 +32,10 @@ namespace Application.HorseApp.HorseServices
         {
             return await _repository.GetHorsesBySexAsync(1);
         }
+
+        public async Task<PedigreeDto?> BuildPedigreeAsync(Guid horseId, int generations)
+        {
+            return await _repository.BuildPedigreeAsync (horseId, generations);
+        }
     }
 }

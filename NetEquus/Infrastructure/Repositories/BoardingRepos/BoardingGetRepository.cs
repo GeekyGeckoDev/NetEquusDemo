@@ -1,5 +1,6 @@
 ﻿using Application.BoardingApp.IBoardingRepos;
 using Domain.Entities.Models.Horses.Relations;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Shared.Dtos.BoardingDtos;
 using Shared.Mappers.BoardingMappers;
@@ -39,6 +40,41 @@ namespace Infrastructure.Repositories.BoardingRepos
                     .ThenInclude(h => h.Breed)
                 .Include(b => b.BoardingEstate)
                 .FirstOrDefaultAsync(b => b.HorseGuidId == horseId);
+        }
+
+        public async Task<List<BoardingDto>> SearchBoardingsAsync(Guid estateId, string? search, int? sex)
+        {
+            var query = _context.HorseBoardings
+                .Include(b => b.Horse)
+                    .ThenInclude(h => h.Breed)
+                .Include(b => b.BoardingEstate)
+                .Where(b => b.BoardingEstateId == estateId);
+
+            //if (!string.IsNullOrWhiteSpace(search))
+            //{
+            //    query = query.Where(b => b.Horse.HorseName == search);
+            //}
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(b =>
+                    EF.Functions.Like(
+                        b.Horse.HorseName,
+                        $"%{search}%"));
+            }
+
+            if (sex.HasValue)
+            {
+                var horseSex = (HorseSex)sex.Value;
+
+                query = query.Where(b => b.Horse.Sex == horseSex);
+            }
+
+            var result = await query.ToListAsync();
+
+            return result
+                 .Select(BoardingMapper.ToDto)
+                .ToList();
         }
 
 

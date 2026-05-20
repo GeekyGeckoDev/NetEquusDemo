@@ -19,7 +19,29 @@
     <Authorized>
 
         <p>Welcome back to @AuthService.EstateName.</p>
-        <p>Welcome back to @AuthService.EstateId.</p>
+
+        <div class="row mb-3">
+
+            <div class="col-md-6">
+                <input class="form-control"
+                       placeholder="Search horse..."
+                       @bind="SearchTerm"
+                       @bind:event="oninput" />
+            </div>
+
+            <div class="col-md-3">
+                <select class="form-select"
+                        @bind="SelectedSex"
+                        @bind:event="onselect">
+
+                    <option value="">All</option>
+                    <option value="0">Mare</option>
+                    <option value="1">Stallion</option>
+
+                </select>
+            </div>
+
+        </div>
 
         @if (horses.Any())
         {
@@ -34,13 +56,12 @@
                             <th>Age</th>
                             <th>Height</th>
                             <th>Sex</th>
-                            <th>Estate</th>
-                            <th>Update Info</th>
+                            <th>Breed</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach (var horse in horses)
+                        @foreach (var horse in FilteredHorses)
                         {
                             <tr>
                                 <td>@horse.Horse.HorseName</td>
@@ -57,6 +78,13 @@
                                     </button>
                                     </td>
                                 }
+
+                                <td>
+                                    <button class="btn btn-primary"
+                                            @onclick="() => GoToPedigree(horse.Horse.HorseId)">
+                                        Pedigree
+                                    </button>
+                                </td>
                                
                             </tr>
                         }
@@ -71,11 +99,22 @@
 
 @code {
 
+    private IEnumerable<BoardingDto> FilteredHorses =>
+    horses.Where(h =>
+        (string.IsNullOrWhiteSpace(SearchTerm)
+         || h.Horse.HorseName.Contains(
+             SearchTerm,
+             StringComparison.OrdinalIgnoreCase))
+
+        &&
+
+        (!SelectedSex.HasValue
+         || h.Horse.HorseSex == SelectedSex.Value));
 
 
     [Parameter] public Guid EstateId { get; set; }
 
-    private List<EstateDto> estates = new();
+    private EstateInfoDto estate = new();
 
     private Dictionary<Guid, Guid> selectedEstates = new();
 
@@ -116,19 +155,31 @@
 
         horses = await BoardingClient
             .GetBoardingByEstateIdAsync(EstateId);
-
-        foreach (var horse in horses)
-        {
-            selectedEstates[horse.Horse.HorseId] = EstateId;
-        }
-
-        estates = await Client.GetAllEstatesAsync();
     }
 
     private void GoToBreeding(Guid mareId)
     {
         Nav.NavigateTo($"/breeding?mareId={mareId}");
     }
+
+    private void GoToPedigree(Guid horseId)
+    {
+
+        Nav.NavigateTo($"/pedigree/{horseId}");
+    }
+
+    private string SearchTerm = "";
+
+    private int? SelectedSex;
+
+    private async Task SearchHorses()
+    {
+        horses = await BoardingClient.SearchBoardingsAsync(
+            EstateId,
+            SearchTerm,
+            SelectedSex);
+    }
+
 
 }
 

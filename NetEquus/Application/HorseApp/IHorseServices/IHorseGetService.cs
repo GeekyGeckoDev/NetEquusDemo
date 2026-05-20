@@ -14,6 +14,8 @@ namespace Application.HorseApp.IHorseServices
 
         Task<List<HorseInfoDto>> GetStallionsAsync();
 
+        Task<PedigreeDto?> BuildPedigreeAsync(Guid horseId, int generations);
+
 
     }
 }

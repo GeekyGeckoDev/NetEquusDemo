@@ -11,5 +11,7 @@ namespace Application.BoardingApp.IBoardingServices
         Task<List<BoardingDto>> GetBoardingByEstateIdAsync(Guid estateId);
 
         Task<HorseBoarding> GetBoardingByHorseIdAsync(Guid horseId);
+
+        Task<List<BoardingDto>> SearchBoardingsAsync(Guid estateId, string? search, int? sex);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.HorseApp.IHorseServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Dtos.HorseDtos;
 
 namespace APIHorse.Controllers
 {
@@ -46,5 +47,13 @@ namespace APIHorse.Controllers
 
             return Ok(stallions);
         }
+
+        [HttpGet("get-pedigree/{horseId},{generations}")]
+        public async Task<PedigreeDto> GetPedigree(Guid horseId, int generations)
+        {
+            return await _service.BuildPedigreeAsync(horseId, generations);
+        }
     }
 }
+
+

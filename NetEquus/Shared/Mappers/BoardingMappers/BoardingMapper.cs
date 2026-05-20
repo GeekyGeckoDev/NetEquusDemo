@@ -16,7 +16,7 @@ namespace Shared.Mappers.BoardingMappers
             {
                 BoardingId = horseBoarding.HorseBoardingId,
 
-                Horse = HorseGenerationMapper.horseInfoDto(horseBoarding.Horse),
+                Horse = HorseMapper.horseInfoDto(horseBoarding.Horse),
 
                 Estate = EstateMapper.ToInfoEstateDto(horseBoarding.BoardingEstate)
             };
@@ -27,7 +27,7 @@ namespace Shared.Mappers.BoardingMappers
             return new HorseBoarding
             {
                 HorseBoardingId = dto.BoardingId,
-                Horse = HorseGenerationMapper.ToHorse(dto.Horse),
+                Horse = HorseMapper.ToHorse(dto.Horse),
                 BoardingEstate = EstateMapper.InfoToEstate(dto.Estate),
             };
         }

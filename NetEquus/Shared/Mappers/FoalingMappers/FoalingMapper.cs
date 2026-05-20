@@ -18,9 +18,9 @@ namespace Shared.Mappers.FoalingMappers
                 FoalingDate = foaling.FoalingDate,
                 Estate = EstateMapper.ToInfoEstateDto(foaling.FoalingEstate),
                 Breeder = UserMapper.UserMapper.ToDto(foaling.Breeder),
-                Sire = HorseGenerationMapper.horseInfoDto(foaling.Sire),
-                Dam = HorseGenerationMapper.horseInfoDto(foaling.Dam),
-                Foal = HorseGenerationMapper.horseInfoDto(foaling.Foal)
+                Sire = HorseMapper.horseInfoDto(foaling.Sire),
+                Dam = HorseMapper.horseInfoDto(foaling.Dam),
+                Foal = HorseMapper.horseInfoDto(foaling.Foal)
             };
         }
 
@@ -32,9 +32,9 @@ namespace Shared.Mappers.FoalingMappers
                 FoalingDate = dto.FoalingDate,
                 FoalingEstate = EstateMapper.InfoToEstate(dto.Estate),
                 Breeder = UserMapper.UserMapper.ToUser(dto.Breeder),
-                Sire = HorseGenerationMapper.ToHorse(dto.Sire),
-                Dam = HorseGenerationMapper.ToHorse(dto.Dam),
-                Foal = HorseGenerationMapper.ToHorse(dto.Foal)
+                Sire = HorseMapper.ToHorse(dto.Sire),
+                Dam = HorseMapper.ToHorse(dto.Dam),
+                Foal = HorseMapper.ToHorse(dto.Foal)
             };
         }
     }

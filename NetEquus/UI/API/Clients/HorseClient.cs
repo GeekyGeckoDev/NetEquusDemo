@@ -38,6 +38,20 @@ namespace UI.API.Clients
 
         }
 
+        public async Task<PedigreeDto> GetPedigree (Guid horseId, int generations)
+        {
+            var response = await _httpClient.GetAsync($"api/Horse/get-pedigree/{horseId},{generations}");
+
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                return null;
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            return await response.Content.ReadFromJsonAsync<PedigreeDto>();
+                
+        }
+
 
 
     }
