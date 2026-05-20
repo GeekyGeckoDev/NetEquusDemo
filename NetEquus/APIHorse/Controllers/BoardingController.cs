@@ -19,7 +19,7 @@ namespace APIHorse.Controllers
         }
 
         [Authorize]
-        [HttpGet("get-npc-horseboardings/{estateId}")]
+        [HttpGet("get-horseboardings/{estateId}")]
         public async Task<IActionResult> HorseBoardingsListAsync (Guid estateId)
         {
 

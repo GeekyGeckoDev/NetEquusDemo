@@ -1,4 +1,4 @@
-﻿@page "/estate/{EstateId:guid}"
+﻿@page "/npcestate/{EstateId:guid}"
 @using Application.EstateApp.EstateDtos
 @using Microsoft.AspNetCore.Components.Authorization
 @using Shared.Dtos.BoardingDtos
@@ -89,7 +89,7 @@
 
       
 
-        horses = await BoardingClient.GetNpcBoardingAsync(EstateId);
+        horses = await BoardingClient.GetBoardingByEstateIdAsync(EstateId);
 
         foreach (var horse in horses)
         {

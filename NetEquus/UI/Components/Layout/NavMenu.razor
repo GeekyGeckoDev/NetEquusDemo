@@ -1,11 +1,17 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using UI.Auth
+@inject AuthService AuthService
+@inject AuthManager AuthManager
+@rendermode InteractiveServer
+
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">UI</a>
     </div>
 </div>
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
+<p>@AuthService.EstateId</p>
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="nav flex-column">
         <div class="nav-item px-3">
@@ -18,7 +24,25 @@
             <NavLink class="nav-link" href="weather">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
             </NavLink>
+            <NavLink class="nav-link" href="@($"/estate/{AuthService.EstateId}")">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span>
+                Estate
+            </NavLink>
         </div>
     </nav>
 </div>
 
+            @code{
+                
+    private void OnUserChanged(System.Security.Claims.ClaimsPrincipal _)
+    {
+        InvokeAsync(StateHasChanged);
+
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthManager.RefreshUserFromApi();
+    }
+            }

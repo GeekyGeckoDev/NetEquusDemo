@@ -26,6 +26,22 @@ namespace Shared.Mappers.HorseMappers
 
         }
 
+
+        public static int CalculateHorseAge(Horse horse)
+        {
+            DateOnly birthdate = horse.BirthDate;
+
+            int cycleLength = 30;
+
+            int daysAlive =
+                DateOnly.FromDateTime(DateTime.Today).DayNumber
+                - birthdate.DayNumber;
+
+            int cyclesPassed = daysAlive / cycleLength;
+
+            return cyclesPassed;
+        }
+
         public static Horse ToHorse(HorseInfoDto dto)
         {
             return new Horse
@@ -33,7 +49,8 @@ namespace Shared.Mappers.HorseMappers
                 HorseName = dto.HorseName,
                 Breed = BreedMapper.ToBreed(dto.HorseBreed),
                 Sex = (HorseSex)dto.HorseSex,
-                Height = dto.Height
+                Height = dto.Height,
+                BirthDate = dto.Birthday
 
 
             };
@@ -49,7 +66,9 @@ namespace Shared.Mappers.HorseMappers
                 HorseName = horse.HorseName,
                 HorseBreed = BreedMapper.ToInfoDto(horse.Breed),
                 HorseSex = (int)horse.Sex,
-                Height = horse.Height
+                Height = horse.Height,
+                Birthday = horse.BirthDate,
+                Age = CalculateHorseAge(horse)
             };
         }
     }

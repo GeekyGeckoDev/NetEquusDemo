@@ -1,0 +1,112 @@
+﻿@page "/breeding"
+@inject AuthService AuthService
+@using Microsoft.AspNetCore.Components.Authorization
+@using Shared.Dtos.FolaingDtos
+@using Shared.Dtos.HorseDtos
+@inject BoardingClient BoardingClient
+@inject HorseClient HorseClient
+@inject FoalingClient FoalingClient
+@using UI.API.Clients
+@using UI.Auth
+@rendermode InteractiveServer
+
+<h3>Breeding</h3>
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+
+<div class="row">
+
+    <div class="col-md-5">
+        <label>Mare</label>
+
+        <select class="form-select"
+                @bind="SelectedMareId">
+
+            <option value="">-- Select Mare --</option>
+
+            @foreach (var mare in mares)
+            {
+                <option value="@mare.HorseId">
+                    @mare.HorseName
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-5">
+        <label>Stallion</label>
+
+        <select class="form-select"
+                @bind="SelectedStallionId">
+
+            <option value="">-- Select Stallion --</option>
+
+            @foreach (var stallion in stallions)
+            {
+                <option value="@stallion.HorseId">
+                    @stallion.HorseName
+                </option>
+            }
+        </select>
+    </div>
+
+</div>
+
+<div class="mt-4">
+    <button class="btn btn-primary"
+            @onclick="BreedAsync">
+
+        Breed
+    </button>
+</div>
+
+    </Authorized>
+</AuthorizeView>
+
+@code {
+
+    [SupplyParameterFromQuery]
+    public Guid? MareId { get; set; }
+
+    public Guid EstateId { get; set; }
+
+    private Guid? SelectedMareId;
+    private Guid? SelectedStallionId;
+
+    private List<HorseInfoDto> mares = new();
+    private List<HorseInfoDto> stallions = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        mares = await HorseClient.GetAllMaresAsync();
+        stallions = await HorseClient.GetAllStallionsAsync();
+
+
+
+        // Preselect mare if coming from estate page
+        if (MareId != null)
+        {
+            SelectedMareId = MareId;
+        }
+    }
+
+    private async Task BreedAsync()
+    {
+        if (SelectedMareId == null ||
+            SelectedStallionId == null)
+        {
+            return;
+        }
+
+        var foaling = new CreateFoalingDto
+            {
+                MareId = SelectedMareId.Value,
+                StallionId = SelectedStallionId.Value
+
+            };
+
+        await FoalingClient.CreateFoalingAsync(foaling);
+
+    }
+}

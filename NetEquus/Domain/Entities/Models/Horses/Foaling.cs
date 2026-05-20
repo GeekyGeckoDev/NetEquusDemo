@@ -13,18 +13,19 @@ namespace Domain.Entities.Models.Horses
         [Key]
         public Guid FoalingId   { get; set; }
 
-        public DateTime FoalingDate { get; set; }
+        public DateOnly FoalingDate { get; set; }
 
         [ForeignKey("EquineEstate")]
         public Guid EquineEstateId { get; set; }
 
         public virtual EquineEstate FoalingEstate { get; set; }
 
-  
+        [ForeignKey("User")]
+
         public Guid BreederId {  get; set; }
 
 
-        [ForeignKey("User")]
+        
         public virtual User Breeder { get; set; }
 
         public Guid DamId { get; set; }
@@ -46,6 +47,23 @@ namespace Domain.Entities.Models.Horses
 
         [ForeignKey("SireId")]
         public virtual Horse Sire { get; set; }
+
+        public Foaling(Guid foalingId, DateOnly foalingDate, Guid estateId, Guid breederId, Guid damnId, Guid sireId, Guid foalId)
+        {
+            FoalingId = Guid.NewGuid();
+            FoalingDate = foalingDate;
+            EquineEstateId = estateId;
+            BreederId = breederId;
+            DamId = damnId;
+            SireId = sireId;
+            FoalId = foalId;
+
+        }
+
+        public Foaling ()
+        { }
     }
+
+ 
 }
 

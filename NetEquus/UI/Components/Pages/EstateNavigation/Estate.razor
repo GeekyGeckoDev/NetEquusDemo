@@ -1,0 +1,134 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UI.Auth
+@inject AuthService AuthService
+@implements IDisposable
+@page "/estate"
+@page "/estate/{EstateId:guid}"
+@using Application.EstateApp.EstateDtos
+@using Shared.Dtos.BoardingDtos
+@using Shared.Dtos.HorseDtos
+@using UI.API.Clients
+@inject BoardingClient BoardingClient
+@inject EstateClient Client
+@rendermode InteractiveServer
+@inject NavigationManager Nav
+@inject AuthManager AuthManager
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+
+        <p>Welcome back to @AuthService.EstateName.</p>
+        <p>Welcome back to @AuthService.EstateId.</p>
+
+        @if (horses.Any())
+        {
+            <div class="card shadow p-4 mt-4">
+                <h4>Horses</h4>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Breed</th>
+                            <th>Age</th>
+                            <th>Height</th>
+                            <th>Sex</th>
+                            <th>Estate</th>
+                            <th>Update Info</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var horse in horses)
+                        {
+                            <tr>
+                                <td>@horse.Horse.HorseName</td>
+                                <td>@horse.Horse.HorseBreed.BreedName</td>
+                                <td>@horse.Horse.Age</td>
+                                <td>@horse.Horse.Height</td>
+                                <td>@horse.Horse.HorseSex</td>
+
+                                @if (horse.Horse.HorseSex == 0) // mare
+                                {<td>
+                                    <button class="btn btn-primary"
+                                            @onclick="() => GoToBreeding(horse.Horse.HorseId)">
+                                        Breed
+                                    </button>
+                                    </td>
+                                }
+                               
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+
+
+
+    [Parameter] public Guid EstateId { get; set; }
+
+    private List<EstateDto> estates = new();
+
+    private Dictionary<Guid, Guid> selectedEstates = new();
+
+    private List<BoardingDto> horses = new();
+
+    protected override void OnInitialized()
+    {
+
+        AuthService.UserChanged += OnUserChanged;
+        Console.WriteLine(EstateId);
+
+    }
+
+    private async void OnUserChanged(
+     System.Security.Claims.ClaimsPrincipal _)
+    {
+        await InvokeAsync(async () =>
+        {
+            await OnParametersSetAsync();
+            StateHasChanged();
+        });
+    }
+
+    public void Dispose()
+    {
+        AuthService.UserChanged -= OnUserChanged;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (EstateId == Guid.Empty)
+        {
+            EstateId = AuthService.EstateId ?? Guid.Empty;
+        }
+
+        if (EstateId == Guid.Empty)
+            return;
+
+        horses = await BoardingClient
+            .GetBoardingByEstateIdAsync(EstateId);
+
+        foreach (var horse in horses)
+        {
+            selectedEstates[horse.Horse.HorseId] = EstateId;
+        }
+
+        estates = await Client.GetAllEstatesAsync();
+    }
+
+    private void GoToBreeding(Guid mareId)
+    {
+        Nav.NavigateTo($"/breeding?mareId={mareId}");
+    }
+
+}
+

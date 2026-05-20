@@ -17,18 +17,16 @@ namespace Application.HorseApp.HorseServices
 
         private readonly IUnitOfWork _unitOfWork;
 
-        private readonly HorseDateHelper _dateHelper;
 
         private readonly IHorseCrudService _horseCrudService;
 
         private readonly IBoardingOrchestrationService _boardingOrchestrationService;
 
-        public HorseOrchestrationService(IHorseInitilizationService horseInitilizationService, IHorseOwnershipOrchestrationService horseOwnershipOrchestrationService ,IUnitOfWork unitOfWork, HorseDateHelper calculateHorseBirthday, IHorseCrudService horseCrudService, IBoardingOrchestrationService boardingOrchestrationService)
+        public HorseOrchestrationService(IHorseInitilizationService horseInitilizationService, IHorseOwnershipOrchestrationService horseOwnershipOrchestrationService ,IUnitOfWork unitOfWork, IHorseCrudService horseCrudService, IBoardingOrchestrationService boardingOrchestrationService)
         {
             _horseInitilizationService = horseInitilizationService;
             _horseOwnershipOrchestrationService = horseOwnershipOrchestrationService;
             _unitOfWork = unitOfWork;
-            _dateHelper = calculateHorseBirthday;
             _horseCrudService = horseCrudService;
             _boardingOrchestrationService = boardingOrchestrationService;
         }
@@ -43,9 +41,6 @@ namespace Application.HorseApp.HorseServices
 
                     var horse = HorseGenerationMapper.ToNewHorse(Dto);
 
-                    horse.Age = 4;
-
-                    horse.BirthDate = _dateHelper.CalculateBirthDate(horse.Age);
 
                     await _horseCrudService.CreateHorseAsync(horse);
 

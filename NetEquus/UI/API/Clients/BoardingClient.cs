@@ -14,9 +14,9 @@ namespace UI.API.Clients
             _httpClient = httpClient;
         }
 
-        public async Task<List<BoardingDto>> GetNpcBoardingAsync (Guid estateId)
+        public async Task<List<BoardingDto>> GetBoardingByEstateIdAsync (Guid estateId)
         {
-            return await _httpClient.GetFromJsonAsync<List<BoardingDto>>($"api/Boarding/get-npc-horseboardings/{estateId}")
+            return await _httpClient.GetFromJsonAsync<List<BoardingDto>>($"api/Boarding/get-horseboardings/{estateId}")
             ?? new List<BoardingDto> ();
         }
 

@@ -10,10 +10,12 @@ namespace APIHorse.Controllers
     public class HorseController : ControllerBase
     {
         private readonly IHorseOrchestrationService _horseOrchestrationService;
+        private readonly IHorseGetService _service;
 
-        public HorseController(IHorseOrchestrationService horseOrchestrationService)
+        public HorseController(IHorseOrchestrationService horseOrchestrationService, IHorseGetService service)
         {
             _horseOrchestrationService = horseOrchestrationService;
+            _service = service;
         }
 
         [Authorize]
@@ -26,6 +28,23 @@ namespace APIHorse.Controllers
                 return BadRequest(result.Message);
 
             return Ok(result);
+        }
+
+        [HttpGet("mares")]
+        public async Task<IActionResult> GetMaresAsync()
+        {
+            var mares = await _service.GetMaresAsync();
+
+            return Ok(mares);
+        }
+
+        [HttpGet("stallions")]
+        public async Task<IActionResult> GetStallionsAsync()
+        {
+            var stallions = await _service.GetStallionsAsync();
+
+
+            return Ok(stallions);
         }
     }
 }

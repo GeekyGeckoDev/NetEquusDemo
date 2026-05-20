@@ -1,0 +1,6 @@
+@APIFoaling_HostAddress = http://localhost:5198
+
+GET {{APIFoaling_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

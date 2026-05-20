@@ -34,6 +34,7 @@ var estateBase = builder.Configuration["ApiSettings:EstateBaseUrl"];
 var artistBase = builder.Configuration["ApiSettings:ArtistBaseUrl"];
 var breedBase = builder.Configuration["ApiSettings:BreedBaseUrl"];
 var horseBase = builder.Configuration["ApiSettings:HorseBaseUrl"];
+var foalingBase = builder.Configuration["ApiSettings:FoalingBaseUrl"];
 
 
 builder.Services.AddSingleton<ITokenStore, TokenStore>();
@@ -95,7 +96,11 @@ builder.Services.AddHttpClient<EstateOwnershipClient>(c =>
 })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 
-
+builder.Services.AddHttpClient<FoalingClient>(c =>
+{
+    c.BaseAddress = new Uri(foalingBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
 
 
 var app = builder.Build();

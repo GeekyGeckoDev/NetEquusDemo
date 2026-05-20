@@ -15,7 +15,6 @@ namespace Domain.Entities.Models.Horses
         [Required]
         public string HorseName { get; set; }
 
-        public int Age { get; set; }
 
         public Guid BreedId { get; set; }
 
@@ -42,7 +41,6 @@ namespace Domain.Entities.Models.Horses
         {
             GuidHorseId = Guid.NewGuid();
             HorseName = horseName;
-            Age = age;
             Sex = sex;
             Height = height;
             BirthDate = birthDate;

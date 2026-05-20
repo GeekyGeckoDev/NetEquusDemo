@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(NetEquusDbContext))]
-    partial class NetEquusDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260519085726_RemovedAge")]
+    partial class RemovedAge
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,15 +126,16 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("FoalId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly>("FoalingDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("FoalingDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("SireId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("FoalingId");
+                    b.Property<Guid>("User")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasIndex("BreederId");
+                    b.HasKey("FoalingId");
 
                     b.HasIndex("DamId");
 
@@ -141,6 +145,8 @@ namespace Infrastructure.Migrations
                         .IsUnique();
 
                     b.HasIndex("SireId");
+
+                    b.HasIndex("User");
 
                     b.ToTable("Foalings");
                 });
@@ -311,12 +317,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Models.Horses.Foaling", b =>
                 {
-                    b.HasOne("Domain.Entities.Models.Users.User", "Breeder")
-                        .WithMany()
-                        .HasForeignKey("BreederId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Models.Horses.Horse", "Dam")
                         .WithMany("FoalingDams")
                         .HasForeignKey("DamId")
@@ -337,6 +337,12 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Models.Horses.Horse", "Sire")
                         .WithMany("FoalingSires")
                         .HasForeignKey("SireId")
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Models.Users.User", "Breeder")
+                        .WithMany()
+                        .HasForeignKey("User")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Breeder");

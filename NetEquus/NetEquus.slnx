@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="APIAuthentication/APIAuthentication.csproj" Id="fe4940fc-10e0-44ea-853c-58b80ed343cd" />
   <Project Path="APIBreed/APIBreed.csproj" Id="5e6b71bd-af48-48c5-a941-7d6d0cbe5fef" />
+  <Project Path="APIFoaling/APIFoaling.csproj" Id="09d8bb4d-3dd8-4d55-82e5-6c4f2e983e0c" />
   <Project Path="APIHorse/APIHorse.csproj" Id="027b5792-af2c-498d-84ec-2d9ebdda0e24" />
   <Project Path="Application/Application.csproj" Id="a60a91ba-70f8-4282-936c-2d07e5c34720" />
   <Project Path="Domain/Domain.csproj" Id="f24affb3-4080-4fb0-af49-49a8a613743b" />

@@ -1,4 +1,7 @@
-﻿namespace UI.API.Clients
+﻿using Shared.Dtos.HorseDtos;
+using System.Formats.Asn1;
+
+namespace UI.API.Clients
 {
     public class HorseClient
     {
@@ -18,6 +21,25 @@
 
             return response;
         }
+
+        public async Task<List<HorseInfoDto>> GetAllMaresAsync ()
+        {
+            return await _httpClient.GetFromJsonAsync<List<HorseInfoDto>>("api/Horse/mares")
+
+                ?? new List<HorseInfoDto>();
+
+        }
+
+        public async Task<List<HorseInfoDto>> GetAllStallionsAsync()
+        {
+            return await _httpClient.GetFromJsonAsync<List<HorseInfoDto>>("api/Horse/stallions")
+
+                ?? new List<HorseInfoDto>();
+
+        }
+
+
+
     }
 }
 

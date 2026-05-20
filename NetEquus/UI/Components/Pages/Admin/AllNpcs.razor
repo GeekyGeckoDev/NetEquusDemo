@@ -113,14 +113,14 @@
 
         selectedEstateId = estateId;
 
-        horses = await BoardingClient.GetNpcBoardingAsync(estateId.Value);
+        horses = await BoardingClient.GetBoardingByEstateIdAsync(estateId.Value);
     }
 
     private void GoToEstate(Guid? estateId)
 {
     if (estateId == null) return;
 
-    Nav.NavigateTo($"/estate/{estateId}");
+    Nav.NavigateTo($"/npcestate/{estateId}");
 }
 
 }
