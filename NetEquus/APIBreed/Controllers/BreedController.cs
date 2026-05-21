@@ -18,6 +18,8 @@ namespace APIBreed.Controllers
             _breedGetService = breedGetService;
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("breedcreation")]
         public async Task<IActionResult> CreateBreedAsync([FromBody] BreedDto dto)
         {
@@ -39,6 +41,8 @@ namespace APIBreed.Controllers
             return Ok(breeds);
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPatch("update/{breedId}")]
         public async Task<IActionResult> UpdateBreedAsync (Guid breedId)
         {

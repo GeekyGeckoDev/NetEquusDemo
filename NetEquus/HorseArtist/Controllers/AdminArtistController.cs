@@ -20,7 +20,8 @@ namespace APIArtist.Controllers
             _hAOrchestrationService = hAOrchestrationService;
         }
 
-        [Authorize]
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingList()
         {
@@ -30,7 +31,7 @@ namespace APIArtist.Controllers
             return Ok(artists);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPatch("approve/{artistId}")]
 
         public async Task<IActionResult> ApproveArtistAsync (Guid artistId)

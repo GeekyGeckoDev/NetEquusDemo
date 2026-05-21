@@ -31,7 +31,7 @@ namespace Domain.Entities.Models.Users
 
         public virtual HorseArtist HorseArtist { get; set; }
 
-        public bool IsAdmin { get; set; } = true;
+        public bool IsAdmin { get; set; } = false;
         [AllowNull]
         public string? RefreshToken { get; set; }
         [AllowNull]

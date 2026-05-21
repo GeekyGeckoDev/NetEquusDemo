@@ -49,7 +49,7 @@ namespace Application.SharedApp.FoalingHorseApp
 
         }
 
-        public async Task<RuleResult> CreateHorseOwnershipBoardingFoalingAsync (Guid dam, Guid sire)
+        public async Task<RuleResult> CreateHorseOwnershipBoardingFoalingAsync (Guid userId, Guid dam, Guid sire)
         {
 
             try
@@ -70,6 +70,10 @@ namespace Application.SharedApp.FoalingHorseApp
                     var breeder = await _userGetService
                         .GetUserByIdAsync(mareOwner.UserId);
 
+                    if (userId != breeder.UserId)
+                    {
+                        throw new Exception("Users can only breed mares they own");
+                    }
 
                     await _horseOwnershipOrchestrationService.CreateLinkUserToHorse(breeder.UserId, foal.GuidHorseId);
 

@@ -11,13 +11,11 @@ namespace UI.Extensions
         public Task SetAsync(string token)
         {
             _token = token;
-            Console.WriteLine($"[{_instanceId}] TOKEN STORED: {_token}");
             return Task.CompletedTask;
         }
 
         public Task<string?> GetAsync()
         {
-            Console.WriteLine($"[{_instanceId}] TOKEN FETCHED: {_token}");
             return Task.FromResult(_token);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Application.HorseApp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIHorse.Controllers
@@ -14,7 +15,7 @@ namespace APIHorse.Controllers
         {
             _horseRelations = horseRelations;
         }
-
+        [Authorize]
         [HttpPatch("update/{horseId},{newEstateId}")]
         public async Task<IActionResult> UpdateBoardingAndOwnership (Guid horseId, Guid newEstateId)
         {

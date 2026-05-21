@@ -26,6 +26,7 @@ namespace APIEstate.Controllers
             _estateGetService = estateGetService;
         }
 
+        [Authorize]
         [HttpPost("estatecreation")]
         public async Task<IActionResult> CreateEstateAsync([FromBody] CreateEstateRequest estateDto)
         {

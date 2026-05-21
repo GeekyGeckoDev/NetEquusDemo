@@ -36,7 +36,9 @@ namespace Shared.Mappers.UserMapper
             return new User
             {
                 Username = userRegistrationDto.Username,
-                Email = userRegistrationDto.Email
+                Email = userRegistrationDto.Email,
+                IsAdmin = false
+
 
             };
         }
