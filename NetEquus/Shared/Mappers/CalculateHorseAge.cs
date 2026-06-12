@@ -11,7 +11,7 @@ namespace Shared.Mappers
         {
             DateOnly birthdate = horse.BirthDate;
 
-            int cycleLength = 30;
+            int cycleLength = 20;
 
             int daysAlive =
                 DateOnly.FromDateTime(DateTime.Today).DayNumber
@@ -21,6 +21,36 @@ namespace Shared.Mappers
 
             return cyclesPassed;
         }
+
+        public static DateOnly CalculateBirthdate (int age)
+        {
+            int cycleLength = 20;
+
+            return DateOnly.FromDateTime(
+            DateTime.UtcNow.AddDays(-(age * cycleLength)));
+
+
+        }
+
+        public static DateOnly CalculateAgeingDate(Horse horse)
+        {
+            DateOnly birthdate = horse.BirthDate;
+
+            int cycleLength = 20;
+
+            int daysAlive = DateOnly.FromDateTime(DateTime.Today).DayNumber;
+
+            daysAlive = birthdate.DayNumber;
+
+            int cyclespassed = daysAlive / cycleLength;
+
+            DateOnly ageingDate = birthdate.AddDays(cyclespassed * cycleLength);
+
+            return ageingDate;
+
+        }
+
+
 
     }
 }

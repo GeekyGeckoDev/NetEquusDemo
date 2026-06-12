@@ -11,12 +11,13 @@ namespace Shared.Dtos.HorseDtos
 
         public BreedInfoDto HorseBreed { get; set; }
 
+        public DateOnly Birthday { get; set; }
+
         public int HorseSex { get; set; }
 
         public int Height { get; set; }
 
 
-        public int Age = 4;
 
     }
 

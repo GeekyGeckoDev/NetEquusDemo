@@ -9,6 +9,7 @@
 @using Shared.Dtos.BoardingDtos
 @using Shared.Dtos.HorseDtos
 @using UI.API.Clients
+@using UI.Helpers
 @inject BoardingClient BoardingClient
 @inject EstateClient Client
 @rendermode InteractiveServer
@@ -32,7 +33,7 @@
             <div class="col-md-3">
                 <select class="form-select"
                         @bind="SelectedSex"
-                        @bind:event="onselect">
+                        @bind:event="onchange">
 
                     <option value="">All</option>
                     <option value="0">Mare</option>
@@ -40,6 +41,8 @@
 
                 </select>
             </div>
+
+            <p>Selected sex: @SelectedSex</p>
 
         </div>
 
@@ -68,7 +71,8 @@
                                 <td>@horse.Horse.HorseBreed.BreedName</td>
                                 <td>@horse.Horse.Age</td>
                                 <td>@horse.Horse.Height</td>
-                                <td>@horse.Horse.HorseSex</td>
+                                <td>
+                                    <td>@HorseDisplayHelper.GetSex(horse.Horse.HorseSex)</td></td>
 
                                 @if (horse.Horse.HorseSex == 0) // mare
                                 {<td>
@@ -98,6 +102,9 @@
 
 
 @code {
+    private string SearchTerm = "";
+
+    private int? SelectedSex;
 
     private IEnumerable<BoardingDto> FilteredHorses =>
     horses.Where(h =>
@@ -119,6 +126,7 @@
     private Dictionary<Guid, Guid> selectedEstates = new();
 
     private List<BoardingDto> horses = new();
+
 
     protected override void OnInitialized()
     {
@@ -155,7 +163,13 @@
 
         horses = await BoardingClient
             .GetBoardingByEstateIdAsync(EstateId);
+
+
+
+
+
     }
+
 
     private void GoToBreeding(Guid mareId)
     {
@@ -168,17 +182,9 @@
         Nav.NavigateTo($"/pedigree/{horseId}");
     }
 
-    private string SearchTerm = "";
 
-    private int? SelectedSex;
 
-    private async Task SearchHorses()
-    {
-        horses = await BoardingClient.SearchBoardingsAsync(
-            EstateId,
-            SearchTerm,
-            SelectedSex);
-    }
+   
 
 
 }

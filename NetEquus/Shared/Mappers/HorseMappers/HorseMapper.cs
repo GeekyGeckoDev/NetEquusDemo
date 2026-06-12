@@ -16,6 +16,7 @@ namespace Shared.Mappers.HorseMappers
             return new Horse
             {
                 HorseName = dto.HorseName,
+                BirthDate = dto.Birthday,
                 BreedId = dto.HorseBreed.BreedId,
                 Sex = (HorseSex)dto.HorseSex,
                 Height = dto.Height

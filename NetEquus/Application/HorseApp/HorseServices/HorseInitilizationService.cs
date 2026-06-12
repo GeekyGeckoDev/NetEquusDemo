@@ -5,6 +5,7 @@ using Domain.Entities.Models.Breeds;
 using Domain.Entities.Models.Horses;
 using Domain.Enums;
 using Shared.Dtos.HorseDtos;
+using Shared.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -33,7 +34,7 @@ namespace Application.HorseApp.HorseServices
 
             var name = await _randomHorseName.HorseNameRandomizer((HorseSex)sex);
 
-            var birthdate = HorseAgeCalculator.GenerateBirthDate(4);
+            var birthdate = CalculateHorseAge.CalculateBirthdate(4);
 
             var breed = await _randomHorseBreed.RandomBreed();
 
@@ -43,6 +44,8 @@ namespace Application.HorseApp.HorseServices
             var horseDto = new HorseGenerationDto
             {
                 HorseName = name,
+
+                Birthday = birthdate,
 
                 HorseSex = (int)sex,
 
@@ -60,7 +63,7 @@ namespace Application.HorseApp.HorseServices
         {
             var sex = _randomGenderGenerator.RandomSex();
             var name = await _randomHorseName.HorseNameRandomizer (sex);
-            var birthdate = HorseAgeCalculator.GenerateBirthDate(0);
+            var birthdate = CalculateHorseAge.CalculateBirthdate(0);
             var height = await _randomHorseHeightGenerator.GenerateFoalHeightByParents(dam.Height, sire.Height);
 
 

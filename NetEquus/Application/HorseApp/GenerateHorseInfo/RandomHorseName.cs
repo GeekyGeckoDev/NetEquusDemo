@@ -3,6 +3,7 @@ using Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using HorseSex = Domain.Enums.HorseSex;
 
 namespace Application.HorseApp.GenerateHorseInfo
 {
