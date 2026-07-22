@@ -3,6 +3,7 @@
   <Project Path="APIBreed/APIBreed.csproj" Id="5e6b71bd-af48-48c5-a941-7d6d0cbe5fef" />
   <Project Path="APIFoaling/APIFoaling.csproj" Id="09d8bb4d-3dd8-4d55-82e5-6c4f2e983e0c" />
   <Project Path="APIHorse/APIHorse.csproj" Id="027b5792-af2c-498d-84ec-2d9ebdda0e24" />
+  <Project Path="APIHorseTrader/APIHorseTrader.csproj" Id="6c02e7f7-dc8b-4b1d-a2e5-db355889c2d1" />
   <Project Path="Application/Application.csproj" Id="a60a91ba-70f8-4282-936c-2d07e5c34720" />
   <Project Path="Domain/Domain.csproj" Id="f24affb3-4080-4fb0-af49-49a8a613743b" />
   <Project Path="Estate/APIEstate.csproj" Id="8c961a27-a755-424c-b02a-63ce6278a3a9" />

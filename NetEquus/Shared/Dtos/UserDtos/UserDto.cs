@@ -16,6 +16,8 @@ namespace Shared.Dtos.UserDtos
 
         public bool IsAdmin { get; set; }
 
+        public int UserType { get; set;  }
+
     }
 
     public class UserRegistrationDto

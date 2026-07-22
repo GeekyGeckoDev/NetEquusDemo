@@ -35,7 +35,7 @@ namespace Domain.Entities.Models.EquineEstates
 
         public int HorseCapacity { get; set; }
 
-        public int CurrentBalance { get; set; }
+        public decimal CurrentBalance { get; set; }
 
         public bool IsSytemEstate { get; set; }
 

@@ -10,4 +10,6 @@ namespace Shared.Enums
         Stallion = 1,
         Gelding = 2,
     }
+
+
 }

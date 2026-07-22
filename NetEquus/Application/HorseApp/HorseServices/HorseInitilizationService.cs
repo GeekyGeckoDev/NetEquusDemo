@@ -53,6 +53,8 @@ namespace Application.HorseApp.HorseServices
 
                 Height = height,
 
+                EquinsValue = 25000
+
 
             };
 
@@ -65,6 +67,7 @@ namespace Application.HorseApp.HorseServices
             var name = await _randomHorseName.HorseNameRandomizer (sex);
             var birthdate = CalculateHorseAge.CalculateBirthdate(0);
             var height = await _randomHorseHeightGenerator.GenerateFoalHeightByParents(dam.Height, sire.Height);
+            var value = ValueCalculator.CalculateFoalValue(dam.EquinsValue, sire.EquinsValue);
 
 
             var foal = new Horse
@@ -78,6 +81,8 @@ namespace Application.HorseApp.HorseServices
                 Breed = dam.Breed,
 
                 Height = height,
+
+                EquinsValue = value,
 
                 IsFoal = true
 

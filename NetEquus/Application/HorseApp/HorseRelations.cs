@@ -31,7 +31,7 @@ namespace Application.HorseApp
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<RuleResult> UpdateBoardingAndOwnership(
+        public async Task<RuleResult> UpdateBoardingAndOwnershipAsync(
     Guid horseId,
     Guid newEstateId)
         {

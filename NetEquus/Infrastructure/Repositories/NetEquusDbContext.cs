@@ -9,6 +9,7 @@ using Domain.Entities.Models.EquineEstates;
 using Domain.Entities.Models.Breeds;
 using Domain.Entities.Models.Horses;
 using Domain.Entities.Models.Horses.Relations;
+using Domain.Entities.Models.Sales;
 
 namespace Infrastructure
 {
@@ -37,6 +38,8 @@ namespace Infrastructure
 
         public virtual DbSet<HorseOwnership> HorseOwnerships { get; set; }
 
+        public virtual DbSet<HorseTraderSale> HorseTraderSales { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,6 +57,32 @@ namespace Infrastructure
                 entity.HasOne(d => d.Sire).WithMany(p => p.FoalingSires)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
+            modelBuilder.Entity<HorseSaleBase>(entity =>
+            {
+
+                entity.HasOne(x => x.SellerUser)
+                .WithMany()
+                .HasForeignKey(x => x.SellerUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(x => x.SellerEstate)
+                .WithMany()
+                .HasForeignKey(x => x.SellerEstateId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            });
+
+
+
+
+            modelBuilder.Entity<HorseTraderSale>()
+                .HasOne(x => x.BuyerUser)
+                .WithMany()
+                .HasForeignKey(x => x.BuyerUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
 
         }
 

@@ -40,14 +40,14 @@ namespace Application.SharedApp.HorseSaleApp
 
                     await _horseSaleService.CreateHorseTraderSaleAsync(trade);
 
-                    if (!request.Buyer.User.IsNpc)
+                    if (request.Buyer.User.UserType == 0)
                     {
                         await _horseEconomyService.WithdrawAsync(
                             request.Buyer.Estate.EstateId,
                             request.Price);
                     }
 
-                    if (!request.Seller.User.IsNpc)
+                    if (request.Seller.User.UserType == 0)
                     {
                         await _horseEconomyService.DepositAsync(
                             request.Seller.Estate.EstateId,

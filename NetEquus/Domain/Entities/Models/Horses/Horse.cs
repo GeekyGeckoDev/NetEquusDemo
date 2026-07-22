@@ -29,6 +29,8 @@ namespace Domain.Entities.Models.Horses
 
         public DateOnly AgingDate { get; set; }
 
+        public decimal EquinsValue { get; set; }
+
         public bool IsFoal { get; set; }
 
         public virtual ICollection<Foaling> FoalingDams { get; set; } = new List<Foaling>();
