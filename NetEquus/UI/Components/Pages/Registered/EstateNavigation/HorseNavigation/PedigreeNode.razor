@@ -1,0 +1,45 @@
+@using Shared.Dtos.HorseDtos
+
+<div class="pedigree-node">
+
+    <div class="horse-box">
+
+        @if (Horse != null)
+        {
+            <strong>@Horse.HorseName</strong>
+
+            <br />
+
+            @Horse.BreedName
+
+            <br />
+
+            @Horse.Height<p>cm</p>
+            
+        }
+        else
+        {
+            <span>Unknown</span>
+        }
+
+    </div>
+
+    @if (Horse != null)
+    {
+        <div class="parents">
+
+            <PedigreeNode Horse="Horse.Sire" />
+
+            <PedigreeNode Horse="Horse.Dam" />
+
+        </div>
+    }
+
+</div>
+
+@code {
+
+    [Parameter]
+    public PedigreeDto? Horse { get; set; }
+
+}

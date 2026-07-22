@@ -1,0 +1,65 @@
+﻿@page "/login"
+@using Microsoft.AspNetCore.Components.Authorization
+@using Shared.Dtos.UserDtos
+@using UI.API.ApiClients
+@using UI.Auth
+@inject AuthClient AuthClient
+@rendermode InteractiveServer
+@inject AuthManager AuthManager
+@inject NavigationManager Nav
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Nav
+
+<h3 class="mb-4">Login</h3>
+
+<div class="container">
+    <div class="card shadow p-4 col-md-6 mx-auto">
+
+        <h4 class="mb-4 text-center">Welcome Back</h4>
+
+        @if (!string.IsNullOrEmpty(responseMessage))
+        {
+            <div class="alert alert-info">
+                @responseMessage
+            </div>
+        }
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" @bind="loginUser.Email" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" @bind="loginUser.Password" />
+        </div>
+
+        <button class="btn btn-primary w-100" @onclick="LoginUserAsync">
+            Login
+        </button>
+
+    </div>
+</div>
+
+@code {
+
+    private LoginDto loginUser = new();
+    private string? responseMessage;
+
+    private async Task LoginUserAsync()
+    {
+        var success = await AuthManager.LoginAsync(loginUser);
+
+        if (success)
+        {
+            
+            await AuthManager.RefreshUserFromApi();
+            responseMessage = "Login successful!";
+            Nav.NavigateTo("/test");
+        }
+        else
+        {
+            responseMessage = "Invalid login.";
+        }
+    }
+}

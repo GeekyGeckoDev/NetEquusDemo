@@ -1,0 +1,17 @@
+﻿@page "/horsetrader"
+@using Shared.Dtos.BoardingDtos
+@using UI.API.Clients
+@inject BoardingClient BoardingClient
+
+<h3>HorseTrader</h3>
+
+@code {
+
+    public Guid EstateId { get; set; }
+
+    private List<BoardingDto> horses = new();
+
+
+    }
+
+}
