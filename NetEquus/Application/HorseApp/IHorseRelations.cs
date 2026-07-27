@@ -7,7 +7,7 @@ namespace Application.HorseApp
 {
     public interface IHorseRelations
     {
-        Task<RuleResult> UpdateBoardingAndOwnership(
+        Task<RuleResult> UpdateBoardingAndOwnershipAsync(
     Guid horseId,
     Guid newEstateId);
     }

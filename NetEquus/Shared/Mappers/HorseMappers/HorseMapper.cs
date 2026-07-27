@@ -19,7 +19,8 @@ namespace Shared.Mappers.HorseMappers
                 BirthDate = dto.Birthday,
                 BreedId = dto.HorseBreed.BreedId,
                 Sex = (HorseSex)dto.HorseSex,
-                Height = dto.Height
+                Height = dto.Height,
+                EquinsValue = dto.EquinsValue,
                 
 
             };
@@ -37,7 +38,8 @@ namespace Shared.Mappers.HorseMappers
                 Breed = BreedMapper.ToBreed(dto.HorseBreed),
                 Sex = (HorseSex)dto.HorseSex,
                 Height = dto.Height,
-                BirthDate = dto.Birthday
+                BirthDate = dto.Birthday,
+                EquinsValue = dto.EquinsValue,
 
 
             };
@@ -55,7 +57,8 @@ namespace Shared.Mappers.HorseMappers
                 HorseSex = (int)horse.Sex,
                 Height = horse.Height,
                 Birthday = horse.BirthDate,
-                Age = CalculateHorseAge.CalculateHorseAgeMapper(horse)
+                Age = CalculateHorseAge.CalculateHorseAgeMapper(horse),
+                EquinsValue = horse.EquinsValue,
             };
         }
     }

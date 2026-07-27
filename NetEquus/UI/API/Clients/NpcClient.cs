@@ -1,5 +1,7 @@
 ﻿using Shared.Dtos.BreedDtos;
 using Shared.Dtos.NpcDtos;
+using Shared.Dtos.OwnershipDtos;
+using Shared.Dtos.UserDtos;
 using System.Security.Cryptography.X509Certificates;
 
 namespace UI.API.Clients
@@ -34,13 +36,10 @@ namespace UI.API.Clients
             return await _httpClient.GetFromJsonAsync<List<NpcDto>>("api/Npc/getnpcswithestates")
                 ?? new List<NpcDto>();
         }
+
+        public async Task<EstateOwnershipDto> GetHorseTraderAsync ()
+        {
+            return await _httpClient.GetFromJsonAsync<EstateOwnershipDto>("api/Npc/gethorsetrader");
+        }
     }
 }
-
-
-
-//public async Task<List<BreedInfoDto>> GetALlBreedsAsync()
-//{
-//    return await _httpClient.GetFromJsonAsync<List<BreedInfoDto>>("api/Breed/breedslist")
-//        ?? new List<BreedInfoDto>();
-//}

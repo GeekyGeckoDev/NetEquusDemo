@@ -1,9 +1,12 @@
 ﻿using Application.BoardingApp.IBoardingRepos;
+using Domain.DomainRules.Helpers;
 using Domain.Entities.Models.Horses.Relations;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Shared.Dtos.BoardingDtos;
+using Shared.Dtos.HorseDtos;
 using Shared.Mappers.BoardingMappers;
+using Shared.Mappers.HorseMappers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -40,6 +43,24 @@ namespace Infrastructure.Repositories.BoardingRepos
                     .ThenInclude(h => h.Breed)
                 .Include(b => b.BoardingEstate)
                 .FirstOrDefaultAsync(b => b.HorseGuidId == horseId);
+        }
+
+        public async Task<List<HorseInfoDto>> GetEligibleMaresAsync(Guid estateId)
+        {
+            var horses = await _context.HorseBoardings
+                .Where(b => b.BoardingEstateId == estateId)
+                .Include(b => b.Horse)
+                    .ThenInclude(h => h.Breed)
+                 .Select(b => b.Horse)
+                .ToListAsync();
+
+            return horses
+
+                .Where(h =>
+                    CalculateHorseAge.CalculateHorseAgeMapper(h) >= 3 &&
+                    h.Sex == HorseSex.Mare)
+                .Select(HorseMapper.horseInfoDto)
+                .ToList();
         }
 
         public async Task<List<BoardingDto>> SearchBoardingsAsync(Guid estateId, string? search, int? sex)

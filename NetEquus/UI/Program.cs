@@ -1,3 +1,4 @@
+using Domain.Entities.Sales;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using UI.API.ApiClients;
@@ -35,6 +36,7 @@ var artistBase = builder.Configuration["ApiSettings:ArtistBaseUrl"];
 var breedBase = builder.Configuration["ApiSettings:BreedBaseUrl"];
 var horseBase = builder.Configuration["ApiSettings:HorseBaseUrl"];
 var foalingBase = builder.Configuration["ApiSettings:FoalingBaseUrl"];
+var horseTraderBase = builder.Configuration["ApiSettings:HorseTraderBaseUrl"];
 
 
 builder.Services.AddSingleton<ITokenStore, TokenStore>();
@@ -101,6 +103,13 @@ builder.Services.AddHttpClient<FoalingClient>(c =>
     c.BaseAddress = new Uri(foalingBase);
 })
     .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<HorseTraderClient>(c =>
+{
+    c.BaseAddress = new Uri(horseTraderBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
 
 
 var app = builder.Build();

@@ -31,50 +31,53 @@ namespace Application.HorseApp
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<RuleResult> UpdateBoardingAndOwnership(
+        public async Task<RuleResult> UpdateBoardingAndOwnershipAsync(
     Guid horseId,
     Guid newEstateId)
         {
             try
             {
-                await _unitOfWork.ExecuteAsync(async () =>
-                {
-                    var boarding =
-                        await _boardingGetService.GetBoardingByHorseIdAsync(horseId);
+                var boarding =
+                    await _boardingGetService.GetBoardingByHorseIdAsync(horseId);
 
-                    boarding.BoardingEstateId = newEstateId;
+                boarding.BoardingEstateId = newEstateId;
 
-                    await _boardingCrudService
-                        .UpdateBoardingAsync(boarding);
+                await _boardingCrudService
+                    .UpdateBoardingAsync(boarding);
 
-                    var estate =
-                        await _estateGetService
-                            .GetEstateByIdAsync(newEstateId);
+                var estate =
+                    await _estateGetService
+                        .GetEstateByIdAsync(newEstateId);
 
-                    var ownership =
-                        await _horseOwnershipGetService
-                            .GetOwnershipByHorseIdAsync(horseId);
+                var ownership =
+                    await _horseOwnershipGetService
+                        .GetOwnershipByHorseIdAsync(horseId);
 
-             
 
-                    var estateOwner =
-                        estate.EstateOwners.FirstOrDefault();
 
-                    if (estateOwner == null)
-                        throw new Exception("Estate has no owner.");
+                var estateOwner =
+                    estate.EstateOwners.FirstOrDefault();
 
-                    ownership.UserId = estateOwner.UserId;
+                if (estateOwner == null)
+                    throw new Exception("Estate has no owner.");
 
-                    await _horseOwnershipCrudService
-                        .UpdateHorseOwnershipAsync(ownership);
-                });
+                ownership.UserId = estateOwner.UserId;
+
+                await _horseOwnershipCrudService
+                    .UpdateHorseOwnershipAsync(ownership);
+
 
                 return RuleResult.Success();
             }
+
             catch (Exception ex)
             {
-                return RuleResult.Fail(ex.Message);
+                return RuleResult.Fail("ex");
             }
+
+
+            
+                
         }
     }
 

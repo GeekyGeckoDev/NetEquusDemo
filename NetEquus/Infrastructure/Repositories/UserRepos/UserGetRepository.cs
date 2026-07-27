@@ -1,5 +1,6 @@
 ﻿using Application.UserApp.IUserRepos;
 using Domain.Entities.Models.Users;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,12 @@ namespace Infrastructure.Repositories.UserRepos
             return await _Dbcontext.Users
                 .Where(u => u.IsNpc == isNpc)
                 .ToListAsync();
+        }
+
+        public async Task<User> GetHorseTraderByUserTypeAsync()
+        {
+            return await _Dbcontext.Users
+                .FirstOrDefaultAsync(u => u.UserTypeEnum == UserType.HorseTrader);
         }
 
         public async Task<User?> GetUserByUsernameAsync(string username)

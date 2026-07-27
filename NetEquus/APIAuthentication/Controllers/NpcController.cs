@@ -1,4 +1,5 @@
-﻿using Application.UserApp.NpcServices;
+﻿using Application.UserApp.IUserServices.IUserCrudServices;
+using Application.UserApp.NpcServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Dtos.NpcDtos;
@@ -11,7 +12,8 @@ namespace APIAuthentication.Controllers
     {
         private readonly INpcManagerService _npcManagerService;
 
-        public NpcController(INpcManagerService npcManagerService)
+
+        public NpcController(INpcManagerService npcManagerService, IUserGetService user)
         {
             _npcManagerService = npcManagerService;
         }

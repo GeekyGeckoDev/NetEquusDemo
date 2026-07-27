@@ -22,5 +22,10 @@ namespace Application.UserApp.NpcServices
             return await _userGetRepository.GetUserByNpcStatusAsync(isNpc);
 
         }
+
+        public async Task<User> GetHorseTraderByUserTypeAsync ()
+        {
+            return await _userGetRepository.GetHorseTraderByUserTypeAsync();
+        }
     }
 }

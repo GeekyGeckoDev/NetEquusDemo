@@ -1,0 +1,87 @@
+﻿@page "/horsetrader"
+@using Shared.Dtos.BoardingDtos
+@using UI.API.Clients
+@using UI.Helpers
+@inject HorseTraderClient Trader
+@inject NavigationManager Nav
+@rendermode InteractiveServer
+
+<h3>HorseTrader</h3>
+
+ @if (horses.Any())
+{
+    <div class="card shadow p-4 mt-4">
+        <h4>Horses</h4>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Breed</th>
+                    <th>Age</th>
+                    <th>Height</th>
+                    <th>Sex</th>
+                    <th>Value</th>
+                    <th>Breeding</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var horse in horses)
+                {
+                    <tr>
+                        <td>@horse.Horse.HorseName</td>
+                        <td>@horse.Horse.HorseBreed.BreedName</td>
+                        <td>@horse.Horse.Age</td>
+                        <td>@horse.Horse.Height</td>
+
+                             
+                        <td>@HorseDisplayHelper.GetSex(horse.Horse.HorseSex)</td>
+
+                        <td>@horse.Horse.EquinsValue</td>
+         
+
+                        <td>
+                            <button class="btn btn-primary"
+                                    @onclick="() => GoToPedigree (horse.Horse.HorseId)">
+                                Pedigree
+                            </button>
+                        </td>
+
+                        <td>
+                            <button class="btn btn-primary"
+                                    @onclick="() => BuyHorse(horse.Horse.HorseId)">
+                                Buy
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+
+    private List<BoardingDto> horses = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        horses = await Trader.GetHorseBoardingHorseTrader();
+    }
+
+    private void GoToPedigree(Guid horseId)
+    {
+
+        Nav.NavigateTo($"/pedigree/{horseId}");
+    }
+
+    private async Task BuyHorse(Guid horseId)
+    {
+        await Trader.BuyHorseAsync(horseId);
+    }
+
+}

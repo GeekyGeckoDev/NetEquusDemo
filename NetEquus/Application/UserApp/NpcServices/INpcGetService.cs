@@ -8,5 +8,7 @@ namespace Application.UserApp.NpcServices
     public interface INpcGetService
     {
         Task<List<User>> GHetUserByNpcStatusAsync(bool isNpc);
+
+        Task<User> GetHorseTraderByUserTypeAsync();
     }
 }

@@ -13,6 +13,7 @@ namespace Application.UserApp.UserServices
             var user = new User
             {
                 IsNpc = false,
+                UserTypeEnum = 0,
                 CanLogin = true
             };
         }

@@ -19,7 +19,7 @@ namespace APIHorse.Controllers
         [HttpPatch("update/{horseId},{newEstateId}")]
         public async Task<IActionResult> UpdateBoardingAndOwnership (Guid horseId, Guid newEstateId)
         {
-            var result = await _horseRelations.UpdateBoardingAndOwnership(horseId, newEstateId);
+            var result = await _horseRelations.UpdateBoardingAndOwnershipAsync(horseId, newEstateId);
             if (!result.IsAllowed)
                 return BadRequest(result.Message);
 

@@ -31,6 +31,7 @@ namespace APIHorse.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("mares")]
         public async Task<IActionResult> GetMaresAsync()
         {
@@ -39,6 +40,7 @@ namespace APIHorse.Controllers
             return Ok(mares);
         }
 
+        [Authorize]
         [HttpGet("stallions")]
         public async Task<IActionResult> GetStallionsAsync()
         {

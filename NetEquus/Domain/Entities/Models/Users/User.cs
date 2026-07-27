@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -40,6 +41,8 @@ namespace Domain.Entities.Models.Users
         public DateTime? LastLogin {  get; set; }
 
         public bool IsNpc { get; set; }
+
+        public UserType UserTypeEnum { get; set; }
 
         public bool CanLogin { get; set; } = true;
 

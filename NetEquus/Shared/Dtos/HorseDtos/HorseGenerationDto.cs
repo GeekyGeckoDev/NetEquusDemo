@@ -17,6 +17,8 @@ namespace Shared.Dtos.HorseDtos
 
         public int Height { get; set; }
 
+        public decimal EquinsValue { get; set; }
+
 
 
     }
@@ -36,6 +38,8 @@ namespace Shared.Dtos.HorseDtos
         public int Height { get; set; }
 
         public DateOnly Birthday { get; set; }
+
+        public decimal EquinsValue { get; set; }
 
 
     }

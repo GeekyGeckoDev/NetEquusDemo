@@ -53,6 +53,8 @@ namespace Application.HorseApp.HorseServices
 
                 Height = height,
 
+                EquinsValue = 25000
+
 
             };
 

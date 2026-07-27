@@ -14,7 +14,7 @@ namespace Application.UserApp.IUserRepos
 
         Task<List<User>> GetUserByNpcStatusAsync(bool isNpc);
 
-
+        Task<User> GetHorseTraderByUserTypeAsync();
 
         Task<User?> GetUserByRefreshTokenAsync(string refreshToken);
 

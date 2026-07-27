@@ -28,6 +28,11 @@ namespace Application.UserApp.UserSevices.UserCrudServices
             return await _userGetRepository.GetUserByRefreshTokenAsync(refreshToken);
         }
 
+        public async Task<User> GetHorseTraderByUserTypeAsync ()
+        {
+            return await _userGetRepository.GetHorseTraderByUserTypeAsync();
+        }
+
         public async Task<User?> GetUserByUsernameAsync(string username)
         {
             return await _userGetRepository.GetUserByUsernameAsync(username);

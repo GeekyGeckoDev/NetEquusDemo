@@ -1,0 +1,6 @@
+@APIHorseTrader_HostAddress = http://localhost:5280
+
+GET {{APIHorseTrader_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

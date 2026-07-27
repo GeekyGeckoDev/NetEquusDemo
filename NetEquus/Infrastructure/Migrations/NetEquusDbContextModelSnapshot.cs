@@ -53,8 +53,8 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CurrentBalance")
-                        .HasColumnType("int");
+                    b.Property<decimal>("CurrentBalance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("EstateDescription")
                         .IsRequired()
@@ -159,6 +159,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<Guid>("BreedId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("EquinsValue")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Height")
                         .HasColumnType("int");
@@ -281,6 +284,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime?>("RefreshTokenExpiryTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserTypeEnum")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -288,6 +294,64 @@ namespace Infrastructure.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sales.HorseSaleBase", b =>
+                {
+                    b.Property<Guid>("HorseSaleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateOfSale")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("nvarchar(21)");
+
+                    b.Property<Guid>("HorseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SellerEstateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SellerUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("HorseSaleId");
+
+                    b.HasIndex("HorseId");
+
+                    b.HasIndex("SellerEstateId");
+
+                    b.HasIndex("SellerUserId");
+
+                    b.ToTable("HorseSaleBase");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("HorseSaleBase");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sales.HorseTraderSale", b =>
+                {
+                    b.HasBaseType("Domain.Entities.Sales.HorseSaleBase");
+
+                    b.Property<Guid>("BuyerEstateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BuyerUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("SalesPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasIndex("BuyerEstateId");
+
+                    b.HasIndex("BuyerUserId");
+
+                    b.HasDiscriminator().HasValue("HorseTraderSale");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.EquineEstates.EstateOwnership", b =>
@@ -408,6 +472,52 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sales.HorseSaleBase", b =>
+                {
+                    b.HasOne("Domain.Entities.Models.Horses.Horse", "Horse")
+                        .WithMany()
+                        .HasForeignKey("HorseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Models.EquineEstates.EquineEstate", "SellerEstate")
+                        .WithMany()
+                        .HasForeignKey("SellerEstateId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Models.Users.User", "SellerUser")
+                        .WithMany()
+                        .HasForeignKey("SellerUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Horse");
+
+                    b.Navigation("SellerEstate");
+
+                    b.Navigation("SellerUser");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Sales.HorseTraderSale", b =>
+                {
+                    b.HasOne("Domain.Entities.Models.EquineEstates.EquineEstate", "BuyerEstate")
+                        .WithMany()
+                        .HasForeignKey("BuyerEstateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Models.Users.User", "BuyerUser")
+                        .WithMany()
+                        .HasForeignKey("BuyerUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("BuyerEstate");
+
+                    b.Navigation("BuyerUser");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.EquineEstates.EquineEstate", b =>

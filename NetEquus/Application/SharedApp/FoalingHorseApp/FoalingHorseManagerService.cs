@@ -1,4 +1,5 @@
 ﻿using Application.BoardingApp.IBoardingServices;
+using Application.FoalingApp.FoalingServices;
 using Application.FoalingApp.IFoalingServices;
 using Application.HorseApp.IHorseServices;
 using Application.OwnershipApp.HorseOwnershipApp.IHorseOwnershipServices;
@@ -33,7 +34,9 @@ namespace Application.SharedApp.FoalingHorseApp
 
         private readonly IHorseOwnershipGetService _horseOwnershipGetService;
 
-        public FoalingHorseManagerService(IFoalingCrudService foalingService, IHorseInitilizationService horseInitilizationService, IHorseOwnershipOrchestrationService horseOwnershipOrchestration, IUnitOfWork unitOfWork, IHorseCrudService horseCrudService, IBoardingOrchestrationService boardingOrchestrationService, IHorseGetService horseGetService, IHorseOwnershipGetService horseOwnershipGetService, IBoardingGetService boardingGetService, IUserGetService userGetService)
+        private readonly IFoalingValidationService _foalingValidationService;
+
+        public FoalingHorseManagerService(IFoalingCrudService foalingService, IHorseInitilizationService horseInitilizationService, IHorseOwnershipOrchestrationService horseOwnershipOrchestration, IUnitOfWork unitOfWork, IHorseCrudService horseCrudService, IBoardingOrchestrationService boardingOrchestrationService, IHorseGetService horseGetService, IHorseOwnershipGetService horseOwnershipGetService, IBoardingGetService boardingGetService, IUserGetService userGetService, IFoalingValidationService foalingValidationService)
         {
             _foalingService = foalingService;
             _horseInitilizationService = horseInitilizationService;
@@ -46,21 +49,37 @@ namespace Application.SharedApp.FoalingHorseApp
             _boardingOrchestrationService = boardingOrchestrationService;
             _boardingGetService = boardingGetService;
             _userGetService = userGetService;
+            _foalingValidationService = foalingValidationService;
 
         }
 
         public async Task<RuleResult> CreateHorseOwnershipBoardingFoalingAsync (Guid userId, Guid dam, Guid sire)
         {
 
+            var mare = await _horseGetService.GetHorseByIdAsync(dam);
+
+            var stallion = await _horseGetService.GetHorseByIdAsync(sire);
+
+            var compatible = await _foalingValidationService.CheckFoalingRules(mare, stallion);
+
+            if(!compatible.IsAllowed)
+            {
+                return RuleResult.Fail("Not compatible");
+            }
+
             try
             {
                 await _unitOfWork.ExecuteAsync(async () =>
                 {
-                    var mare = await _horseGetService.GetHorseByIdAsync (dam);
+          
 
-                    var stallion = await _horseGetService.GetHorseByIdAsync(sire);
+                    var compatible = await _foalingValidationService.CheckFoalingRules(mare, stallion);
+
 
                     var foal = await _horseInitilizationService.FoalGenerationInitilizationAsync(mare, stallion);
+
+
+                    
 
                     await _horseCrudService.CreateHorseAsync(foal);
 

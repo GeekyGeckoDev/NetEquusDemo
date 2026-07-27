@@ -12,7 +12,7 @@
 
 <h3>Breeding</h3>
 
-<AuthorizeView Roles="Admin">
+<AuthorizeView>
     <Authorized>
 
 <div class="row">
@@ -71,7 +71,20 @@
 
     public Guid EstateId { get; set; }
 
-    private Guid? SelectedMareId;
+private Guid? _selectedMareId;
+
+private Guid? SelectedMareId
+{
+    get => _selectedMareId;
+    set
+    {
+        if (_selectedMareId != value)
+        {
+            _selectedMareId = value;
+            _ = LoadEligibleStallions();
+        }
+    }
+}
     private Guid? SelectedStallionId;
 
     private List<HorseInfoDto> mares = new();
@@ -79,16 +92,28 @@
 
     protected override async Task OnInitializedAsync()
     {
-        mares = await HorseClient.GetAllMaresAsync();
-        stallions = await HorseClient.GetAllStallionsAsync();
+        mares = await FoalingClient.GetEligibleMaresAsync();
 
-
-
-        // Preselect mare if coming from estate page
         if (MareId != null)
         {
             SelectedMareId = MareId;
         }
+    }
+
+    private async Task LoadEligibleStallions()
+    {
+        if (SelectedMareId is null)
+        {
+            stallions.Clear();
+            return;
+        }
+
+        MareId = SelectedMareId;
+
+        stallions = await FoalingClient.GetEligibleStallionsAsync(
+            SelectedMareId.Value);
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task BreedAsync()

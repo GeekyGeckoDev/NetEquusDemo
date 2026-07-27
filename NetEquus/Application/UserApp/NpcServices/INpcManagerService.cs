@@ -1,5 +1,6 @@
 ﻿using Domain.DomainRules;
 using Shared.Dtos.NpcDtos;
+using Shared.Dtos.OwnershipDtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,5 +14,8 @@ namespace Application.UserApp.NpcServices
         Task<List<NpcDto>> GetNpcsWithoutEstatesAsync();
 
         Task<List<NpcDto>> GetNpcsWithEstatesAsync();
+
+
+        Task<EstateOwnershipDto> GetHorseTraderDataAsync();
     }
 }

@@ -15,6 +15,7 @@
 @rendermode InteractiveServer
 @inject NavigationManager Nav
 @inject AuthManager AuthManager
+@inject HorseTraderClient HorseT
 
 <AuthorizeView Roles="Admin">
     <Authorized>
@@ -59,7 +60,11 @@
                             <th>Age</th>
                             <th>Height</th>
                             <th>Sex</th>
-                            <th>Breed</th>
+                            <th>Value</th>
+                            <th>Breeding</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
 
@@ -71,17 +76,21 @@
                                 <td>@horse.Horse.HorseBreed.BreedName</td>
                                 <td>@horse.Horse.Age</td>
                                 <td>@horse.Horse.Height</td>
-                                <td>
-                                    <td>@HorseDisplayHelper.GetSex(horse.Horse.HorseSex)</td></td>
+                             
+                                
+                                    <td>@HorseDisplayHelper.GetSex(horse.Horse.HorseSex)</td>
 
-                                @if (horse.Horse.HorseSex == 0) // mare
-                                {<td>
+                                <td>@horse.Horse.EquinsValue</td>
+                                <td>
+                                @if (horse.Horse.HorseSex == 0 && horse.Horse.Age >= 3) // mare
+                                {
                                     <button class="btn btn-primary"
                                             @onclick="() => GoToBreeding(horse.Horse.HorseId)">
                                         Breed
                                     </button>
-                                    </td>
+                                  
                                 }
+                                </td>
 
                                 <td>
                                     <button class="btn btn-primary"
@@ -89,7 +98,13 @@
                                         Pedigree
                                     </button>
                                 </td>
-                               
+
+                                  <td>
+                                    <button class="btn btn-primary"
+                                            @onclick="() => SellHorse(horse.Horse.HorseId)">
+                                        Sell
+                                    </button>
+                                 </td>
                             </tr>
                         }
                     </tbody>
@@ -183,8 +198,11 @@
     }
 
 
+    private async Task SellHorse (Guid horseId)
+    {
+       await HorseT.SellHorseAsync(horseId);
+    }
 
-   
 
 
 }
