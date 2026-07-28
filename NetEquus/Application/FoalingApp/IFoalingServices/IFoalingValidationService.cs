@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.FoalingApp.FoalingServices
+namespace Application.FoalingApp.IFoalingServices
 {
     public interface IFoalingValidationService
     {

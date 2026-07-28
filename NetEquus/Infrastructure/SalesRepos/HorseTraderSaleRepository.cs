@@ -1,5 +1,5 @@
 ﻿using Application.SalesApp.HorseTraderSales;
-using Domain.Entities.Sales;
+using Domain.Entities.Models.Sales;
 using System;
 using System.Collections.Generic;
 using System.Text;

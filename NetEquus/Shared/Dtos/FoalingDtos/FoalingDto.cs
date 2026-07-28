@@ -11,7 +11,7 @@ namespace Shared.Dtos.FolaingDtos
     {
         public Guid FoalingId { get; set; }
 
-        public DateOnly FoalingDate { get; set; }
+        public DateOnly DueDate { get; set; }
 
         public EstateInfoDto Estate { get; set; }
 

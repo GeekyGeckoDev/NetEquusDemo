@@ -18,6 +18,7 @@ namespace Application.AuthApp.AuthServices
 
         private readonly IUnitOfWork _unitOfWork;
 
+
         public LogInService(IUserGetService userGetService, IPasswordHasherService passwordHasherService, IJWTService jWTService, IUnitOfWork unitOfWork)
         {
             _userGetService = userGetService;
@@ -62,6 +63,8 @@ namespace Application.AuthApp.AuthServices
                 throw new LoginException("Invalid credentials");
 
             }
+
+
 
             user.FailedLoginCount = 0;
             user.LockedUntil = null;

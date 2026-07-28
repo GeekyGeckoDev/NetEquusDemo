@@ -1,5 +1,5 @@
 ﻿using Application.EstateApp.EstateMappers;
-using Domain.Entities.Sales;
+using Domain.Entities.Models.Sales;
 using Shared.Dtos.WrapperDto;
 using Shared.Mappers.HorseMappers;
 using Shared.Mappers.UserMapper;

@@ -61,23 +61,23 @@ namespace Application.HorseApp.HorseServices
             return horseDto;
         }
 
-        public async Task<Horse> FoalGenerationInitilizationAsync (Horse dam, Horse sire)
+        public async Task<Horse> FoalGenerationInitilizationAsync (Foaling foaling)
         {
             var sex = _randomGenderGenerator.RandomSex();
             var name = await _randomHorseName.HorseNameRandomizer (sex);
-            var birthdate = CalculateHorseAge.CalculateBirthdate(0);
-            var height = await _randomHorseHeightGenerator.GenerateFoalHeightByParents(dam.Height, sire.Height);
+            var height = await _randomHorseHeightGenerator.GenerateFoalHeightByParents( foaling.Dam.Height, foaling.Sire.Height);
 
 
             var foal = new Horse
             {
+                GuidHorseId = new Guid(),
                 HorseName = name,
 
-                BirthDate = birthdate,
+                BirthDate = foaling.DueDate,
 
                 Sex = sex,
 
-                Breed = dam.Breed,
+                Breed = foaling.Dam.Breed,
 
                 Height = height,
 

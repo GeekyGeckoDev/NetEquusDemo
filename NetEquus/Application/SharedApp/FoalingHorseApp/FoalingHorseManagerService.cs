@@ -1,5 +1,4 @@
 ﻿using Application.BoardingApp.IBoardingServices;
-using Application.FoalingApp.FoalingServices;
 using Application.FoalingApp.IFoalingServices;
 using Application.HorseApp.IHorseServices;
 using Application.OwnershipApp.HorseOwnershipApp.IHorseOwnershipServices;
@@ -7,6 +6,8 @@ using Application.UnitOfWorks;
 using Application.UserApp.IUserServices.IUserCrudServices;
 using Domain.DomainRules;
 using Domain.Entities.Models.Horses;
+using Domain.Enums;
+using Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -53,7 +54,7 @@ namespace Application.SharedApp.FoalingHorseApp
 
         }
 
-        public async Task<RuleResult> CreateHorseOwnershipBoardingFoalingAsync (Guid userId, Guid dam, Guid sire)
+        public async Task<RuleResult> CreatePendingFoalingAsync(Guid userId, Guid dam, Guid sire)
         {
 
             var mare = await _horseGetService.GetHorseByIdAsync(dam);
@@ -62,7 +63,7 @@ namespace Application.SharedApp.FoalingHorseApp
 
             var compatible = await _foalingValidationService.CheckFoalingRules(mare, stallion);
 
-            if(!compatible.IsAllowed)
+            if (!compatible.IsAllowed)
             {
                 return RuleResult.Fail("Not compatible");
             }
@@ -71,20 +72,12 @@ namespace Application.SharedApp.FoalingHorseApp
             {
                 await _unitOfWork.ExecuteAsync(async () =>
                 {
-          
 
-                    var compatible = await _foalingValidationService.CheckFoalingRules(mare, stallion);
-
-
-                    var foal = await _horseInitilizationService.FoalGenerationInitilizationAsync(mare, stallion);
+                    var mareOwner = await _horseOwnershipGetService
+                        .GetOwnershipByHorseIdAsync(mare.GuidHorseId);
 
 
-                    
-
-                    await _horseCrudService.CreateHorseAsync(foal);
-
-                        var mareOwner = await _horseOwnershipGetService
-                            .GetOwnershipByHorseIdAsync(mare.GuidHorseId);
+                    var estate = await _boardingGetService.GetBoardingByHorseIdAsync(mare.GuidHorseId);
 
                     var breeder = await _userGetService
                         .GetUserByIdAsync(mareOwner.UserId);
@@ -94,29 +87,27 @@ namespace Application.SharedApp.FoalingHorseApp
                         throw new Exception("Users can only breed mares they own");
                     }
 
-                    await _horseOwnershipOrchestrationService.CreateLinkUserToHorse(breeder.UserId, foal.GuidHorseId);
+                    Random rnd = new Random();
 
-                    var estate = await _boardingGetService.GetBoardingByHorseIdAsync (mare.GuidHorseId);
-
-                    
+                    int FoalingDays = rnd.Next(17, 22);
 
 
-                    await _boardingOrchestrationService.CreateLinkEstateToHorse(estate.BoardingEstateId, foal.GuidHorseId);
+                    var foaling = new Foaling
+                    {
+                        BreederId = breeder.UserId,
+                        DateBred = GameDate.Today(),
+                        DueDate = GameDate.Today().AddDays(FoalingDays),
+                        EquineEstateId = estate.BoardingEstateId,
+                        DamId = mare.GuidHorseId,
+                        SireId = stallion.GuidHorseId,
+                        Status = FoalingStatus.InFoal,
+                        BirthTime = (GameWindow)rnd.Next(0, 4)
 
-                            var foaling = new Foaling
-                            {
-                                BreederId = breeder.UserId,
-                                FoalingDate = foal.BirthDate,
-                                EquineEstateId = estate.BoardingEstateId,
-                                FoalId = foal.GuidHorseId,
-                                DamId = mare.GuidHorseId,
-                                SireId = stallion.GuidHorseId
-
-                            };
+                    };
 
                     await _foalingService.CreateFoalingAsync(foaling);
 
-                        });
+                });
 
                 return RuleResult.Success();
             }
@@ -127,7 +118,83 @@ namespace Application.SharedApp.FoalingHorseApp
             }
 
 
+
+
         }
+
+        // Old method.
+        //public async Task<RuleResult> CreateHorseOwnershipBoardingFoalingAsync (Guid userId, Guid dam, Guid sire)
+        //{
+
+        //    var mare = await _horseGetService.GetHorseByIdAsync(dam);
+
+        //    var stallion = await _horseGetService.GetHorseByIdAsync(sire);
+
+        //    var compatible = await _foalingValidationService.CheckFoalingRules(mare, stallion);
+
+        //    if(!compatible.IsAllowed)
+        //    {
+        //        return RuleResult.Fail("Not compatible");
+        //    }
+
+        //    try
+        //    {
+        //        await _unitOfWork.ExecuteAsync(async () =>
+        //        {
+
+
+        //            var foal = await _horseInitilizationService.FoalGenerationInitilizationAsync(mare, stallion);
+
+
+                    
+
+        //            await _horseCrudService.CreateHorseAsync(foal);
+
+        //                var mareOwner = await _horseOwnershipGetService
+        //                    .GetOwnershipByHorseIdAsync(mare.GuidHorseId);
+
+        //            var breeder = await _userGetService
+        //                .GetUserByIdAsync(mareOwner.UserId);
+
+        //            if (userId != breeder.UserId)
+        //            {
+        //                throw new Exception("Users can only breed mares they own");
+        //            }
+
+        //            await _horseOwnershipOrchestrationService.CreateLinkUserToHorse(breeder.UserId, foal.GuidHorseId);
+
+        //            var estate = await _boardingGetService.GetBoardingByHorseIdAsync (mare.GuidHorseId);
+
+                    
+
+
+        //            await _boardingOrchestrationService.CreateLinkEstateToHorse(estate.BoardingEstateId, foal.GuidHorseId);
+
+        //                    var foaling = new Foaling
+        //                    {
+        //                        BreederId = breeder.UserId,
+        //                        FoalingDate = foal.BirthDate,
+        //                        EquineEstateId = estate.BoardingEstateId,
+        //                        FoalId = foal.GuidHorseId,
+        //                        DamId = mare.GuidHorseId,
+        //                        SireId = stallion.GuidHorseId
+
+        //                    };
+
+        //            await _foalingService.CreateFoalingAsync(foaling);
+
+        //                });
+
+        //        return RuleResult.Success();
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        return RuleResult.Fail($"Horse creation failed; {ex.Message}");
+        //    }
+
+
+        //}
     }
 
 

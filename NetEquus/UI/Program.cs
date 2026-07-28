@@ -1,4 +1,4 @@
-using Domain.Entities.Sales;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using UI.API.ApiClients;
@@ -106,7 +106,15 @@ builder.Services.AddHttpClient<FoalingClient>(c =>
 
 builder.Services.AddHttpClient<HorseTraderClient>(c =>
 {
+
     c.BaseAddress = new Uri(horseTraderBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+
+builder.Services.AddHttpClient<CheckClient>(c =>
+{
+    c.BaseAddress = new Uri(foalingBase);
 })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 

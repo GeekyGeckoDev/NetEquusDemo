@@ -2,6 +2,7 @@
 using Domain.DomainRules.Helpers;
 using Domain.Entities.Models.Horses.Relations;
 using Domain.Enums;
+using Domain.Entities.Models.Horses;
 using Microsoft.EntityFrameworkCore;
 using Shared.Dtos.BoardingDtos;
 using Shared.Dtos.HorseDtos;
@@ -47,6 +48,8 @@ namespace Infrastructure.Repositories.BoardingRepos
 
         public async Task<List<HorseInfoDto>> GetEligibleMaresAsync(Guid estateId)
         {
+            var today = DateOnly.FromDateTime(DateTime.UtcNow);
+
             var horses = await _context.HorseBoardings
                 .Where(b => b.BoardingEstateId == estateId)
                 .Include(b => b.Horse)
@@ -58,7 +61,7 @@ namespace Infrastructure.Repositories.BoardingRepos
 
                 .Where(h =>
                     CalculateHorseAge.CalculateHorseAgeMapper(h) >= 3 &&
-                    h.Sex == HorseSex.Mare)
+                    h.Sex == HorseSex.Mare && h.BreedingCoolDown < today || h.BreedingCoolDown == null)
                 .Select(HorseMapper.horseInfoDto)
                 .ToList();
         }

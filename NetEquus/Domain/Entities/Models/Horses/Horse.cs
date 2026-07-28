@@ -37,6 +37,10 @@ namespace Domain.Entities.Models.Horses
 
         public virtual Foaling Foaling { get; set; }
 
+        public DateOnly? CompetitionCoolDown { get; set; }
+
+        public DateOnly? BreedingCoolDown { get; set; }
+
         public virtual ICollection<Foaling> FoalingSires { get; set; } = new List<Foaling>();
 
         public Horse(Guid guidHorseId, string horseName, int age, HorseSex sex, int height, DateOnly birthDate, DateOnly agingDate, bool isFoal)

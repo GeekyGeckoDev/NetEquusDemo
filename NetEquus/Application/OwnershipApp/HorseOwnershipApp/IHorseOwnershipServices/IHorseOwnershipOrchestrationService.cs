@@ -6,6 +6,6 @@ namespace Application.OwnershipApp.HorseOwnershipApp.IHorseOwnershipServices
 {
     public interface IHorseOwnershipOrchestrationService
     {
-        Task CreateLinkUserToHorse(Guid userId, Guid horseId);
+        Task CreateLinkUserToHorseAsync(Guid userId, Guid horseId);
     }
 }

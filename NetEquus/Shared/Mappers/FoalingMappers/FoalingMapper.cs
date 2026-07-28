@@ -15,7 +15,7 @@ namespace Shared.Mappers.FoalingMappers
             return new FoalingDto
             {
                 FoalingId = foaling.FoalingId,
-                FoalingDate = foaling.FoalingDate,
+                DueDate = foaling.DueDate,
                 Estate = EstateMapper.ToInfoEstateDto(foaling.FoalingEstate),
                 Breeder = UserMapper.UserMapper.ToDto(foaling.Breeder),
                 Sire = HorseMapper.horseInfoDto(foaling.Sire),
@@ -29,7 +29,7 @@ namespace Shared.Mappers.FoalingMappers
             return new Foaling
             {
                 FoalingId = dto.FoalingId,
-                FoalingDate = dto.FoalingDate,
+                DueDate = dto.DueDate,
                 FoalingEstate = EstateMapper.InfoToEstate(dto.Estate),
                 Breeder = UserMapper.UserMapper.ToUser(dto.Breeder),
                 Sire = HorseMapper.ToHorse(dto.Sire),

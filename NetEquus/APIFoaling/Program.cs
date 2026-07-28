@@ -4,6 +4,7 @@ using Application.BoardingApp.IBoardingServices;
 using Application.BreedApp.BreedServices;
 using Application.BreedApp.IBreedRepos;
 using Application.BreedApp.IBreedServices;
+using Application.CycleApp.DailyChecks;
 using Application.FoalingApp.FoalingServices;
 using Application.FoalingApp.IFoalingRepos;
 using Application.FoalingApp.IFoalingServices;
@@ -36,6 +37,7 @@ using Infrastructure.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Shared.GameTime;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,6 +59,12 @@ builder.Services.AddScoped<RandomHorseBreed>();
 builder.Services.AddScoped<HorseHeightGenerator>();
 builder.Services.AddScoped<CalculateNextAgeingDate>();
 builder.Services.AddScoped<IBreedListService, BreedListService>();
+builder.Services.AddScoped<IFoalingCheckService, FoalingCheckService>();
+builder.Services.AddScoped<IFoalingGetService, FoalingGetService>();
+builder.Services.AddScoped<IFoalingCrudService, FoalingCrudService>();
+builder.Services.AddScoped<IFoalingGetRepository, FoalingGetRepository>();
+builder.Services.AddScoped<IHorseBirthManager, HorseBirthManager>();
+
 
 builder.Services.AddScoped<IFoalingCrudRepository, FoalingCrudRepository>();
 builder.Services.AddScoped<IUserGetRepository, UserGetRepository>();
@@ -65,6 +73,7 @@ builder.Services.AddScoped<IFoalingValidationService, FoalingValidationService>(
 builder.Services.AddScoped<IBreedlistRepository, BreedListRepository>();
 builder.Services.AddScoped<IEstateOwnershipGetService, EstateOwnershipGetService>();
 builder.Services.AddScoped<IEstateOwnershipGetRepository, EstateOwnershipGetRepository>();
+builder.Services.AddScoped<IGameTimeService, GameTimeService>();
 
 builder.Services.AddScoped<IHorseCrudRepository, HorseCrudRepository>();
 builder.Services.AddScoped<IHorseGetRepository, HorseGetRepository>();

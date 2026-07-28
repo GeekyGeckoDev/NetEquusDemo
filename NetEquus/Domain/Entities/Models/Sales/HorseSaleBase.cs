@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Domain.Entities.Sales
+namespace Domain.Entities.Models.Sales
 {
 
     public class HorseSaleBase

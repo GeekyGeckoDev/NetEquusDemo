@@ -27,7 +27,7 @@ namespace APIFoaling.Controllers
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            var result = await _manager.CreateHorseOwnershipBoardingFoalingAsync (userId,dto.MareId, dto.StallionId);
+            var result = await _manager.CreatePendingFoalingAsync (userId,dto.MareId, dto.StallionId);
 
             if (!result.IsAllowed)
                 return BadRequest(result.Message);

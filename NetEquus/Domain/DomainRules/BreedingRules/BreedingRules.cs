@@ -1,4 +1,5 @@
 ﻿using Domain.DomainRules.Helpers;
+using Domain.Entities.Models.Horses;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,6 +24,8 @@ namespace Domain.DomainRules.BreedingRules
             ? RuleResult.Success()
             : RuleResult.Fail("Both horses must be at least 3 years old.");
 
-
+        public static HorseRule OnCoolDown = (horse) =>
+        horse.Sex == 0 && horse.BreedingCoolDown < DateOnly.FromDateTime(DateTime.UtcNow)
+        ? RuleResult.Success() : RuleResult.Fail("Both horses must be at least 3 years old.");
     }
 }

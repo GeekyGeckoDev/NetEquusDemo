@@ -2,8 +2,8 @@
 using Domain.Entities.Models.EquineEstates;
 using Domain.Entities.Models.Horses;
 using Domain.Entities.Models.Horses.Relations;
+using Domain.Entities.Models.Sales;
 using Domain.Entities.Models.Users;
-using Domain.Entities.Sales;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -95,7 +95,10 @@ namespace Infrastructure
                 .Property(h => h.SalesPrice)
                 .HasPrecision(18, 0);
 
+
         }
+
+        
 
 
 

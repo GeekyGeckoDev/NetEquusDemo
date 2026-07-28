@@ -47,7 +47,7 @@ namespace Application.HorseApp.HorseServices
                     // Mayas ID
                     Guid systemNpcUserId = Guid.Parse("E32ED213-FEB6-420B-B9DF-08DEAEA7F6E7");
 
-                    await _horseOwnershipOrchestrationService.CreateLinkUserToHorse(systemNpcUserId, horse.GuidHorseId);
+                    await _horseOwnershipOrchestrationService.CreateLinkUserToHorseAsync(systemNpcUserId, horse.GuidHorseId);
 
                     Guid systemEstateId = Guid.Parse("34AF2A74-27A4-46B1-7A13-08DEB029BE46");
 

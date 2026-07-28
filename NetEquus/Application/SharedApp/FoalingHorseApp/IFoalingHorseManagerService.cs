@@ -7,6 +7,6 @@ namespace Application.SharedApp.FoalingHorseApp
 {
     public interface IFoalingHorseManagerService
     {
-        Task<RuleResult> CreateHorseOwnershipBoardingFoalingAsync(Guid userId,Guid dam, Guid sire);
+        Task<RuleResult> CreatePendingFoalingAsync(Guid userId, Guid dam, Guid sire);
     }
 }

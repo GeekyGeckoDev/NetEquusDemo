@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Domain.Entities.Sales
+namespace Domain.Entities.Models.Sales
 {
     public class HorseTraderSale : HorseSaleBase
     {

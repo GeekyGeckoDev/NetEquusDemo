@@ -1,4 +1,5 @@
-﻿using Domain.DomainRules;
+﻿using Application.FoalingApp.IFoalingServices;
+using Domain.DomainRules;
 using Domain.DomainRules.BreedingRules;
 using Domain.DomainRules.BreedingRules.BreedingGroupRules;
 using Domain.Entities.Models.Horses;

@@ -10,6 +10,6 @@ namespace Application.HorseApp.IHorseServices
     {
         Task<HorseGenerationDto> HorseGenerationInitilizationAsync();
 
-        Task<Horse> FoalGenerationInitilizationAsync(Horse dam, Horse sire);
+        Task<Horse> FoalGenerationInitilizationAsync(Foaling foaling);
     }
 }

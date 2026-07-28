@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Models.EquineEstates;
 using Domain.Entities.Models.Users;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +14,6 @@ namespace Domain.Entities.Models.Horses
         [Key]
         public Guid FoalingId   { get; set; }
 
-        public DateOnly FoalingDate { get; set; }
 
         [ForeignKey("EquineEstate")]
         public Guid EquineEstateId { get; set; }
@@ -24,7 +24,9 @@ namespace Domain.Entities.Models.Horses
 
         public Guid BreederId {  get; set; }
 
+        public DateOnly DueDate { get; set; }
 
+        public DateOnly DateBred {  get; set; }
         
         public virtual User Breeder { get; set; }
 
@@ -32,9 +34,11 @@ namespace Domain.Entities.Models.Horses
 
         public Guid SireId { get; set; }
 
-        public Guid FoalId { get; set; }
+        public Guid? FoalId { get; set; }
 
+        public FoalingStatus Status { get; set; }
 
+        public GameWindow BirthTime {  get; set; }
 
 
         [ForeignKey("DamId")]
@@ -48,15 +52,14 @@ namespace Domain.Entities.Models.Horses
         [ForeignKey("SireId")]
         public virtual Horse Sire { get; set; }
 
-        public Foaling(Guid foalingId, DateOnly foalingDate, Guid estateId, Guid breederId, Guid damnId, Guid sireId, Guid foalId)
+        public Foaling(Guid foalingId, Guid estateId, Guid breederId, Guid damnId, Guid sireId, DateOnly dateBred)
         {
             FoalingId = Guid.NewGuid();
-            FoalingDate = foalingDate;
             EquineEstateId = estateId;
             BreederId = breederId;
             DamId = damnId;
             SireId = sireId;
-            FoalId = foalId;
+            DateBred = dateBred;
 
         }
 

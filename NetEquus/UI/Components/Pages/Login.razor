@@ -2,10 +2,12 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using Shared.Dtos.UserDtos
 @using UI.API.ApiClients
+@using UI.API.Clients
 @using UI.Auth
 @inject AuthClient AuthClient
 @rendermode InteractiveServer
 @inject AuthManager AuthManager
+@inject CheckClient Check
 @inject NavigationManager Nav
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager Nav
@@ -52,9 +54,10 @@
 
         if (success)
         {
-            
+
             await AuthManager.RefreshUserFromApi();
             responseMessage = "Login successful!";
+            await Check.ProcessDueFoalingsAsync();
             Nav.NavigateTo("/test");
         }
         else

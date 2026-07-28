@@ -15,7 +15,7 @@ namespace Application.OwnershipApp.HorseOwnershipApp.HorseOwnershipServices
             _horseOwnershipCrudService = horseOwnershipCrudService;
         }
 
-        public async Task CreateLinkUserToHorse (Guid userId, Guid horseId)
+        public async Task CreateLinkUserToHorseAsync (Guid userId, Guid horseId)
         {
             var ownership = new HorseOwnership
             {

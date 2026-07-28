@@ -1,5 +1,5 @@
 ﻿using Domain.DomainRules;
-using Domain.Entities.Sales;
+using Domain.Entities.Models.Sales;
 using Shared.Dtos.WrapperDto;
 using System;
 using System.Collections.Generic;
