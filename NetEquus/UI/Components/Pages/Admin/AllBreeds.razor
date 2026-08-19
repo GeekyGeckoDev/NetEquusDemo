@@ -4,6 +4,8 @@
 @using UI.API.Clients
 @rendermode InteractiveServer
 @inject BreedClient breedClient
+@inject NavigationManager Nav
+
 
 <h3>AllBreeds</h3>
 
@@ -103,6 +105,13 @@
                                 }
                             </td>
 
+                            <td>
+                                <button class="btn btn-primary"
+                                        @onclick="() => GoToProfile(breed.BreedId)">
+                                    Sell
+                                </button>
+                            </td>
+
                         </tr>
                     }
                 </tbody>
@@ -135,6 +144,10 @@
         {
             editingBreed = null;
         }
+    }
+    private void GoToProfile(Guid BreedId)
+    {
+        Nav.NavigateTo($"/breedgenprofile");
     }
 
 }

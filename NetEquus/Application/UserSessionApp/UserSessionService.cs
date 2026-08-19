@@ -31,10 +31,10 @@ namespace Application.UserSessionApp
 
             EquineEstate? estate = null;
 
-            Guid estateId = (Guid)ownership.EquineEstateId;
-
             if (ownership != null)
-                estate = await _estateGetService.GetEstateByIdAsync(estateId);
+            {
+                estate = await _estateGetService.GetEstateByIdAsync((Guid)ownership.EquineEstateId);
+            }
 
             return new UserMeDto
             {

@@ -18,7 +18,6 @@ namespace Application.AuthApp.AuthServices
 
         private readonly IUnitOfWork _unitOfWork;
 
-
         public LogInService(IUserGetService userGetService, IPasswordHasherService passwordHasherService, IJWTService jWTService, IUnitOfWork unitOfWork)
         {
             _userGetService = userGetService;
@@ -38,11 +37,11 @@ namespace Application.AuthApp.AuthServices
                 throw new LoginException("Invalid credentials");
             }
 
-                if (user.LockedUntil.HasValue &&
-                user.LockedUntil > DateTime.UtcNow)
-                {
+            if (user.LockedUntil.HasValue &&
+            user.LockedUntil > DateTime.UtcNow)
+            {
                 throw new LoginException($"Account locked until{user.LockedUntil.Value:u}");
-                }
+            }
 
             var validPassword = _passwordHasherService.VerifyPassword(loginDto.Password, user.Password_Hash);
 
@@ -64,14 +63,12 @@ namespace Application.AuthApp.AuthServices
 
             }
 
-
-
             user.FailedLoginCount = 0;
             user.LockedUntil = null;
 
 
             return await _jWTService.CreateUserTokenResponse(user);
-       
+
         }
 
         public async Task<TokenResponseDto?> RefreshAsync(string refreshToken)

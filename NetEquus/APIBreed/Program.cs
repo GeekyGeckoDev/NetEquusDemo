@@ -1,9 +1,11 @@
 using Application.BreedApp.BreedServices;
+using Application.BreedApp.BreedStatsApp;
 using Application.BreedApp.IBreedRepos;
 using Application.BreedApp.IBreedServices;
 using Application.UnitOfWorks;
 using Infrastructure;
 using Infrastructure.Repositories.BreedRepos;
+using Infrastructure.Repositories.BreedRepos.BreedStatsRepos;
 using Infrastructure.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -27,11 +29,18 @@ builder.Services.AddDbContext<NetEquusDbContext>(options =>
 
 builder.Services.AddScoped<IBreedCrudRepository, BreedCrudRepository>();
 builder.Services.AddScoped<IBreedGetRepository, BreedGetRepository>();
+builder.Services.AddScoped<IBreedGenerationStatsRepository, BreedGenerationStatsRepository>();
+builder.Services.AddScoped<IBreedMinMaxStatRepository, BreedMinMaxStatRepository>();
+builder.Services.AddScoped<IGetBreedGenerationStatsRepository, GetBreedGenerationStatsRepository>();
 
 builder.Services.AddScoped<IBreedCrudService, BreedCrudService>();
 builder.Services.AddScoped<IBreedGetService, BreedGetService>();
 builder.Services.AddScoped<IBreedInitilizationService, BreedIntilizationService>();
 builder.Services.AddScoped<IBreedOrchestrationService, BreedOrchestrationService>();
+builder.Services.AddScoped<IBreedGenerationStatsService, BreedGenerationStatsService>();
+builder.Services.AddScoped<IBreedMinMaxStatService, BreedMinMaxStatService>();
+builder.Services.AddScoped<IBreedGenMinMaxService, BreedGenMinMaxService>();
+builder.Services.AddScoped<IGetBreedGenerationStatsService, GetBreedGenerationStatsService>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

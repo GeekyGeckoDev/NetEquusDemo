@@ -46,9 +46,9 @@ namespace Infrastructure.Repositories.HorseRepos
 
             var horse = await _context.Horses
                 .Include(h => h.Breed)
-                .Include(h => h.Foaling)
+                .Include(h => h.OffspringRecord)
                     .ThenInclude(f => f.Dam)
-                .Include(h => h.Foaling)
+                .Include(h => h.OffspringRecord)
                     .ThenInclude(f => f.Sire)
                 .FirstOrDefaultAsync(h => h.GuidHorseId == horseId);
 
@@ -63,12 +63,12 @@ namespace Infrastructure.Repositories.HorseRepos
                 BreedName = horse.Breed.BreedName,
                 Age = CalculateHorseAge.CalculateHorseAgeMapper(horse),
 
-                Dam = horse.Foaling?.Dam != null
-                    ? await BuildPedigreeAsync(horse.Foaling.Dam.GuidHorseId, generations - 1)
+                Dam = horse.OffspringRecord?.Dam != null
+                    ? await BuildPedigreeAsync(horse.OffspringRecord.Dam.GuidHorseId, generations - 1)
                     : null,
 
-                Sire = horse.Foaling?.Sire != null
-                    ? await BuildPedigreeAsync(horse.Foaling.Sire.GuidHorseId, generations - 1)
+                Sire = horse.OffspringRecord?.Sire != null
+                    ? await BuildPedigreeAsync(horse.OffspringRecord.Sire.GuidHorseId, generations - 1)
                     : null
             };
         }

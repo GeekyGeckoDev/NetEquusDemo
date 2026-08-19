@@ -36,6 +36,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("DisciplineAffinity")
+                        .HasColumnType("float");
+
                     b.Property<int>("MaxHeight")
                         .HasColumnType("int");
 
@@ -45,6 +48,47 @@ namespace Infrastructure.Migrations
                     b.HasKey("BreedID");
 
                     b.ToTable("Breeds");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Breeds.BreedGenerationStats", b =>
+                {
+                    b.Property<Guid>("BreedGenerationStatsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BreedId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BreedGenerationStatsId");
+
+                    b.HasIndex("BreedId");
+
+                    b.ToTable("BreedGenerationStats");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Breeds.BreedMinMaxStat", b =>
+                {
+                    b.Property<Guid>("BreedMinMaxStatId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Attribute")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("BreedGenerationStatsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Max")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Min")
+                        .HasColumnType("float");
+
+                    b.HasKey("BreedMinMaxStatId");
+
+                    b.HasIndex("BreedGenerationStatsId");
+
+                    b.ToTable("BreedMinMaxStats");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.EquineEstates.EquineEstate", b =>
@@ -199,6 +243,106 @@ namespace Infrastructure.Migrations
                     b.HasIndex("BreedId");
 
                     b.ToTable("Horses");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Horses.Horsestats.ConfPerfTempAttributes", b =>
+                {
+                    b.Property<Guid>("CPTId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ConfId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GuidHorseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PerfId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Trainability")
+                        .HasColumnType("float");
+
+                    b.HasKey("CPTId");
+
+                    b.HasIndex("ConfId");
+
+                    b.HasIndex("GuidHorseId")
+                        .IsUnique();
+
+                    b.HasIndex("PerfId");
+
+                    b.ToTable("ConfPerfTempAttributes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Horses.Horsestats.ConformationAttributes", b =>
+                {
+                    b.Property<Guid>("ConfId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("BackAndLoin")
+                        .HasColumnType("float");
+
+                    b.Property<double>("BackAndTopline")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ChestAndBarrel")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Head")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Hindquarters")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Legs")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Neck")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Pasterns")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Shoulders")
+                        .HasColumnType("float");
+
+                    b.HasKey("ConfId");
+
+                    b.ToTable("ConformationAttributes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Horses.Horsestats.PerformanceAttributes", b =>
+                {
+                    b.Property<Guid>("PerfId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Agility")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Endurance")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Gaits")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Scope")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Speed")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Stride")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Trainability")
+                        .HasColumnType("float");
+
+                    b.HasKey("PerfId");
+
+                    b.ToTable("PerformanceAttributes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.Horses.Relations.HorseBoarding", b =>
@@ -373,6 +517,28 @@ namespace Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("HorseTraderSale");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Models.Breeds.BreedGenerationStats", b =>
+                {
+                    b.HasOne("Domain.Entities.Models.Breeds.Breed", "Breed")
+                        .WithMany()
+                        .HasForeignKey("BreedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Breed");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Breeds.BreedMinMaxStat", b =>
+                {
+                    b.HasOne("Domain.Entities.Models.Breeds.BreedGenerationStats", "BreedStats")
+                        .WithMany("GenerationStats")
+                        .HasForeignKey("BreedGenerationStatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BreedStats");
+                });
+
             modelBuilder.Entity("Domain.Entities.Models.EquineEstates.EstateOwnership", b =>
                 {
                     b.HasOne("Domain.Entities.Models.EquineEstates.EquineEstate", "Estate")
@@ -412,7 +578,7 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Models.Horses.Horse", "Foal")
-                        .WithOne("Foaling")
+                        .WithOne("OffspringRecord")
                         .HasForeignKey("Domain.Entities.Models.Horses.Foaling", "FoalId");
 
                     b.HasOne("Domain.Entities.Models.Horses.Horse", "Sire")
@@ -440,6 +606,33 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Breed");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Models.Horses.Horsestats.ConfPerfTempAttributes", b =>
+                {
+                    b.HasOne("Domain.Entities.Models.Horses.Horsestats.ConformationAttributes", "ConformationAttributes")
+                        .WithMany()
+                        .HasForeignKey("ConfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Models.Horses.Horse", "Horse")
+                        .WithOne("ConfPerfTempAttributes")
+                        .HasForeignKey("Domain.Entities.Models.Horses.Horsestats.ConfPerfTempAttributes", "GuidHorseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Models.Horses.Horsestats.PerformanceAttributes", "PerformanceAttributes")
+                        .WithMany()
+                        .HasForeignKey("PerfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ConformationAttributes");
+
+                    b.Navigation("Horse");
+
+                    b.Navigation("PerformanceAttributes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.Horses.Relations.HorseBoarding", b =>
@@ -537,6 +730,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("BuyerUser");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Models.Breeds.BreedGenerationStats", b =>
+                {
+                    b.Navigation("GenerationStats");
+                });
+
             modelBuilder.Entity("Domain.Entities.Models.EquineEstates.EquineEstate", b =>
                 {
                     b.Navigation("EstateOwners");
@@ -544,12 +742,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Models.Horses.Horse", b =>
                 {
-                    b.Navigation("Foaling")
+                    b.Navigation("ConfPerfTempAttributes")
                         .IsRequired();
 
                     b.Navigation("FoalingDams");
 
                     b.Navigation("FoalingSires");
+
+                    b.Navigation("OffspringRecord")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.Users.User", b =>

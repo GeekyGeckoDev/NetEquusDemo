@@ -1,6 +1,8 @@
 ﻿using Domain.Entities.Models.Breeds;
+using Domain.Entities.Models.Competitions;
 using Domain.Entities.Models.EquineEstates;
 using Domain.Entities.Models.Horses;
+using Domain.Entities.Models.Horses.Horsestats;
 using Domain.Entities.Models.Horses.Relations;
 using Domain.Entities.Models.Sales;
 using Domain.Entities.Models.Users;
@@ -24,6 +26,10 @@ namespace Infrastructure
 
         public virtual DbSet<Breed> Breeds { get; set; }
 
+        public virtual DbSet<BreedMinMaxStat> BreedMinMaxStats { get; set; }
+
+        public virtual DbSet<BreedGenerationStats> BreedGenerationStats { get; set; }
+
         public virtual DbSet<EquineEstate> EquineEstates { get; set; }
 
         public virtual DbSet<EstateOwnership> EstateOwnerships { get; set; }
@@ -34,12 +40,27 @@ namespace Infrastructure
 
         public virtual DbSet<Horse> Horses { get; set; }
 
+        public virtual DbSet<ConfPerfTempAttributes> ConfPerfTempAttributes { get; set; }
+
+        public virtual DbSet<ConformationAttributes> ConformationAttributes { get; set; }
+
+        public virtual DbSet<PerformanceAttributes> PerformanceAttributes { get; set; }
+
         public virtual DbSet<Foaling> Foalings { get; set; }
 
         public virtual DbSet<HorseOwnership> HorseOwnerships { get; set; }
 
         public virtual DbSet<HorseTraderSale> HorseTraderSales { get; set; }
 
+        public virtual DbSet<Competition> Competitions { get; set; }
+
+        public virtual DbSet<CompetitionEntry> CompetitionEntries { get; set; }
+
+        public virtual DbSet<CompetitionResult> CompetitionResults { get; set; }
+
+        public virtual DbSet<CompetitionDiscipline> CompetitionDisciplines { get; set; }
+
+        public virtual DbSet<CompetitionStatRequirement> GetCompetitionStatRequirments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

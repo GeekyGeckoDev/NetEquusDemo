@@ -16,6 +16,8 @@ namespace Domain.Entities.Models.Breeds
         [Required]
         public string BreedAbbreviation { get; set; }
 
+        public double DisciplineAffinity { get; set; }
+
         public int MinHeight { get; set; }
 
         public int MaxHeight { get; set; }

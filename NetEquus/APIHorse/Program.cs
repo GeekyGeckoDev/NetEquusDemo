@@ -2,6 +2,7 @@ using Application.BoardingApp.BoardingServices;
 using Application.BoardingApp.IBoardingRepos;
 using Application.BoardingApp.IBoardingServices;
 using Application.BreedApp.BreedServices;
+using Application.BreedApp.BreedStatsApp;
 using Application.BreedApp.IBreedRepos;
 using Application.BreedApp.IBreedServices;
 using Application.EstateApp.EstateServices.EstateCrudServices;
@@ -10,6 +11,9 @@ using Application.EstateApp.IEstateServices.IEstateCrudServices;
 using Application.HorseApp;
 using Application.HorseApp.GenerateHorseInfo;
 using Application.HorseApp.HorseServices;
+using Application.HorseApp.HorseStatsApp.GenerateHorseStats;
+using Application.HorseApp.HorseStatsApp.HorseStatsServices;
+using Application.HorseApp.HorseStatsApp.IHorseStatsRepos;
 using Application.HorseApp.IHorseRepos;
 using Application.HorseApp.IHorseServices;
 using Application.HorseApp.UpdateHorse;
@@ -20,8 +24,10 @@ using Application.UnitOfWorks;
 using Infrastructure;
 using Infrastructure.Repositories.BoardingRepos;
 using Infrastructure.Repositories.BreedRepos;
+using Infrastructure.Repositories.BreedRepos.BreedStatsRepos;
 using Infrastructure.Repositories.EstateRepos;
 using Infrastructure.Repositories.HorseRepos;
+using Infrastructure.Repositories.HorseRepos.HorseStatsRepos;
 using Infrastructure.Repositories.Ownership.HorseOwnerships;
 using Infrastructure.UnitOfWorks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -65,6 +71,10 @@ builder.Services.AddScoped<IBoardingCrudRepository, BoardingCrudRepository>();
 builder.Services.AddScoped<IBreedGetRepository, BreedGetRepository>();
 builder.Services.AddScoped<IBoardingGetRepository,  BoardingGetRepository>();
 builder.Services.AddScoped<IEstateGetRepository, EstateGetRepository>();
+builder.Services.AddScoped<IConformationAttRepository, ConformationAttRepository>();
+builder.Services.AddScoped<IPerformanceAttributesRepository, PerformanceAttRepository>();
+builder.Services.AddScoped<IConfPerfTempAttributeRepository, ConfPerfTempAttributeRepository>();
+builder.Services.AddScoped<IGetBreedGenerationStatsRepository, GetBreedGenerationStatsRepository>();
 
 
 // ---------------------------
@@ -83,6 +93,14 @@ builder.Services.AddScoped<IBoardingOrchestrationService, BoardingOrchestrationS
 builder.Services.AddScoped<IHorseOwnershipGetService, HorseOwnershipGetService>();
 builder.Services.AddScoped<IHorseRelations, HorseRelations>();
 builder.Services.AddScoped<IEstateGetService, EstateGetService>();
+builder.Services.AddScoped<IConformationAttService, ConformationAttService>();
+builder.Services.AddScoped<IPerformanceAttService, PerformanceAttService>();
+builder.Services.AddScoped<IGenerateConformation, GenerateConformation>();
+builder.Services.AddScoped<IGeneratePerformance, GeneratePerformance>();
+builder.Services.AddScoped<IAttributeOrchestration, AttributeOrchestration>();
+builder.Services.AddScoped<IConfPerfTempAttributeService, ConfPerfTempAttributeService>();
+builder.Services.AddScoped<IGetBreedGenerationStatsService, GetBreedGenerationStatsService>();
+
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

@@ -10,6 +10,7 @@
   <Project Path="HorseArtist/APIArtist.csproj" Id="bdf26928-712e-44e0-a5a6-f72e88119b1b" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="06bacdf3-d9bd-47a6-86eb-fb691eba283b" />
   <Project Path="Shared/Shared.csproj" Id="0d7cf840-abda-4b26-8d2d-d908c94a9192" />
+  <Project Path="TestStatsGeneration/TestStatsGeneration.csproj" Id="75f7726d-8ad6-470e-962e-37ab66bc128a" />
   <Project Path="UI/UI.csproj" />
   <Project Path="WorkerService1/WorkerService1.csproj" Id="e9ad1cb5-2647-410c-ab68-83d7e5ea4d0e" />
 </Solution>

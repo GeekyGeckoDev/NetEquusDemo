@@ -1,6 +1,9 @@
-﻿using Application.BreedApp.IBreedServices;
+﻿using Application.BreedApp.BreedStatsApp;
+using Application.BreedApp.IBreedServices;
 using Application.UnitOfWorks;
 using Domain.DomainRules;
+using Domain.Entities.Models.Breeds;
+using Domain.Enums;
 using Shared.Dtos.BreedDtos;
 using Shared.Mappers.BreedMappers;
 using System;
@@ -14,12 +17,14 @@ namespace Application.BreedApp.BreedServices
         private readonly IBreedCrudService _breedCrudService;
         private readonly IBreedInitilizationService _breedInitilizationService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBreedGenMinMaxService _breedGenMin;
 
-        public BreedOrchestrationService(IBreedCrudService breedCrudService, IBreedInitilizationService breedInitilizationService, IUnitOfWork unitOfWork)
+        public BreedOrchestrationService(IBreedCrudService breedCrudService, IBreedInitilizationService breedInitilizationService, IUnitOfWork unitOfWork, IBreedGenMinMaxService breedGenMinMaxService)
         {
             _breedCrudService = breedCrudService;
             _breedInitilizationService = breedInitilizationService;
             _unitOfWork = unitOfWork;
+            _breedGenMin = breedGenMinMaxService;
         }
 
         public async Task<RuleResult> CreateBreedAsync (BreedDto dto)
@@ -32,6 +37,10 @@ namespace Application.BreedApp.BreedServices
 
                     var breed = BreedMapper.ToEntity(dto);
                     await _breedCrudService.CreateBreedAsync(breed);
+
+                    await _breedGenMin.CreateBreedGenProfileAsync(breed.BreedID);
+                  
+                    
                 });
 
 

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Domain.Entities.Models.Breeds;
+using Domain.Entities.Models.Horses.Horsestats;
+using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using Domain.Entities.Models.Breeds;
-using Domain.Enums;
 
 namespace Domain.Entities.Models.Horses
 {
@@ -35,13 +36,15 @@ namespace Domain.Entities.Models.Horses
 
         public virtual ICollection<Foaling> FoalingDams { get; set; } = new List<Foaling>();
 
-        public virtual Foaling Foaling { get; set; }
+        public virtual Foaling OffspringRecord { get; set; }
 
         public DateOnly? CompetitionCoolDown { get; set; }
 
         public DateOnly? BreedingCoolDown { get; set; }
 
         public virtual ICollection<Foaling> FoalingSires { get; set; } = new List<Foaling>();
+
+        public virtual ConfPerfTempAttributes ConfPerfTempAttributes { get; set; }
 
         public Horse(Guid guidHorseId, string horseName, int age, HorseSex sex, int height, DateOnly birthDate, DateOnly agingDate, bool isFoal)
         {

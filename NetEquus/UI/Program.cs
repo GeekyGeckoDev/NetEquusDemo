@@ -77,8 +77,18 @@ builder.Services.AddHttpClient<AdminArtistClient>(c =>
 })
 .AddHttpMessageHandler<AuthHeaderHandler>();
 
-builder.Services.AddHttpClient<BreedClient>(c 
-    => c.BaseAddress = new Uri(breedBase));
+builder.Services.AddHttpClient<BreedClient>(c =>
+{
+    c.BaseAddress = new Uri(breedBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<BreedGenStatsClient>(c =>
+{
+    c.BaseAddress = new Uri(breedBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
 
 builder.Services.AddHttpClient<HorseClient>(c =>
 {
