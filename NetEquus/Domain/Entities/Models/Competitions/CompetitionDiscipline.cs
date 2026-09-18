@@ -11,7 +11,7 @@ namespace Domain.Entities.Models.Competitions
 
         public Discipline Discipline { get; set; }
 
-        public ICollection<CompetitionStatRequirment> StatRequirements { get; set; }
-            = new List<CompetitionStatRequirment>();
+        public ICollection<CompetitionStatRequirement> StatRequirements { get; set; }
+            = new List<CompetitionStatRequirement>();
     }
 }

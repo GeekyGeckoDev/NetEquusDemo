@@ -1,0 +1,107 @@
+﻿@page "/create-competition-discipline"
+
+
+@using Shared.Dtos
+@using Shared.Dtos.CompetitionDtos.CompDisciplineDtos
+@using UI.API.Clients
+
+@inject CompetitionClient CompetitionClient
+
+<h3>Create Competition Discipline</h3>
+
+<div class="mb-3">
+    <label class="form-label">Discipline</label>
+
+    <select class="form-select" @bind="dto.Discipline">
+        @foreach (var discipline in Enum.GetValues<Discipline>())
+        {
+            <option value="@discipline">
+                @discipline
+            </option>
+        }
+    </select>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Performance Stat</th>
+            <th>Weight</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var requirement in dto.Requirements)
+        {
+            <tr>
+                <td>
+                    <select class="form-select"
+                            @bind="requirement.Stat">
+
+                        @foreach (var stat in Enum.GetValues<GenerationStat>())
+                        {
+                            <option value="@stat">
+                                @stat
+                            </option>
+                        }
+
+                    </select>
+                </td>
+
+                <td>
+                    <input type="number"
+                           class="form-control"
+                           step="0.01"
+                           @bind="requirement.Weight" />
+                </td>
+
+                <td>
+                    <button class="btn btn-danger"
+                            @onclick="() => RemoveRequirement(requirement)">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-secondary"
+        @onclick="AddRequirement">
+    + Add Stat
+</button>
+
+<button class="btn btn-primary"
+        @onclick="Create">
+    Create Discipline
+</button>
+
+                @code {
+
+    private CompetitionDisciplinDto dto = new()
+    {
+        Requirements = new List<CreateCompetitionStatRequirementDto>
+        {
+            new()
+        }
+    };
+
+    private void AddRequirement()
+    {
+        dto.Requirements.Add(
+            new CreateCompetitionStatRequirementDto()
+        );
+    }
+
+    private void RemoveRequirement(
+        CreateCompetitionStatRequirementDto requirement)
+    {
+        dto.Requirements.Remove(requirement);
+    }
+
+    private async Task Create()
+    {
+        await CompetitionClient.CreateCompetitionDisciplineAsync(dto);
+    }
+}
