@@ -45,7 +45,7 @@ namespace Domain.StaticClasses
                 new() { Stat = GenerationStat.Stride, Weight = 0.20 },
                 new() { Stat = GenerationStat.Agility, Weight = 0.20 },
                 new() { Stat = GenerationStat.Endurance, Weight = 0.25 },
-                new() { Stat = GenerationStat.Trainability, Weight = 0.15 }
+ 
             ]
         }
         ];

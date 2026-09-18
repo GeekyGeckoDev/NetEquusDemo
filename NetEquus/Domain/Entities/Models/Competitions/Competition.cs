@@ -12,10 +12,10 @@ namespace Domain.Entities.Models.Competitions
         [Key]
         public Guid CompetitionId { get; set; }
 
-        [ForeignKey(nameof(CompetitionDisciplineId))]
-        public virtual CompetitionDiscipline Discipline { get; set; }
+        [ForeignKey(nameof(CompetitionClassId))]
+        public virtual CompetitionClass Class { get; set; }
 
-        public Guid CompetitionDisciplineId { get; set; }
+        public Guid CompetitionClassId { get; set; }
 
         public DateTime Date { get; set; }
 

@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories.CompetitionsRepos
 
         public async Task CreateCompetitionStatRequirementAsync (CompetitionStatRequirement requirement)
         {
-            await _context.GetCompetitionStatRequirments.AddAsync (requirement);
+            await _context.CompetitionStatRequirements.AddAsync (requirement);
         }
     }
 }

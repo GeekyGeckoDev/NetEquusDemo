@@ -19,5 +19,7 @@ namespace Infrastructure.Repositories.CompetitionsRepos
         {
             await  _context.CompetitionDisciplines.AddAsync (competitionDiscipline);
         }
+
+   
     }
 }

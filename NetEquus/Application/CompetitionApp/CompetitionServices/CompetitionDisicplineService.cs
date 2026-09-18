@@ -1,4 +1,5 @@
 ﻿using Application.CompetitionApp.ICompetitionRepos;
+using Application.CompetitionApp.ICompetitionServices;
 using Domain.Entities.Models.Competitions;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,11 @@ using System.Text;
 
 namespace Application.CompetitionApp.CompetitionServices
 {
-    public class CompetitionDisicplineCrudService
+    public class CompetitionDisicplineService : ICompetitionDisicplineService
     {
         private readonly ICompetitionDisciplineRepository _repository;
 
-        public CompetitionDisicplineCrudService(ICompetitionDisciplineRepository repository)
+        public CompetitionDisicplineService(ICompetitionDisciplineRepository repository)
         {
             _repository = repository;
         }

@@ -37,6 +37,7 @@ var breedBase = builder.Configuration["ApiSettings:BreedBaseUrl"];
 var horseBase = builder.Configuration["ApiSettings:HorseBaseUrl"];
 var foalingBase = builder.Configuration["ApiSettings:FoalingBaseUrl"];
 var horseTraderBase = builder.Configuration["ApiSettings:HorseTraderBaseUrl"];
+var competitionDisciplineClass = builder.Configuration["ApiSettings:CompetitionBaseUrl"];
 
 
 builder.Services.AddSingleton<ITokenStore, TokenStore>();
@@ -125,6 +126,12 @@ builder.Services.AddHttpClient<HorseTraderClient>(c =>
 builder.Services.AddHttpClient<CheckClient>(c =>
 {
     c.BaseAddress = new Uri(foalingBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<CompetitionDisciplineClassClient>(c =>
+{
+    c.BaseAddress = new Uri(competitionDisciplineClass);
 })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 

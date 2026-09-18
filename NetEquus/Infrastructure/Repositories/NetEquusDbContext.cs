@@ -62,6 +62,8 @@ namespace Infrastructure
 
         public virtual DbSet<CompetitionStatRequirement> CompetitionStatRequirements { get; set; }
 
+        public virtual DbSet<CompetitionClass> CompetitionClasses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
                     modelBuilder.Entity<HorseArtist>()

@@ -1,24 +1,30 @@
-﻿
-using Shared.Enums;
+﻿using Shared.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Shared.Dtos.CompetitionDtos.CompDisciplineDtos
 {
-    public class CompetitionDisciplinDto
+    public class CreateCompetitionDisciplineWithClassDto
     {
-
         public Discipline Discipline { get; set; }
+
+        public string ClassName { get; set; }
+
+        public int Level { get; set; }
 
         public List<CreateCompetitionStatRequirementDto> Requirements { get; set; }
             = new();
     }
 
-    public class CreateCompetitionStatRequirementDto
+    public class CreateCompetitionClassDto
     {
-        public GenerationStat Stat { get; set; }
+        public Guid CompetitionDisciplineId { get; set; }
 
-        public double Weight { get; set; }
+        public string Name { get; set; }
+
+        public int Level { get; set; }
+
+        public List<CreateCompetitionStatRequirementDto> Requirements { get; set; }
+            = new();
     }
 }

@@ -1,11 +1,13 @@
 ﻿@page "/create-competition-discipline"
 
-
 @using Shared.Dtos
+@using Shared.Dtos.CompetitionDtos
 @using Shared.Dtos.CompetitionDtos.CompDisciplineDtos
+@using Shared.Enums
 @using UI.API.Clients
+@rendermode InteractiveServer
 
-@inject CompetitionClient CompetitionClient
+@inject CompetitionDisciplineClassClient CompetitionClient
 
 <h3>Create Competition Discipline</h3>
 
@@ -22,10 +24,28 @@
     </select>
 </div>
 
+<div class="mb-3">
+    <label class="form-label">Class Name</label>
+
+    <input type="text"
+           class="form-control"
+           @bind="dto.ClassName" />
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Level</label>
+
+    <input type="number"
+           class="form-control"
+           @bind="dto.Level" />
+</div>
+
+<h5>Stat Requirements</h5>
+
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Performance Stat</th>
+            <th>Generation Stat</th>
             <th>Weight</th>
             <th></th>
         </tr>
@@ -53,11 +73,14 @@
                     <input type="number"
                            class="form-control"
                            step="0.01"
+                           min="0"
+                           max="1"
                            @bind="requirement.Weight" />
                 </td>
 
                 <td>
-                    <button class="btn btn-danger"
+                    <button type="button"
+                            class="btn btn-danger"
                             @onclick="() => RemoveRequirement(requirement)">
                         Remove
                     </button>
@@ -67,19 +90,21 @@
     </tbody>
 </table>
 
-<button class="btn btn-secondary"
+<button type="button"
+        class="btn btn-secondary"
         @onclick="AddRequirement">
     + Add Stat
 </button>
 
-<button class="btn btn-primary"
+<button type="button"
+        class="btn btn-primary"
         @onclick="Create">
     Create Discipline
 </button>
 
-                @code {
+@code {
 
-    private CompetitionDisciplinDto dto = new()
+    private CreateCompetitionDisciplineWithClassDto dto = new()
     {
         Requirements = new List<CreateCompetitionStatRequirementDto>
         {
@@ -102,6 +127,7 @@
 
     private async Task Create()
     {
-        await CompetitionClient.CreateCompetitionDisciplineAsync(dto);
+        await CompetitionClient.CreateCompetitionDisciplineClassAsync(dto);
     }
 }
+
