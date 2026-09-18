@@ -60,7 +60,7 @@ namespace Infrastructure
 
         public virtual DbSet<CompetitionDiscipline> CompetitionDisciplines { get; set; }
 
-        public virtual DbSet<CompetitionStatRequirement> GetCompetitionStatRequirments { get; set; }
+        public virtual DbSet<CompetitionStatRequirement> CompetitionStatRequirements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

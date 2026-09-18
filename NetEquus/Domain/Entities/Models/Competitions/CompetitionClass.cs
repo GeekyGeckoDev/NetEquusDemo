@@ -1,19 +1,25 @@
-﻿using Domain.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Domain.Entities.Models.Competitions
 {
-    public class CompetitionDiscipline
+    public class CompetitionClass
     {
         [Key]
+        public Guid CompetitionClassId { get; set; }
+
         public Guid CompetitionDisciplineId { get; set; }
 
-        public Discipline Discipline { get; set; }
+        public CompetitionDiscipline CompetitionDiscipline { get; set; }
+
+        public string Name { get; set; }
+
+        public int Level { get; set; }
 
         public ICollection<CompetitionStatRequirement> StatRequirements { get; set; }
             = new List<CompetitionStatRequirement>();
     }
+
 }
