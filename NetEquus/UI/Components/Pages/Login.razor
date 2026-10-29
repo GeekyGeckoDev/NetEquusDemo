@@ -4,43 +4,78 @@
 @using UI.API.ApiClients
 @using UI.API.Clients
 @using UI.Auth
+
 @inject AuthClient AuthClient
-@rendermode InteractiveServer
 @inject AuthManager AuthManager
 @inject CheckClient Check
 @inject NavigationManager Nav
 @inject AuthenticationStateProvider AuthStateProvider
-@inject NavigationManager Nav
 
-<h3 class="mb-4">Login</h3>
+@rendermode InteractiveServer
 
-<div class="container">
-    <div class="card shadow p-4 col-md-6 mx-auto">
+<div class="front-page">
 
-        <h4 class="mb-4 text-center">Welcome Back</h4>
+    <div class="FrontPages front-page-login">
+        <div class="front-page-content">
 
-        @if (!string.IsNullOrEmpty(responseMessage))
-        {
-            <div class="alert alert-info">
-                @responseMessage
+            <h1>NETEQUUS</h1>
+            <h2>Welcome Back</h2>
+
+            @if (!string.IsNullOrEmpty(responseMessage))
+            {
+                <div class="alert alert-info">
+                    @responseMessage
+                </div>
+            }
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input class="form-control"
+                       @bind="loginUser.Email" />
             </div>
-        }
 
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input class="form-control" @bind="loginUser.Email" />
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password"
+                       class="form-control"
+                       @bind="loginUser.Password" />
+            </div>
+
+            <button class="btn btn-primary w-100"
+                    @onclick="LoginUserAsync">
+                Login
+            </button>
+
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control" @bind="loginUser.Password" />
-        </div>
-
-        <button class="btn btn-primary w-100" @onclick="LoginUserAsync">
-            Login
-        </button>
-
     </div>
+
+    <div class="FrontPages front-page-hero">
+        <div class="front-page-content">
+
+            <h2>Hero Horse</h2>
+            <p>Adult horse portrait and foal composition.</p>
+
+        </div>
+    </div>
+
+    <div class="FrontPages front-page-studbook">
+        <div class="front-page-content">
+
+            <h2>From the Studbook</h2>
+            <p>Featured horses will go here.</p>
+
+        </div>
+    </div>
+
+    <div class="FrontPages front-page-extra">
+        <div class="front-page-content">
+
+            <h2>Discover NetEquus</h2>
+            <p>Breeding, bloodlines and competition.</p>
+
+        </div>
+    </div>
+
 </div>
 
 @code {
@@ -54,7 +89,6 @@
 
         if (success)
         {
-
             await AuthManager.RefreshUserFromApi();
             responseMessage = "Login successful!";
             await Check.ProcessDueFoalingsAsync();

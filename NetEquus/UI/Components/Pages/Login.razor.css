@@ -1,0 +1,55 @@
+/* Overall homepage */
+
+.front-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: minmax(400px, 1fr) minmax(300px, 1fr);
+    min-height: 100vh;
+    width: 100%;
+}
+
+
+/* Shared section styling */
+
+.FrontPages {
+    min-width: 0;
+    min-height: 0;
+    padding: 2rem;
+}
+
+
+/* Top left: Login */
+
+.front-page-login {
+    background-color: #ff3030;
+}
+
+
+/* Top right: Hero horse */
+
+.front-page-hero {
+    background-color: #245bff;
+}
+
+
+/* Bottom left: Studbook carousel */
+
+.front-page-studbook {
+    background-color: #15b85a;
+}
+
+
+/* Bottom right: Extra content */
+
+.front-page-extra {
+    background-color: #ffb800;
+}
+
+
+/* Content inside each section */
+
+.front-page-content {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+}
