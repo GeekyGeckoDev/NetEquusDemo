@@ -8,6 +8,9 @@ namespace Shared.Dtos.CompetitionDtos.CompDisciplineDtos
     {
 
         public Guid CompetitionClassId { get; set; }
+
+        public string CompetitionDisciplineName { get; set; }
+
         public string Name { get; set; }
 
         public int Level { get; set; }

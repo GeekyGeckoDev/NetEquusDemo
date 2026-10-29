@@ -5,5 +5,7 @@ namespace Application.CompetitionApp.ICompetitionRepos
     public interface ICompetitionEntryCrudRepository
     {
         Task CreateCompetitionEntryAsync(CompetitionEntry entry);
+
+        Task<List<CompetitionEntry>> getAllEntriesByCompetitionId(Guid competitionId);
     }
 }

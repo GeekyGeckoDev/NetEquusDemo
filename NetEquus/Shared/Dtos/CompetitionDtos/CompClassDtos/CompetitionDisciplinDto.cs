@@ -27,4 +27,11 @@ namespace Shared.Dtos.CompetitionDtos.CompDisciplineDtos
         public List<CreateCompetitionStatRequirementDto> Requirements { get; set; }
             = new();
     }
+
+    public class CreateCompetitionStatRequirementDto
+    {
+        public GenerationStat Stat { get; set; }
+
+        public double Weight { get; set; }
+    }
 }

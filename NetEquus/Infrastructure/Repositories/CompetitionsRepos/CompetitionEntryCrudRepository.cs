@@ -19,5 +19,12 @@ namespace Infrastructure.Repositories.CompetitionsRepos
         {
             await _context.CompetitionEntries.AddAsync(entry);
         }
+
+        public async Task<List<CompetitionEntry>> getAllEntriesByCompetitionId (Guid competitionId)
+        {
+            return _context.CompetitionEntries
+                .Where(e => e.CompetitionId == competitionId)
+                .ToList();
+        }
     }
 }

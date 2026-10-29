@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Application.CompetitionApp.CompetitionDisciplineServices
 {
-    public class CompetitionDisciplineClassManager : ICompetitionDisciplineClassManager
+    public class CompetitionDisciplineClassManager : ICompetitionClassManager
     {
         private readonly ICompetitionDisicplineService _crudService;
 

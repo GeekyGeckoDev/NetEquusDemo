@@ -97,7 +97,7 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CompetitionDisciplineId")
+                    b.Property<Guid>("CompetitionClassId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
@@ -105,7 +105,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("CompetitionId");
 
-                    b.HasIndex("CompetitionDisciplineId");
+                    b.HasIndex("CompetitionClassId");
 
                     b.ToTable("Competitions");
                 });
@@ -667,13 +667,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Models.Competitions.Competition", b =>
                 {
-                    b.HasOne("Domain.Entities.Models.Competitions.CompetitionDiscipline", "Discipline")
+                    b.HasOne("Domain.Entities.Models.Competitions.CompetitionClass", "Class")
                         .WithMany()
-                        .HasForeignKey("CompetitionDisciplineId")
+                        .HasForeignKey("CompetitionClassId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Discipline");
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.Competitions.CompetitionClass", b =>

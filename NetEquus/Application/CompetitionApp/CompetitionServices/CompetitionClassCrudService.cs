@@ -1,6 +1,7 @@
 ﻿using Application.CompetitionApp.ICompetitionRepos;
 using Application.CompetitionApp.ICompetitionServices;
 using Domain.Entities.Models.Competitions;
+using Shared.Dtos.CompetitionDtos.CompDisciplineDtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +22,7 @@ namespace Application.CompetitionApp.CompetitionServices
             await _repository.CreateCompetitionClassAsync(compClass);
         }
 
-        public async Task<List<CompetitionClass>> GetAllCompetitionClassesAsync()
+        public async Task<List<CompetitionClassDto>> GetAllCompetitionClassesAsync()
         {
             return await _repository.GetAllCompetitionClassesAsync();
         }

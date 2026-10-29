@@ -1,0 +1,178 @@
+﻿@page "/enter-competitions"
+
+@using Shared.Dtos.BoardingDtos
+@using Shared.Dtos.CompetitionDtos
+@using UI.API.Clients
+@using UI.Auth
+
+@inject CompetitionClient CompetitionClient
+@inject CompetitionEntryClient CompetitionEntryClient
+@inject BoardingClient BoardingClient
+@inject AuthService AuthService
+
+@implements IDisposable
+
+@rendermode InteractiveServer
+
+<h3>Competitions</h3>
+
+@if (!string.IsNullOrEmpty(responseMessage))
+{
+    <div class="alert alert-info">
+        @responseMessage
+    </div>
+}
+
+@if (competitions.Count == 0)
+{
+    <p>No competitions found.</p>
+}
+else
+{
+    @foreach (var competition in competitions)
+    {
+        <div class="card mb-3">
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    @competition.CompetitionClassDto.CompetitionDisciplineName
+                    -
+                    @competition.CompetitionClassDto.Name
+                </h5>
+
+                <p class="card-text">
+                    Level: @competition.CompetitionClassDto.Level
+                    <br />
+                    Date: @competition.Date.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                </p>
+
+                <select class="form-select"
+                        multiple
+                        @bind="selectedHorses[competition.Id]">
+                    <option value="">
+                        -- Select Horse --
+                    </option>
+
+                    @foreach (var horse in horses)
+                    {
+                        <option value="@horse.Horse.HorseId">
+                            @horse.Horse.HorseName
+                        </option>
+                    }
+
+                </select>
+
+                <small class="text-muted">
+                    Hold Ctrl to select multiple horses.
+                </small>
+
+                <br />
+
+                <button class="btn btn-primary mt-3"
+                        @onclick="() => RegisterHorsesAsync(competition.Id)">
+                    Register Horses
+                </button>
+
+            </div>
+        </div>
+    }
+}
+
+@code {
+
+    private Guid EstateId { get; set; }
+
+    private List<CompetitionDto> competitions = new();
+    private List<BoardingDto> horses = new();
+
+    private Dictionary<Guid, Guid[]> selectedHorses = new();
+
+    private string? responseMessage;
+
+
+    protected override void OnInitialized()
+    {
+        AuthService.UserChanged += OnUserChanged;
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        competitions = await CompetitionClient
+            .GetAllCompetitionsAsync();
+
+        foreach (var competition in competitions)
+        {
+            selectedHorses[competition.Id] = Array.Empty<Guid>();
+        }
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        EstateId = AuthService.EstateId ?? Guid.Empty;
+
+        if (EstateId == Guid.Empty)
+            return;
+
+        horses = await BoardingClient
+            .GetBoardingByEstateIdAsync(EstateId);
+    }
+
+
+    private async void OnUserChanged(
+        System.Security.Claims.ClaimsPrincipal _)
+    {
+        await InvokeAsync(async () =>
+        {
+            await OnParametersSetAsync();
+            StateHasChanged();
+        });
+    }
+
+
+    public void Dispose()
+    {
+        AuthService.UserChanged -= OnUserChanged;
+    }
+
+
+    private async Task RegisterHorsesAsync(Guid competitionId)
+    {
+        responseMessage = null;
+
+        var horseIds = selectedHorses[competitionId];
+
+        if (horseIds.Length == 0)
+        {
+            responseMessage = "Please select at least one horse.";
+            return;
+        }
+
+        foreach (var horseId in horseIds)
+        {
+            var dto = new CreateCompetitionEntryDto
+            {
+                CompetitionId = competitionId,
+                HorseId = horseId
+            };
+
+            var response = await CompetitionEntryClient
+                .CreateCompetitionEntryAsync(dto);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+
+                responseMessage =
+                    $"Registration failed: {error}";
+
+                return;
+            }
+        }
+
+        responseMessage = "Horses registered successfully!";
+
+        selectedHorses[competitionId] = Array.Empty<Guid>();
+    }
+}

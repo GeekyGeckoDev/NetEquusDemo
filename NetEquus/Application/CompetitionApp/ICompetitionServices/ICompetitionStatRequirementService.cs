@@ -8,5 +8,7 @@ namespace Application.CompetitionApp.ICompetitionServices
     public interface ICompetitionStatRequirementService
     {
         Task CreateCompetitionStatRequirementAsync(CompetitionStatRequirement compStatRequirement);
+
+        Task<List<CompetitionStatRequirement>> GetCompetitionStatRequirementsAsync(CompetitionClass competitionClass);
     }
 }

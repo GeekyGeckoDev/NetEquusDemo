@@ -9,12 +9,12 @@ namespace APICompetition.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CompetitionDisciplineClassController : ControllerBase
+    public class CompetitionClassController : ControllerBase
     {
-        private readonly ICompetitionDisciplineClassManager _competitionDisciplineClassManager;
+        private readonly ICompetitionClassManager _competitionDisciplineClassManager;
 
         private readonly ICompetitionClassCrudService _competitionClassCrudService;
-        public CompetitionDisciplineClassController(ICompetitionDisciplineClassManager competitionDisciplineClassManager, ICompetitionClassCrudService competitionClassCrudService)
+        public CompetitionClassController(ICompetitionClassManager competitionDisciplineClassManager, ICompetitionClassCrudService competitionClassCrudService)
         {
             _competitionDisciplineClassManager = competitionDisciplineClassManager;
             _competitionClassCrudService = competitionClassCrudService;
@@ -36,7 +36,7 @@ namespace APICompetition.Controllers
 
         }
 
-        [HttpGet("getCompetitionClasses")]
+        [HttpGet("competitionClassList")]
         public async Task<IActionResult> GetCompetitionClassesAsync()
         {
             // Assuming you have a method to get all competition classes

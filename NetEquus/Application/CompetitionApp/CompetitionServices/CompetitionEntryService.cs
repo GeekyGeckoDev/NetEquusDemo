@@ -20,5 +20,10 @@ namespace Application.CompetitionApp.CompetitionServices
         {
             await _repository.CreateCompetitionEntryAsync(entry);
         }
+
+        public async Task<List<CompetitionEntry>> getAllEntriesByCompetitionId(Guid competitionId)
+        {
+            return await _repository.getAllEntriesByCompetitionId(competitionId);
+        }
     }
 }

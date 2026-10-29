@@ -1,5 +1,6 @@
 ﻿using Application.CompetitionApp.ICompetitionRepos;
 using Domain.Entities.Models.Competitions;
+using Shared.Dtos.CompetitionDtos.CompDisciplineDtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,9 +21,15 @@ namespace Infrastructure.Repositories.CompetitionsRepos
             await _context.CompetitionClasses.AddAsync(compClass);
         }
 
-        public async Task<List<CompetitionClass>> GetAllCompetitionClassesAsync()
+        public async Task<List<CompetitionClassDto>> GetAllCompetitionClassesAsync()
         {
             return _context.CompetitionClasses
+                .Select(c => new CompetitionClassDto
+                {
+                    CompetitionClassId = c.CompetitionClassId,
+                    Name = c.Name,
+                    CompetitionDisciplineName = c.CompetitionDiscipline.Discipline.ToString(),
+                })
                 .ToList();
         }
     }

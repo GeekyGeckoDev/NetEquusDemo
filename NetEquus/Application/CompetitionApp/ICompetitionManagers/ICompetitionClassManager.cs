@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Application.CompetitionApp.ICompetitionDisciplineServices
 {
-    public interface ICompetitionDisciplineClassManager
+    public interface ICompetitionClassManager
     {
         Task<RuleResult> CreateCompetitionDisciplineWithClassAsync(
       CreateCompetitionDisciplineWithClassDto dto);

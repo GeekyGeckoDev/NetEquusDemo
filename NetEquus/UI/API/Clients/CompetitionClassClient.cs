@@ -3,11 +3,11 @@ using Shared.Dtos.CompetitionDtos.CompDisciplineDtos;
 
 namespace UI.API.Clients
 {
-    public class CompetitionDisciplineClassClient
+    public class CompetitionClassClient
     {
         private readonly HttpClient _httpClient;
 
-        public CompetitionDisciplineClassClient(HttpClient httpClient)
+        public CompetitionClassClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
@@ -21,6 +21,11 @@ namespace UI.API.Clients
             return response;
         }
 
-        public async Task<List<Competit>
+        public async Task<List<CompetitionClassDto>> GetAllCompetitionClassesAsync()
+        {
+            return await _httpClient.GetFromJsonAsync<List<CompetitionClassDto>>(
+                "api/CompetitionClass/competitionClassList")
+                ?? new List<CompetitionClassDto>();
+        }
     }
 }

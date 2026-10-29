@@ -37,47 +37,53 @@ namespace Application.HorseApp
         {
             try
             {
-                var boarding =
-                    await _boardingGetService.GetBoardingByHorseIdAsync(horseId);
+                await _unitOfWork.ExecuteAsync(async () =>
+                {
 
-                boarding.BoardingEstateId = newEstateId;
+                    var boarding =
+                             await _boardingGetService.GetBoardingByHorseIdAsync(horseId);
 
-                await _boardingCrudService
-                    .UpdateBoardingAsync(boarding);
+                    boarding.BoardingEstateId = newEstateId;
 
-                var estate =
-                    await _estateGetService
-                        .GetEstateByIdAsync(newEstateId);
+                    await _boardingCrudService
+                        .UpdateBoardingAsync(boarding);
 
-                var ownership =
-                    await _horseOwnershipGetService
-                        .GetOwnershipByHorseIdAsync(horseId);
+                    var estate =
+                        await _estateGetService
+                            .GetEstateByIdAsync(newEstateId);
+
+                    var ownership =
+                        await _horseOwnershipGetService
+                            .GetOwnershipByHorseIdAsync(horseId);
 
 
 
-                var estateOwner =
-                    estate.EstateOwners.FirstOrDefault();
+                    var estateOwner =
+                        estate.EstateOwners.FirstOrDefault();
 
-                if (estateOwner == null)
-                    throw new Exception("Estate has no owner.");
+                    if (estateOwner == null)
+                        throw new Exception("Estate has no owner.");
 
-                ownership.UserId = estateOwner.UserId;
+                    ownership.UserId = estateOwner.UserId;
 
-                await _horseOwnershipCrudService
-                    .UpdateHorseOwnershipAsync(ownership);
-
+                    await _horseOwnershipCrudService
+                        .UpdateHorseOwnershipAsync(ownership);
+           
+                });
 
                 return RuleResult.Success();
             }
-
             catch (Exception ex)
             {
-                return RuleResult.Fail("ex");
+                return RuleResult.Fail($"Competition discipline creation failed; {ex.Message}");
+
+
+
             }
 
 
-            
-                
+
+
         }
     }
 

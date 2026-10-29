@@ -20,5 +20,10 @@ namespace Application.CompetitionApp.CompetitionServices
         {
             await _competitionStatRequirementRepository.CreateCompetitionStatRequirementAsync(requirement);
         }
+
+        public async Task<List<CompetitionStatRequirement>> GetCompetitionStatRequirementsAsync(CompetitionClass competitionClass)
+        {
+            return await _competitionStatRequirementRepository.GetCompetitionStatRequirementsAsync(competitionClass);
+        }
     }
 }

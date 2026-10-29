@@ -37,7 +37,7 @@ var breedBase = builder.Configuration["ApiSettings:BreedBaseUrl"];
 var horseBase = builder.Configuration["ApiSettings:HorseBaseUrl"];
 var foalingBase = builder.Configuration["ApiSettings:FoalingBaseUrl"];
 var horseTraderBase = builder.Configuration["ApiSettings:HorseTraderBaseUrl"];
-var competitionDisciplineClass = builder.Configuration["ApiSettings:CompetitionBaseUrl"];
+var competitionClassBase = builder.Configuration["ApiSettings:CompetitionBaseUrl"];
 
 
 builder.Services.AddSingleton<ITokenStore, TokenStore>();
@@ -129,9 +129,21 @@ builder.Services.AddHttpClient<CheckClient>(c =>
 })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 
-builder.Services.AddHttpClient<CompetitionDisciplineClassClient>(c =>
+builder.Services.AddHttpClient<CompetitionClassClient>(c =>
 {
-    c.BaseAddress = new Uri(competitionDisciplineClass);
+    c.BaseAddress = new Uri(competitionClassBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<CompetitionClient>(c =>
+{
+    c.BaseAddress = new Uri(competitionClassBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+builder.Services.AddHttpClient<CompetitionEntryClient>(c =>
+{
+    c.BaseAddress = new Uri(competitionClassBase);
 })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 

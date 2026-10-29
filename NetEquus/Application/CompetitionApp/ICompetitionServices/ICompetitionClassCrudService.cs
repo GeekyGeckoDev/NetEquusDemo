@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Models.Competitions;
+using Shared.Dtos.CompetitionDtos.CompDisciplineDtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,6 @@ namespace Application.CompetitionApp.ICompetitionServices
     {
         Task CreateCompetitionClassAsync(CompetitionClass compClass);
 
-        Task<List<CompetitionClass>> GetAllCompetitionClassesAsync();
+        Task<List<CompetitionClassDto>> GetAllCompetitionClassesAsync();
     }
 }

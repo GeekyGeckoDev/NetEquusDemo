@@ -5,6 +5,7 @@ using Application.BreedApp.IBreedServices;
 using Application.CompetitionApp.CompetitionDisciplineServices;
 using Application.CompetitionApp.CompetitionServices;
 using Application.CompetitionApp.ICompetitionDisciplineServices;
+using Application.CompetitionApp.ICompetitionManagers;
 using Application.CompetitionApp.ICompetitionRepos;
 using Application.CompetitionApp.ICompetitionServices;
 using Application.UnitOfWorks;
@@ -46,7 +47,9 @@ builder.Services.AddScoped<ICompetitionCrudService, CompetitionCrudService>();
 builder.Services.AddScoped<ICompetitionEntryCrudService, CompetitionEntryService>();
 builder.Services.AddScoped<ICompetitionResultCrudService, CompetitionResultCrudService>();
 
-builder.Services.AddScoped<ICompetitionDisciplineClassManager, CompetitionDisciplineClassManager>();
+
+builder.Services.AddScoped<ICompetitionClassManager, CompetitionDisciplineClassManager>();
+builder.Services.AddScoped<ICompetitionManager, CompetitionManager>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -116,7 +119,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowUI");
 
-app.UseAuthentication();   // ❗ REQUIRED (you are missing this)
+app.UseAuthentication();  
 app.UseAuthorization();
 
 // Controllers
