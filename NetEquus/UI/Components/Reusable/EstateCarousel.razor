@@ -1,0 +1,139 @@
+﻿@using Shared.Dtos.BoardingDtos
+@using UI.API.Clients
+@using UI.Auth
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@using UI.Helpers
+@inject BoardingClient BoardingClient
+
+@code {
+
+}
+<div class="estate-horses">
+    <div class="estate-section-heading">
+        <h2>Your Horses</h2>
+        <span>@horses.Count horses</span>
+    </div>
+
+    @if (isLoadingHorses)
+    {
+        <div class="horse-carousel-message">
+            Loading horses...
+        </div>
+    }
+    else if (horses.Count == 0)
+    {
+        <div class="horse-carousel-message">
+            Your estate doesn't have any horses yet.
+        </div>
+    }
+    else
+    {
+        <div class="horse-carousel">
+
+            <button class="horse-carousel-arrow"
+                    @onclick="PreviousHorses"
+                    disabled="@(horses.Count <= 3)">
+                &#8249;
+            </button>
+
+            <div class="horse-carousel-track">
+                @foreach (var boarding in VisibleHorses)
+                {
+                    var horse = boarding.Horse;
+
+                    <div class="horse-carousel-card"
+                         @key="horse.HorseId">
+
+                        @if (!string.IsNullOrWhiteSpace(horse.Image))
+                        {
+                            <img src="@horse.Image"
+                                 alt="@horse.HorseName"
+                                 class="horse-carousel-image" />
+                        }
+                        else
+                        {
+                            <div class="horse-carousel-no-image">
+                                <span>Image unavailable</span>
+                            </div>
+                        }
+
+                        <div class="horse-carousel-overlay">
+                            <h3>@horse.HorseName</h3>
+
+                            <span class="horse-carousel-breed">
+                                @(horse.HorseBreed?.BreedName ?? "Unknown breed")
+                            </span>
+
+                            <div class="horse-carousel-details">
+                                <span>@horse.HorseSex</span>
+                                <span>@horse.Age years</span>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+            <button class="horse-carousel-arrow"
+                    @onclick="NextHorses"
+                    disabled="@(horses.Count <= 3)">
+                &#8250;
+            </button>
+
+        </div>
+    }
+</div>
+
+@code{
+
+    [Parameter] public Guid EstateId { get; set; }
+
+    private List<BoardingDto> horses = new();
+
+    private bool isLoadingHorses = true;
+    private int currentHorseIndex;
+
+    private IEnumerable<BoardingDto> VisibleHorses =>
+        Enumerable.Range(0, Math.Min(3, horses.Count))
+            .Select(i => horses[(currentHorseIndex + i) % horses.Count]);
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (EstateId == Guid.Empty)
+        {
+            EstateId = AuthService.EstateId ?? Guid.Empty;
+        }
+
+        if (EstateId == Guid.Empty)
+        {
+            isLoadingHorses = false;
+            return;
+        }
+
+        isLoadingHorses = true;
+
+        horses = await BoardingClient.GetBoardingByEstateIdAsync(EstateId);
+
+        currentHorseIndex = 0;
+        isLoadingHorses = false;
+    }
+
+    private void NextHorses()
+    {
+        if (horses.Count <= 3)
+            return;
+
+        currentHorseIndex = (currentHorseIndex + 1) % horses.Count;
+    }
+
+    private void PreviousHorses()
+    {
+        if (horses.Count <= 3)
+            return;
+
+        currentHorseIndex =
+            (currentHorseIndex - 1 + horses.Count) % horses.Count;
+    }
+
+}

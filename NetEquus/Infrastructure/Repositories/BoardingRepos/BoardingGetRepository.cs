@@ -29,6 +29,8 @@ namespace Infrastructure.Repositories.BoardingRepos
                 .Include(b => b.BoardingEstate)
                 .Include(b => b.Horse)
                     .ThenInclude(h => h.Breed)
+                 .Include(b => b.Horse)
+                    .ThenInclude(h => h.HorseAppearance)
                 .Where(b => b.BoardingEstateId == estateId)
                 .ToListAsync();
 

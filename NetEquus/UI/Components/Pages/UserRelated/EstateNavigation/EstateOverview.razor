@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using UI.Auth
+@using UI.Components.Reusable
 @inject AuthService AuthService
 @inject NavigationManager Navigation
 @page "/estate-overview"
@@ -46,7 +47,7 @@
             <section class="estate-content">
 
                 <div class="estate-horses">
-                    <h2>Your Horses</h2>
+                    <EstateCarousel></EstateCarousel>
                 </div>
 
                 <div class="estate-management">
