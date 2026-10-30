@@ -147,6 +147,13 @@ builder.Services.AddHttpClient<CompetitionEntryClient>(c =>
 })
     .AddHttpMessageHandler<AuthHeaderHandler>();
 
+builder.Services.AddHttpClient<HorseCarouselClient>(c=>
+{
+    c.BaseAddress = new Uri(horseBase);
+})
+    .AddHttpMessageHandler<AuthHeaderHandler>();
+
+
 
 
 var app = builder.Build();

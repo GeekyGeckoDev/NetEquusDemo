@@ -41,6 +41,12 @@ namespace Shared.Dtos.HorseDtos
 
         public decimal EquinsValue { get; set; }
 
+        public string? Image { get; set; }
+
+        public string? SireName { get; set; }
+        public string? DamName { get; set; }
+        public string? GrandsireName { get; set; }
+
 
     }
 }

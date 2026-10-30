@@ -11,6 +11,8 @@ namespace Application.HorseApp.IHorseRepos
     {
         Task<Horse?> GetHorseByIdAsync(Guid horseId);
 
+        Task<List<HorseInfoDto>> GetRandomHorsesAsync(int count = 3);
+
         Task<List<HorseInfoDto>> GetHorsesBySexAsync(int sex);
 
         Task<PedigreeDto?> BuildPedigreeAsync(Guid horseId, int generations);

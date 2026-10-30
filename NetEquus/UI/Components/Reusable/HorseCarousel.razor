@@ -1,0 +1,201 @@
+﻿@using Shared.Dtos.HorseDtos
+@using UI.API.Clients
+@inject HorseCarouselClient HorseCarouselClient
+
+<div class="studbook-carousel">
+    @if (isLoading)
+    {
+        <div class="studbook-message">
+            Loading the studbook...
+        </div>
+    }
+    else if (horses.Count == 0)
+    {
+        <div class="studbook-message">
+            No featured horses available.
+        </div>
+    }
+    else
+    {
+        var horse = horses[currentIndex];
+        var nextHorse = horses[pendingIndex];
+        var detailsHorse = isFlipping ? nextHorse : horse;
+
+      <div class="studbook-card">
+
+        @* Venstre bogside *@
+        <div class="studbook-page studbook-page-left">
+            <div class="studbook-portrait">
+                @if (!string.IsNullOrWhiteSpace(horse.Image))
+                {
+                    <img src="@horse.Image"
+                         alt="@horse.HorseName"
+                         class="studbook-horse-image" />
+                }
+                else
+                {
+                    <div class="studbook-no-image">
+                        Appearance unavailable
+                    </div>
+                }
+            </div>
+
+            <div class="studbook-page-number">
+                <span>—</span>
+                @((currentIndex * 2 + 1).ToString("00"))
+                <span>—</span>
+            </div>
+        </div>
+
+        @* Højre bogside *@
+        <div class="studbook-page studbook-page-right">
+            <div class="studbook-details">
+                <div class="studbook-heading">
+                    <h2 class="studbook-horse-name login-brand">
+                        @horse.HorseName
+                    </h2>
+
+                    <div class="studbook-pedigree-line">
+                        <span>By @(horse.SireName ?? "Unknown")</span>
+                        <span>
+                            Out of @(horse.DamName ?? "Unknown")
+                            By @(horse.GrandsireName ?? "Unknown")
+                        </span>
+                    </div>
+                </div>
+
+                <div class="studbook-divider"></div>
+
+                <dl class="studbook-facts">
+                    <div>
+                        <dt>Breed</dt>
+                        <dd>@(horse.HorseBreed?.BreedName ?? "Unknown")</dd>
+                    </div>
+                </dl>
+
+                <div class="studbook-page-number">
+                    <span>—</span>
+                    @((currentIndex * 2 + 2).ToString("00"))
+                    <span>—</span>
+                </div>
+            </div>
+        </div>
+
+        @if (isFlipping)
+            {
+                <div class="studbook-page-turn">
+                    @* Forsiden: den nuværende højre bogside *@
+                    <div class="studbook-page-turn-face studbook-page-turn-front">
+                        <h2 class="studbook-horse-name login-brand">
+                            @horse.HorseName
+                        </h2>
+
+                        <div class="studbook-pedigree-line">
+                            <span>By @(horse.SireName ?? "Unknown")</span>
+                            <span>
+                                Out of @(horse.DamName ?? "Unknown")
+                                By @(horse.GrandsireName ?? "Unknown")
+                            </span>
+                        </div>
+
+                        <div class="studbook-divider"></div>
+
+                        <dl class="studbook-facts">
+                            <div>
+                                <dt>Breed</dt>
+                                <dd>@(horse.HorseBreed?.BreedName ?? "Unknown")</dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    @* Bagsiden af papiret *@
+                    <div class="studbook-page-turn-face studbook-page-turn-back">
+                        @if (!string.IsNullOrWhiteSpace(nextHorse.Image))
+                            {
+                                <img src="@nextHorse.Image"
+                                     alt="@nextHorse.HorseName"
+                                     class="studbook-page-turn-image" />
+                            }
+                            else
+                            {
+                                <div class="studbook-no-image">
+                                    Appearance unavailable
+                                </div>
+                            }
+                    </div>
+                </div>
+            }
+
+        <button type="button"
+                class="studbook-arrow studbook-arrow-previous"
+                aria-label="Previous horse"
+                disabled="@isFlipping"
+                @onclick="PreviousHorse">
+            &#8249;
+        </button>
+
+        <button type="button"
+                class="studbook-arrow studbook-arrow-next"
+                aria-label="Next horse"
+                disabled="@isFlipping"
+                @onclick="NextHorse">
+            &#8250;
+        </button>
+
+    </div>
+
+    }
+</div>
+
+@code {
+
+    private int pendingIndex;
+    private bool isFlipping;
+    private const int FlipDurationMs = 650;
+    private List<HorseInfoDto> horses = new();
+    private int currentIndex;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            horses = await HorseCarouselClient.GetRandomHorsesAsync();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task NextHorse()
+    {
+        if (horses.Count < 2 || isFlipping)
+            return;
+
+        pendingIndex = (currentIndex + 1) % horses.Count;
+        await FlipPageAsync();
+    }
+
+    private async Task PreviousHorse()
+    {
+        if (horses.Count < 2 || isFlipping)
+            return;
+
+        pendingIndex = (currentIndex - 1 + horses.Count) % horses.Count;
+        await FlipPageAsync();
+    }
+
+    private async Task FlipPageAsync()
+    {
+        isFlipping = true;
+
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(FlipDurationMs);
+
+        currentIndex = pendingIndex;
+        isFlipping = false;
+
+        await InvokeAsync(StateHasChanged);
+    }
+}

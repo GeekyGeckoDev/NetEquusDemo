@@ -21,38 +21,38 @@ namespace Application.CompetitionApp.CalculateCompScores
             _requirementService = requirementService;
             _horseGetService = horseGetService;
         }
-        public async Task<List<CompetitionResult>> CalculateCompetitionScore(Competition comp)
-        {
-            var statRequirements =
-                await _requirementService
-                    .GetCompetitionStatRequirementsAsync(comp.Class);
+        //public async Task<List<CompetitionResult>> CalculateCompetitionScore(Competition comp)
+        //{
+        //    var statRequirements =
+        //        await _requirementService
+        //            .GetCompetitionStatRequirementsAsync(comp.Class);
 
-            var results = new List<CompetitionResult>();
+        //    var results = new List<CompetitionResult>();
 
-            foreach (var entry in comp.CompetitionEntries)
-            {
-                var horse = entry.Horse;
+        //    foreach (var entry in comp.CompetitionEntries)
+        //    {
+        //        var horse = entry.Horse;
 
-                double weightedScore = 0;
+        //        double weightedScore = 0;
 
-                foreach (var requirement in statRequirements)
-                {
-                    var performanceAttribute =
-                        horse.ConfPerfTempAttributes
-                            .PerformanceAttributes
-                            .FirstOrDefault(x => x.Stat == requirement.Stat);
+        //        foreach (var requirement in statRequirements)
+        //        {
+        //            var performanceAttribute =
+        //                horse.ConfPerfTempAttributes
+        //                    .PerformanceAttributes
+        //                    .FirstOrDefault(x => x.Stat == requirement.Stat);
 
-                    if (performanceAttribute == null)
-                        continue;
+        //            if (performanceAttribute == null)
+        //                continue;
 
-                    weightedScore +=
-                        performanceAttribute.Value * requirement.Weight;
-                }
+        //            weightedScore +=
+        //                performanceAttribute.Value * requirement.Weight;
+        //        }
 
-                // weightedScore er nu hestens samlede score
-            }
+        //        // weightedScore er nu hestens samlede score
+        //    }
 
-            return results;
-        }
+        //    return results;
+        //}
     }
 }

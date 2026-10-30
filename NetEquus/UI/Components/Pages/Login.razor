@@ -15,36 +15,45 @@
 
 <div class="front-page">
 
-    <div class="FrontPages front-page-login">
+    <div class="FrontPages front-page-login px-3">
         <div class="front-page-content">
+            <div class="login-content">
 
-            <h1>NETEQUUS</h1>
-            <h2>Welcome Back</h2>
+                <h1>NET-EQUUS</h1>
+                <br />
 
-            @if (!string.IsNullOrEmpty(responseMessage))
-            {
-                <div class="alert alert-info">
-                    @responseMessage
+
+                @if (!string.IsNullOrEmpty(responseMessage))
+                {
+                    <div class="alert alert-info">
+                        @responseMessage
+                    </div>
+                }
+
+                <div class="login-container">
+
+                    <h2>Welcome Back</h2>
+
+                    <div class="login-field">
+                        <label class="form-label">Email</label>
+                        <input class="form-control login-input"
+                               @bind="loginUser.Email" />
+                    </div>
+
+                    <div class="login-field">
+                        <label class="form-label">Password</label>
+                        <input type="password"
+                               class="form-control login-input"
+                               @bind="loginUser.Password" />
+                    </div>
+
+                    <button class="login-button"
+                            @onclick="LoginUserAsync">
+                        Login
+                    </button>
                 </div>
-            }
 
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input class="form-control"
-                       @bind="loginUser.Email" />
             </div>
-
-            <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input type="password"
-                       class="form-control"
-                       @bind="loginUser.Password" />
-            </div>
-
-            <button class="btn btn-primary w-100"
-                    @onclick="LoginUserAsync">
-                Login
-            </button>
 
         </div>
     </div>

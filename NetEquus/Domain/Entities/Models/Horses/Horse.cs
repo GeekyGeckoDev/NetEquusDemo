@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Models.Breeds;
+using Domain.Entities.Models.HorseAppereances;
 using Domain.Entities.Models.Horses.Horsestats;
 using Domain.Enums;
 using System;
@@ -27,6 +28,10 @@ namespace Domain.Entities.Models.Horses
         public int Height { get; set; }
 
         public DateOnly BirthDate { get; set; }
+
+        public Guid? AppearanceId { get; set; }
+
+        public virtual HorseAppearance HorseAppearance { get; set; }
 
         public DateOnly AgingDate { get; set; }
 

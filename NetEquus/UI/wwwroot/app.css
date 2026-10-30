@@ -1,5 +1,5 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Georgia, Arial, sans-serif, Helvetica, Cambria, Cochin, Times, Times New Roman, serif;
 }
 
 a, .btn-link {
@@ -17,7 +17,7 @@ a, .btn-link {
 }
 
 .content {
-    padding-top: 1.1rem;
+
 }
 
 h1:focus {
@@ -77,3 +77,12 @@ h1:focus {
     min-width: 180px;
     background: white;
 }
+
+.login-brand {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.58em;
+    margin: 0;
+    text-align: center;
+}
+

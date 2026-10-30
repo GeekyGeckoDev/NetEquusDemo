@@ -1,11 +1,13 @@
 /* Overall homepage */
 
+
 .front-page {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: minmax(400px, 1fr) minmax(300px, 1fr);
     min-height: 100vh;
     width: 100%;
+
 }
 
 
@@ -14,35 +16,37 @@
 .FrontPages {
     min-width: 0;
     min-height: 0;
-    padding: 2rem;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 
 /* Top left: Login */
 
 .front-page-login {
-    background-color: #ff3030;
+    background-color: #32464D;
+    color: #F0F0F0;
 }
 
 
 /* Top right: Hero horse */
 
 .front-page-hero {
-    background-color: #245bff;
+    background-color: #31525E;
 }
 
 
 /* Bottom left: Studbook carousel */
 
 .front-page-studbook {
-    background-color: #15b85a;
+    background-color: #31525E;
 }
 
 
 /* Bottom right: Extra content */
 
 .front-page-extra {
-    background-color: #ffb800;
+    background-color: #32464D;
 }
 
 
@@ -53,3 +57,69 @@
     height: 100%;
     min-width: 0;
 }
+
+/* Login form container */
+.login-container {
+    background-color: #D1D3D4;
+    color: #32464D;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Container heading */
+
+.login-container h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Form fields */
+
+.login-field {
+    margin-bottom: 1.25rem;
+}
+
+    .login-field .form-label {
+        display: block;
+        color: #32464D;
+        margin-bottom: 0.5rem;
+    }
+
+/* Input fields */
+
+.login-input {
+    background-color: #E5E6E7;
+    color: #32464D;
+    border: 1px solid #B5B9BB;
+    border-radius: 4px;
+    padding: 0.75rem;
+}
+
+    .login-input:focus {
+        background-color: #E5E6E7;
+        color: #32464D;
+        border-color: #657D85;
+        box-shadow: 0 0 0 0.2rem rgb(50 70 77 / 15%);
+    }
+
+/* Login button */
+
+.login-button {
+    width: 100%;
+    background-color: #E5E6E7;
+    color: #32464D;
+    border: 1px solid #B5B9BB;
+    border-radius: 4px;
+    padding: 0.75rem;
+    font-family: var(--font-ui);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    .login-button:hover {
+        background-color: #F0F0F0;
+    }

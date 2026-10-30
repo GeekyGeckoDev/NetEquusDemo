@@ -1,0 +1,324 @@
+.studbook-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: #1A1A1A;
+    color: var(--studbook-text, #F0F0F0);
+    border: 1px solid rgba(120, 100, 75, 0.35);
+}
+
+.studbook-page {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: clamp(1rem, 2vw, 2rem);
+}
+
+.studbook-page-left {
+    border-right: 1px solid rgba(120, 100, 75, 0.35);
+    background: #202020;
+    justify-content;
+}
+
+.studbook-page-right {
+    background: linear-gradient( to right, rgba(90, 70, 45, 0.07), transparent 12% ), #1A1A1A;
+}
+
+.studbook-portrait {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.studbook-horse-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.studbook-page .studbook-details {
+    height: 100%;
+    box-sizing: border-box;
+    padding: clamp(1rem, 2vw, 2rem);
+    padding-bottom: 3rem;
+}
+
+.studbook-page .studbook-page-number {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Højre side skal føles som en bogside */
+.studbook-details {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    padding: clamp(2rem, 3vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-wrap: anywhere;
+    background: linear-gradient( to right, rgba(90, 70, 45, 0.07), transparent 12% ), #1A1A1A;
+}
+
+.studbook-heading {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.studbook-horse-name {
+    margin: 0 0 0.8rem;
+    width: 100%;
+    text-align: center;
+    font-size: clamp(1.6rem, 2.4vw, 2.8rem);
+    line-height: 1.15;
+}
+
+.studbook-pedigree-line {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-family: Georgia, serif;
+    font-size: clamp(0.85rem, 1vw, 1rem);
+    font-style: italic;
+    color: #8F8164;
+}
+
+.studbook-divider {
+    width: 3rem;
+    height: 1px;
+    background: #a38b6b;
+    margin: 0 auto 1.8rem;
+}
+
+.studbook-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+    margin: 0;
+}
+
+    .studbook-facts dt {
+        color: #8F8164;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        margin-bottom: 0.3rem;
+    }
+
+    .studbook-facts dd {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(0.95rem, 1.2vw, 1.25rem);
+    }
+
+.studbook-page-number {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    text-align: center;
+    color: #8a7458;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+}
+
+    .studbook-page-number span {
+        padding: 0 0.4rem;
+    }
+
+/* Bogens pile placeres på opslagets yderkanter */
+.studbook-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 2.7rem;
+    height: 3.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(120, 100, 75, 0.35);
+    background: rgba(245, 240, 231, 0.92);
+    color: #79664f;
+    cursor: pointer;
+    font-family: Georgia, serif;
+    font-size: 2.3rem;
+    line-height: 1;
+    transition: background 160ms ease, color 160ms ease;
+}
+
+    .studbook-arrow:hover {
+        background: #e8dfd0;
+        color: #302a24;
+    }
+
+.studbook-arrow-previous {
+    left: 0;
+    border-left: 0;
+}
+
+.studbook-arrow-next {
+    right: 0;
+    border-right: 0;
+}
+
+@media (max-width: 650px) {
+
+    .studbook-details {
+        padding: 1.5rem;
+    }
+
+    .studbook-heading {
+        margin-bottom: 1rem;
+    }
+
+    .studbook-facts {
+        gap: 0.7rem;
+    }
+
+    .studbook-arrow {
+        width: 2rem;
+        height: 3rem;
+    }
+}
+
+.front-page-studbook {
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+}
+
+    .front-page-studbook .front-page-content {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .front-page-studbook .front-page-content h2 {
+            flex-shrink: 0;
+        }
+
+.studbook-carousel {
+    width: 100%;
+    height: 100%;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    margin: 0 auto;
+    display: flex;
+}
+
+.studbook-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    perspective: 1800px;
+    isolation: isolate;
+}
+
+/* Det vendende papir dækker præcis højre halvdel */
+.studbook-page-turn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    box-sizing: border-box;
+    z-index: 4;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    animation: studbook-page-flip 650ms ease-in forwards;
+    pointer-events: none;
+}
+
+/* Begge sider af papiret */
+.studbook-page-turn-face {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    padding: clamp(1rem, 2vw, 2rem);
+    overflow: hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border: 1px solid rgba(120, 100, 75, 0.35);
+    background-color: #1A1A1A;
+}
+
+/* Forsiden */
+.studbook-page-turn-front {
+    z-index: 2;
+    background: linear-gradient( to right, rgba(90, 70, 45, 0.07), transparent 12% ), #1A1A1A;
+}
+
+/* Bagsiden vender væk fra brugeren indtil rotationen */
+.studbook-page-turn-back {
+    transform: rotateY(180deg);
+    background: #202020;
+    overflow: hidden;
+}
+
+.studbook-page-turn-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+/* Dekoration på papirets bagside */
+.studbook-page-turn-back-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    font-family: Georgia, serif;
+    text-align: center;
+}
+
+.studbook-page-turn-decoration {
+    font-size: clamp(0.8rem, 1.2vw, 1.1rem);
+    letter-spacing: 0.25em;
+    color: #8a7458;
+}
+
+.studbook-page-turn-back-content p {
+    font-style: italic;
+    letter-spacing: 0.1em;
+}
+
+@keyframes studbook-page-flip {
+    from {
+        transform: rotateY(0deg);
+    }
+
+    to {
+        transform: rotateY(-180deg);
+    }
+}

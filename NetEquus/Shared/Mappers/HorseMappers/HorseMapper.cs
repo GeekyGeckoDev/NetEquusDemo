@@ -47,7 +47,7 @@ namespace Shared.Mappers.HorseMappers
 
         }
 
-        public static HorseInfoDto horseInfoDto (Horse horse)
+        public static HorseInfoDto horseInfoDto(Horse horse)
         {
             return new HorseInfoDto
             {
@@ -59,6 +59,18 @@ namespace Shared.Mappers.HorseMappers
                 Birthday = horse.BirthDate,
                 Age = CalculateHorseAge.CalculateHorseAgeMapper(horse),
                 EquinsValue = horse.EquinsValue,
+
+                SireName = horse.OffspringRecord?.Sire?.HorseName,
+
+                DamName = horse.OffspringRecord?.Dam?.HorseName,
+
+                GrandsireName = horse.OffspringRecord?
+                .Dam?
+                .OffspringRecord?
+                .Sire?
+                .HorseName,
+
+                Image = horse.HorseAppearance?.Image
             };
         }
     }

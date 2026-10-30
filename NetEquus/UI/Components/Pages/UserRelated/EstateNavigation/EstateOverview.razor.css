@@ -1,0 +1,157 @@
+
+.estate-overview {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    background-color: #31525E;
+}
+
+/* Estate header */
+
+.estate-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 20vh;
+    padding: 1.75rem 2.5rem;
+    background-color: #1A1A1A;
+    color: #F0F0F0;
+}
+
+.estate-identity h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+}
+
+.estate-identity p {
+    margin: 0.35rem 0 0;
+    color: #B8A58B;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+}
+
+.estate-profile-button {
+    padding: 0.8rem 1.8rem;
+    border: none;
+    background-color: #B8A58B;
+    color: #1A1A1A;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Estate statistics */
+
+.estate-statistics {
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    min-height: 11vh;
+    background-color: #1A1A1A;
+}
+
+.estate-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: #343434;
+}
+
+.estate-stat-value {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.estate-stat-label {
+    color: #B8A58B;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Main content */
+
+.estate-content {
+    padding-top: 1rem;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 1rem;
+    flex: 1;
+    min-height: 350px;
+}
+
+.estate-horses,
+.estate-management {
+    padding: 1.5rem;
+    background-color: #24424D;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+    .estate-horses h2,
+    .estate-management h2 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-weight: 400;
+        letter-spacing: 0.08em;
+    }
+
+.management-buttons {
+    display: grid;
+    grid-auto-rows: minmax(0, 1fr);
+    flex: 1;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+    min-height: 0;
+}
+
+.management-button {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    min-height: 0;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    background-color: #414141;
+    color: #E4D5BD;
+    font-family: inherit;
+    font-size: 0.95rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+    .management-button:hover {
+        background-color: #31525E;
+        border-color: #B8A58B;
+    }
+
+.management-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    font-size: 1.2rem;
+    color: #B8A58B;
+}
+
+.management-button:hover .management-icon {
+    color: #E4D5BD;
+}
+
+.management-arrow {
+    margin-left: auto;
+    font-size: 1.4rem;
+    color: #B8A58B;
+}

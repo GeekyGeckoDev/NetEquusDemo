@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.Models.Breeds;
 using Domain.Entities.Models.Competitions;
 using Domain.Entities.Models.EquineEstates;
+using Domain.Entities.Models.HorseAppereances;
 using Domain.Entities.Models.Horses;
 using Domain.Entities.Models.Horses.Horsestats;
 using Domain.Entities.Models.Horses.Relations;
@@ -64,6 +65,8 @@ namespace Infrastructure
 
         public virtual DbSet<CompetitionClass> CompetitionClasses { get; set; }
 
+        public virtual DbSet<HorseAppearance> HorseAppearances { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
                     modelBuilder.Entity<HorseArtist>()
@@ -80,6 +83,11 @@ namespace Infrastructure
                 entity.HasOne(d => d.Sire).WithMany(p => p.FoalingSires)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
+            modelBuilder.Entity<Horse>()
+                .HasOne(h => h.HorseAppearance)
+                .WithMany()
+                .HasForeignKey(h => h.AppearanceId);
 
 
             modelBuilder.Entity<HorseSaleBase>(entity =>

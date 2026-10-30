@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using UI.Auth
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@page "/estate-overview"
+
+
+<AuthorizeView>
+    <Authorized>
+        <div class="estate-overview">
+
+            @* Estate header *@
+           <section class="estate-header">
+            <div class="estate-identity">
+                <h1>@AuthService.EstateName</h1>
+                <p>Established 2026</p>
+            </div>
+
+            <button class="estate-profile-button">
+                Profile
+            </button>
+        </section>
+
+            @* Estate statistics *@
+            <section class="estate-statistics">
+
+                <div class="estate-stat">
+                    <span class="estate-stat-value">12</span>
+                    <span class="estate-stat-label">Horses</span>
+                </div>
+
+                <div class="estate-stat">
+                    <span class="estate-stat-value">125,000</span>
+                    <span class="estate-stat-label">Equins</span>
+                </div>
+
+                <div class="estate-stat">
+                    <span class="estate-stat-value">8</span>
+                    <span class="estate-stat-label">Achievements</span>
+                </div>
+
+            </section>
+
+            @* Main content *@
+            <section class="estate-content">
+
+                <div class="estate-horses">
+                    <h2>Your Horses</h2>
+                </div>
+
+                <div class="estate-management">
+                    <h2>Management</h2>
+
+                    <div class="management-buttons">
+
+                        <button class="management-button" @onclick="@(() => NavigateTo("/facilities"))">
+                            <span class="management-icon">♜</span>
+                            <span>Facilities</span>
+                            <span class="management-arrow">›</span>
+                        </button>
+
+                        <button class="management-button" @onclick="@(() => NavigateTo("/achievements"))">
+                            <span class="management-icon">🏆</span>
+                            <span>Achievements</span>
+                            <span class="management-arrow">›</span>
+                        </button>
+
+                        <button class="management-button" @onclick="@(() => NavigateTo("/finances"))">
+                            <span class="management-icon">◈</span>
+                            <span>Finance</span>
+                            <span class="management-arrow">›</span>
+                        </button>
+
+                        <button class="management-button" @onclick="@(() => NavigateTo("/settings"))">
+                            <span class="management-icon">⚙</span>
+                            <span>Settings</span>
+                            <span class="management-arrow">›</span>
+                        </button>
+
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </Authorized>
+
+    <NotAuthorized>
+        <RedirectToLogin />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+
+    private void NavigateTo(string route)
+{
+    Navigation.NavigateTo(route);
+}
+
+}

@@ -1,18 +1,170 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.Authorization
+@using Shared.Dtos.UserDtos
+@using UI.API.ApiClients
+@using UI.API.Clients
+@using UI.Auth
+@using UI.Components.Reusable
 
-<PageTitle>Home</PageTitle>
+@inject AuthClient AuthClient
+@inject AuthManager AuthManager
+@inject CheckClient Check
+@inject NavigationManager Nav
+@inject AuthenticationStateProvider AuthStateProvider
 
-<h1>Hello, world!</h1>
+@rendermode InteractiveServer
 
-Welcome to your new app.
+<div class="front-page">
 
-@inject AuthenticationStateProvider Auth
+    <div class="FrontPages front-page-login px-3">
+        <div class="front-page-content">
+            <div class="login-content">
+
+                <h1 class="login-brand">NET-EQUUS</h1>
+                <br />
+
+                <div class="login-container">
+
+                    <h2>Welcome Back</h2>
+                        @if (!string.IsNullOrEmpty(responseMessage))
+                        {
+                            <div class="alert alert-info">
+                                @responseMessage
+                            </div>
+                        }
+
+                    <div class="login-field">
+                        <label class="form-label">Email</label>
+                        <input class="form-control login-input"
+                               @bind="loginUser.Email" />
+                    </div>
+
+                    <div class="login-field">
+                        <label class="form-label">Password</label>
+                        <input type="password"
+                               class="form-control login-input"
+                               @bind="loginUser.Password" />
+                    </div>
+
+                    <button class="login-button"
+                            @onclick="LoginUserAsync">
+                        Login
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="FrontPages front-page-hero">
+        <div class="front-page-content">
+            <img src="/images/heroShetlandReverse.png"
+                 alt="Shetland pony"
+                 class="hero-horse-image" />
+
+        </div>
+    </div>
+
+    <div class="FrontPages front-page-studbook">
+        <div class="front-page-content">
+            <HorseCarousel />
+
+        </div>
+    </div>
+
+    <div class="FrontPages front-page-news px-3">
+        <div class="front-page-content-news px-3">
+            <div class="front-page-news-header">
+                <div>
+                    <span class="front-page-news-eyebrow">THE WORLD OF NETEQUUS</span>
+                    <h2>Latest News</h2>
+                </div>
+
+                <a class="front-page-news-view-all" href="/news">
+                    View all <span aria-hidden="true">↗</span>
+                </a>
+            </div>
+
+            <div class="front-page-news-list">
+                <article class="front-page-news-item">
+                    <div class="front-page-news-meta">
+                        <span class="front-page-news-category">GAME UPDATE</span>
+                        <time datetime="2026-10-28">28 OCT 2026</time>
+                    </div>
+
+                    <h3>A New Chapter Begins</h3>
+
+                    <p>
+                        Discover the latest improvements and additions
+                        to the world of NetEquus.
+                    </p>
+
+                    <a href="/news" class="front-page-news-read-more">
+                        Read more <span aria-hidden="true">→</span>
+                    </a>
+                </article>
+
+                <article class="front-page-news-item">
+                    <div class="front-page-news-meta">
+                        <span class="front-page-news-category">BREEDING &amp; BLOODLINES</span>
+                        <time datetime="2026-10-21">21 OCT 2026</time>
+                    </div>
+
+                    <h3>Every Generation Tells a Story</h3>
+
+                    <p>
+                        Build your legacy, discover exceptional bloodlines,
+                        and shape the future of your stable.
+                    </p>
+
+                    <a href="/news" class="front-page-news-read-more">
+                        Read more <span aria-hidden="true">→</span>
+                    </a>
+                </article>
+            </div>
+
+            <div class="front-page-news-footer">
+                <span>New to NetEquus?</span>
+                <a href="/about">
+                    Discover the game <span aria-hidden="true">↗</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="hero-intro">
+        <h1>Your Lines. Your Legacy.</h1>
+
+        <p>
+            Build a bloodline that stands the test of time.
+            Shape each generation, uncover exceptional potential,
+            and strive to breed the next prodigy.
+        </p>
+    </div>
+
+</div>
 
 @code {
-    protected override async Task OnInitializedAsync()
+
+    private LoginDto loginUser = new();
+    private string? responseMessage;
+
+    private async Task LoginUserAsync()
     {
-        var state = await Auth.GetAuthenticationStateAsync();
-        Console.WriteLine(state.User.Identity?.IsAuthenticated);
+        var success = await AuthManager.LoginAsync(loginUser);
+
+        if (success)
+        {
+            await AuthManager.RefreshUserFromApi();
+            responseMessage = "Login successful!";
+            await Check.ProcessDueFoalingsAsync();
+            Nav.NavigateTo("/estate-overview");
+        }
+        else
+        {
+            responseMessage = "Invalid login.";
+        }
     }
 }

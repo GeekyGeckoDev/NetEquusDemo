@@ -16,6 +16,8 @@ namespace Application.HorseApp.IHorseServices
 
         Task<PedigreeDto?> BuildPedigreeAsync(Guid horseId, int generations);
 
+        Task<List<HorseInfoDto>> GetRandomHorsesAsync();
+
 
     }
 }

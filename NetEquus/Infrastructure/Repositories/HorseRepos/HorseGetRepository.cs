@@ -26,6 +26,30 @@ namespace Infrastructure.Repositories.HorseRepos
             return await _context.Horses.Include(h => h.Breed).FirstOrDefaultAsync(h => h.GuidHorseId == horseId);
         }
 
+        public async Task<List<HorseInfoDto>> GetRandomHorsesAsync(int count = 3)
+        {
+            var horses = await _context.Horses
+            .Include(h => h.Breed)
+            .Include(h => h.HorseAppearance)
+
+            // Hent både far og mor
+            .Include(h => h.OffspringRecord)
+                .ThenInclude(f => f.Sire)
+
+            .Include(h => h.OffspringRecord)
+                .ThenInclude(f => f.Dam)
+                    .ThenInclude(d => d.OffspringRecord)
+                        .ThenInclude(f => f.Sire)
+
+            .OrderBy(h => Guid.NewGuid())
+            .Take(count)
+            .ToListAsync();
+
+            return horses
+                .Select(HorseMapper.horseInfoDto)
+                .ToList();
+        }
+
         public async Task<List<HorseInfoDto>> GetHorsesBySexAsync(int sex)
         {
             var list = await _context.Horses

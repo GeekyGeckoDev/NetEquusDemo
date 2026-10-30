@@ -37,5 +37,10 @@ namespace Application.HorseApp.HorseServices
         {
             return await _repository.BuildPedigreeAsync (horseId, generations);
         }
+
+        public async Task<List<HorseInfoDto>> GetRandomHorsesAsync()
+        {
+            return await _repository.GetRandomHorsesAsync();
+        }
     }
 }

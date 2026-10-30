@@ -276,6 +276,21 @@ namespace Infrastructure.Migrations
                     b.ToTable("EstateOwnerships");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Models.HorseAppereances.HorseAppearance", b =>
+                {
+                    b.Property<Guid>("AppearanceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AppearanceId");
+
+                    b.ToTable("HorseAppearances");
+                });
+
             modelBuilder.Entity("Domain.Entities.Models.Horses.Foaling", b =>
                 {
                     b.Property<Guid>("FoalingId")
@@ -335,6 +350,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateOnly>("AgingDate")
                         .HasColumnType("date");
 
+                    b.Property<Guid?>("AppearanceId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
 
@@ -365,6 +383,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("GuidHorseId");
+
+                    b.HasIndex("AppearanceId");
 
                     b.HasIndex("BreedId");
 
@@ -796,6 +816,10 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Models.Horses.Horse", b =>
                 {
+                    b.HasOne("Domain.Entities.Models.HorseAppereances.HorseAppearance", "HorseAppearance")
+                        .WithMany()
+                        .HasForeignKey("AppearanceId");
+
                     b.HasOne("Domain.Entities.Models.Breeds.Breed", "Breed")
                         .WithMany()
                         .HasForeignKey("BreedId")
@@ -803,6 +827,8 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Breed");
+
+                    b.Navigation("HorseAppearance");
                 });
 
             modelBuilder.Entity("Domain.Entities.Models.Horses.Horsestats.ConfPerfTempAttributes", b =>
